@@ -1,6 +1,7 @@
 # app/models/question.rb
 
 class Question < ApplicationRecord
+  
   # ==================
   # 定数定義
   # ==================

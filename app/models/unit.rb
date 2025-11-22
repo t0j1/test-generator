@@ -1,4 +1,5 @@
 class Unit < ApplicationRecord
+  
   # ==================
   # 定数定義
   # ==================

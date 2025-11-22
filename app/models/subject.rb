@@ -1,4 +1,5 @@
 class Subject < ApplicationRecord
+  
   # ==================
   # 定数定義
   # ==================

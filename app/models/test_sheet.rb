@@ -1,4 +1,5 @@
 class TestSheet < ApplicationRecord
+  
   # ==================
   # 定数定義
   # ==================

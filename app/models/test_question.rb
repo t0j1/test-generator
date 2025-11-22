@@ -1,4 +1,5 @@
 class TestQuestion < ApplicationRecord
+  
   # リレーション
   belongs_to :test_sheet
   belongs_to :question
