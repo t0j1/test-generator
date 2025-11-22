@@ -1,7 +1,14 @@
 class ApplicationController < ActionController::Base
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern
+  # CSRF対策（Rails標準）
+  # protect_from_forgery with: :exception はRails 7.1ではデフォルト
 
-  # Changes to the importmap will invalidate the etag for HTML responses
-  stale_when_importmap_changes
+  # タイムゾーン設定
+  around_action :set_time_zone
+
+  private
+
+  # タイムゾーンを日本時間に設定
+  def set_time_zone(&block)
+    Time.use_zone("Tokyo", &block)
+  end
 end
