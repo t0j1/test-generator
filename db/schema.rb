@@ -20,7 +20,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_22_015051) do
     t.string "question_type"
     t.integer "unit_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["unit_id"], name: "index_questions_on_unit_id"
+    t.index [ "unit_id" ], name: "index_questions_on_unit_id"
   end
 
   create_table "subjects", force: :cascade do |t|
@@ -37,8 +37,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_22_015051) do
     t.integer "question_order"
     t.integer "test_sheet_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["question_id"], name: "index_test_questions_on_question_id"
-    t.index ["test_sheet_id"], name: "index_test_questions_on_test_sheet_id"
+    t.index [ "question_id" ], name: "index_test_questions_on_question_id"
+    t.index [ "test_sheet_id" ], name: "index_test_questions_on_test_sheet_id"
   end
 
   create_table "test_sheets", force: :cascade do |t|
@@ -51,8 +51,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_22_015051) do
     t.integer "subject_id", null: false
     t.integer "unit_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["subject_id"], name: "index_test_sheets_on_subject_id"
-    t.index ["unit_id"], name: "index_test_sheets_on_unit_id"
+    t.index [ "subject_id" ], name: "index_test_sheets_on_subject_id"
+    t.index [ "unit_id" ], name: "index_test_sheets_on_unit_id"
   end
 
   create_table "units", force: :cascade do |t|
@@ -62,7 +62,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_22_015051) do
     t.integer "sort_order"
     t.integer "subject_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["subject_id"], name: "index_units_on_subject_id"
+    t.index [ "subject_id" ], name: "index_units_on_subject_id"
   end
 
   add_foreign_key "questions", "units"

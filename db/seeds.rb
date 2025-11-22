@@ -124,7 +124,7 @@ def clear_existing_data
   return unless Rails.env.development?
 
   puts "🗑️  既存データを削除中..."
-  
+
   # destroy_all → delete_all に変更（autoloadトラブル防止）
   TestQuestion.delete_all
   TestSheet.delete_all
