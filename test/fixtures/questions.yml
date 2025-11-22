@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  unit: one
+  question_type: MyString
+  question_text: MyText
+  answer_text: MyText
+  hint: MyText
+  difficulty: 1
+
+two:
+  unit: two
+  question_type: MyString
+  question_text: MyText
+  answer_text: MyText
+  hint: MyText
+  difficulty: 1
