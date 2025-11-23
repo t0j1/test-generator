@@ -224,8 +224,8 @@
   align-items: center;
   justify-content: center;
   
-  padding: 28px 20px;
-  min-height: 180px;
+  padding: 24px 20px;
+  height: 180px; /* 固定高さ（縦スクロール防止） */
   
   background: var(--glass-bg);
   backdrop-filter: blur(22px);
@@ -500,10 +500,12 @@ input[type="radio"]:checked + .unit-card {
   display: flex;
   gap: 20px;
   overflow-x: auto;
+  overflow-y: hidden; /* 縦スクロール禁止 */
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   padding: 8px 4px 24px;
   scrollbar-width: none; /* Firefox */
+  height: 220px; /* 固定高さ（縦スクロール防止） */
 }
 
 .carousel-kiosk::-webkit-scrollbar {
@@ -514,11 +516,13 @@ input[type="radio"]:checked + .unit-card {
   scroll-snap-align: center;
   flex-shrink: 0;
   min-width: 280px; /* 最小タッチ領域を確保 */
+  height: 100%; /* 親の高さに合わせる */
 }
 
 .carousel-item .unit-card {
   width: 280px;
-  height: 100%;
+  height: 100%; /* 親の高さに合わせる */
+  min-height: auto; /* 最小高さをリセット */
 }
 
 /* ---------------------------------------

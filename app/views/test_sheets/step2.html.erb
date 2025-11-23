@@ -102,15 +102,7 @@
         </div>
 
         <!-- Options -->
-        <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
-
-          <!-- Show Hint -->
-          <label class="option-checkbox-item">
-            <%= f.check_box :include_hint,
-                class: "option-checkbox" %>
-            <span class="option-label">💡 ヒントを表示</span>
-          </label>
-
+        <div class="mt-10">
           <!-- Show Answer -->
           <label class="option-checkbox-item">
             <%= f.check_box :include_answer,
@@ -118,7 +110,6 @@
                 class: "option-checkbox" %>
             <span class="option-label">✅ 解答を表示</span>
           </label>
-
         </div>
       </div>
 
