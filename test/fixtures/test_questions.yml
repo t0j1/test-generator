@@ -1,11 +1,31 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  test_sheet: one
-  question: one
+english_test_q1:
+  test_sheet: english_test_1
+  question: english_easy_1
   question_order: 1
 
-two:
-  test_sheet: two
-  question: two
+english_test_q2:
+  test_sheet: english_test_1
+  question: english_easy_2
+  question_order: 2
+
+english_test_q3:
+  test_sheet: english_test_1
+  question: english_easy_3
+  question_order: 3
+
+math_test_q1:
+  test_sheet: math_test_1
+  question: math_easy_1
+  question_order: 1
+
+math_test_q2:
+  test_sheet: math_test_1
+  question: math_normal_1
+  question_order: 2
+
+english_test2_q1:
+  test_sheet: english_test_2
+  question: english_unit2_easy_1
   question_order: 1

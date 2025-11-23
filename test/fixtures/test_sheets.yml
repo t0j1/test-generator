@@ -1,19 +1,37 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  subject: one
-  unit: one
-  question_count: 1
+english_test_1:
+  subject: english
+  unit: english_unit1
+  question_count: 3
   difficulty: 1
-  include_hint: false
-  include_answer: false
+  include_hint: true
+  include_answer: true
   printed_at: 2025-11-22 01:50:41
 
-two:
-  subject: two
-  unit: two
+math_test_1:
+  subject: math
+  unit: math_unit1
+  question_count: 2
+  difficulty: 2
+  include_hint: false
+  include_answer: true
+  printed_at: 2025-11-22 01:50:41
+
+english_test_2:
+  subject: english
+  unit: english_unit2
   question_count: 1
   difficulty: 1
   include_hint: false
   include_answer: false
-  printed_at: 2025-11-22 01:50:41
+  printed_at: 2025-11-22 02:00:00
+
+mix_test:
+  subject: math
+  unit: math_unit1
+  question_count: 2
+  difficulty: 0
+  include_hint: true
+  include_answer: true
+  printed_at: 2025-11-22 03:00:00
