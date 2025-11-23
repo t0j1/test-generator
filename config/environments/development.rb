@@ -13,6 +13,10 @@ Rails.application.configure do
 
   # Show full error reports.
   config.consider_all_requests_local = true
+  
+  # Better error page debugging
+  config.action_dispatch.show_exceptions = :all
+  config.action_dispatch.show_detailed_exceptions = true
 
   # Enable server timing.
   config.server_timing = true
