@@ -10,7 +10,8 @@
 
     <!-- ========== Step Header ========== -->
     <div class="text-center mb-12">
-      <div class="subject-badge mb-6" style="background:<%= subject_color(@subject) %>;">
+      <% subject_bg_color = subject_color(@subject) %>
+      <div class="subject-badge mb-6" style="background: <%= subject_bg_color %>;">
         <%= subject_icon(@subject) %> <%= @subject.name %>
       </div>
       
@@ -46,7 +47,7 @@
             <div class="unit-card">
               <div class="unit-card-grade">高<%= unit.grade %></div>
               <div class="unit-card-title"><%= unit.name %></div>
-              <div class="unit-card-count" style="color:<%= subject_color(@subject) %>;">
+              <div class="unit-card-count">
                 <%= unit.question_count %>問
               </div>
             </div>
@@ -106,8 +107,7 @@
           <!-- Show Hint -->
           <label class="option-checkbox-item">
             <%= f.check_box :include_hint,
-                class: "option-checkbox",
-                style: "accent-color:<%= subject_color(@subject) %>;" %>
+                class: "option-checkbox" %>
             <span class="option-label">💡 ヒントを表示</span>
           </label>
 
@@ -115,8 +115,7 @@
           <label class="option-checkbox-item">
             <%= f.check_box :include_answer,
                 checked: TestSheet::DEFAULT_INCLUDE_ANSWER,
-                class: "option-checkbox",
-                style: "accent-color:<%= subject_color(@subject) %>;" %>
+                class: "option-checkbox" %>
             <span class="option-label">✅ 解答を表示</span>
           </label>
 

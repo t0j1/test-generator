@@ -282,7 +282,7 @@ input[type="radio"]:checked + .unit-card {
 .unit-card-count {
   font-size: 18px;
   font-weight: 700;
-  color: var(--accent-green);
+  color: var(--accent-blue);
 }
 
 /* ---------------------------------------
@@ -364,7 +364,8 @@ input[type="radio"]:checked + .unit-card {
   width: 28px;
   height: 28px;
   cursor: pointer;
-  accent-color: var(--accent-blue);
+  accent-color: var(--accent-green);
+  border-radius: 6px;
 }
 
 .option-label {
