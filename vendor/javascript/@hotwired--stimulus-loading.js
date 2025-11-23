@@ -1,23 +1,36 @@
-import { Application } from "@hotwired/stimulus"
-
-export function eagerLoadControllersFrom(path, application) {
-  const modules = import.meta.glob("/app/javascript/controllers/**/*_controller.js", { eager: true })
-  for (const [modulePath, module] of Object.entries(modules)) {
-    const name = modulePath
-      .match(/controllers\/(.+)_controller\.js$/)[1]
-      .replace(/\//g, "--")
-      .replace(/_/g, "-")
-    application.register(name, module.default)
-  }
+export function eagerLoadControllersFrom(under, application) {
+  const paths = Object.keys(parseImportmapJson()).filter(path => path.match(new RegExp(`^${under}/.*_controller$`)))
+  paths.forEach(path => registerControllerFromPath(path, under, application))
 }
 
-export function lazyLoadControllersFrom(path, application) {
-  const modules = import.meta.glob("/app/javascript/controllers/**/*_controller.js")
-  for (const [modulePath, importModule] of Object.entries(modules)) {
-    const name = modulePath
-      .match(/controllers\/(.+)_controller\.js$/)[1]
-      .replace(/\//g, "--")
-      .replace(/_/g, "-")
-    application.lazyRegister(name, importModule)
-  }
+export function lazyLoadControllersFrom(under, application) {
+  const paths = Object.keys(parseImportmapJson()).filter(path => path.match(new RegExp(`^${under}/.*_controller$`)))
+  paths.forEach(path => registerLazyControllerFromPath(path, under, application))
+}
+
+function parseImportmapJson() {
+  const importmap = document.querySelector("script[type=importmap]")
+  return JSON.parse(importmap.text).imports
+}
+
+function registerControllerFromPath(path, under, application) {
+  const name = path
+    .replace(new RegExp(`^${under}/`), "")
+    .replace("_controller", "")
+    .replace(/_/g, "-")
+    .replace(/\//g, "--")
+
+  import(path)
+    .then(module => application.register(name, module.default))
+    .catch(error => console.error(`Failed to register controller: ${name} (${path})`, error))
+}
+
+function registerLazyControllerFromPath(path, under, application) {
+  const name = path
+    .replace(new RegExp(`^${under}/`), "")
+    .replace("_controller", "")
+    .replace(/_/g, "-")
+    .replace(/\//g, "--")
+
+  application.registerLazy(name, () => import(path).then(m => m.default))
 }
