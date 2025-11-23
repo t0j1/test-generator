@@ -1,82 +1,29 @@
-<div class="bg-kiosk">
-  <div class="max-w-4xl mx-auto py-10 px-8">
-
-    <!-- Progress -->
-    <div class="progress-kiosk mb-10">
-      <div class="progress-step done"></div>
-      <div class="progress-step active"></div>
-      <div class="progress-step"></div>
-    </div>
-
-    <!-- Header -->
-    <div class="text-center mb-12">
-      <h1 class="heading-kiosk-1 mb-4">
-        <%= @subject.name %> - 単元を選んでください
-      </h1>
-    </div>
-
-    <%= form_with model: @test_sheet,
-                  url: step2_submit_test_sheets_path,
-                  method: :post do |f| %>
-
-      <%= f.hidden_field :subject_id, value: @subject.id %>
-
-      <!-- Unit Selection -->
-      <div class="mb-12">
-        <% @units.each do |unit| %>
-          <label class="block mb-4 p-6 glass-card cursor-pointer">
-            <%= f.radio_button :unit_id, unit.id, class: "mr-4", required: true %>
-            <span class="text-2xl font-bold"><%= unit.name %></span>
-            <span class="text-lg text-gray-600 ml-4">(高<%= unit.grade %>)</span>
-            <span class="text-lg text-blue-600 ml-4"><%= unit.question_count %>問</span>
-          </label>
-        <% end %>
-      </div>
-
-      <!-- Settings -->
-      <div class="glass-card p-10 mb-12">
-        <h2 class="text-2xl font-black text-center mb-10">⚙️ テスト設定</h2>
-
-        <div class="mb-6">
-          <label class="text-lg font-bold mb-3 block">難易度</label>
-          <%= f.select :difficulty,
-              [["ミックス(全難易度)", "mix"], ["易しい(基礎)", "easy"], ["普通(標準)", "normal"], ["難しい(応用)", "hard"]],
-              {},
-              class: "w-full px-6 py-4 text-lg rounded-xl border-2" %>
-        </div>
-
-        <div class="mb-6">
-          <label class="text-lg font-bold mb-3 block">問題数</label>
-          <%= f.select :question_count,
-              [[5,5], [10,10], [15,15], [20,20], [25,25], [30,30]],
-              { selected: 10 },
-              class: "w-full px-6 py-4 text-lg rounded-xl border-2" %>
-        </div>
-
-        <div class="mb-6">
-          <label class="inline-flex items-center">
-            <%= f.check_box :include_hint, class: "w-6 h-6 mr-3" %>
-            <span class="text-lg">💡 ヒントを表示</span>
-          </label>
-        </div>
-
-        <div class="mb-6">
-          <label class="inline-flex items-center">
-            <%= f.check_box :include_answer, checked: true, class: "w-6 h-6 mr-3" %>
-            <span class="text-lg">✅ 解答を表示</span>
-          </label>
-        </div>
-      </div>
-
-      <!-- Submit -->
-      <%= f.submit "🎯 テストを作成", class: "btn-neo btn-neo-green" %>
-
-    <% end %>
-
-    <!-- Back -->
-    <div class="mt-8">
-      <%= link_to "◀ 戻る", step1_test_sheets_path, class: "btn-neo btn-neo-secondary" %>
-    </div>
-
-  </div>
+<div style="padding: 20px; font-family: sans-serif;">
+  <h1>Step 2 - Minimal Test View</h1>
+  
+  <% if @subject %>
+    <p><strong>Subject:</strong> <%= @subject.name %></p>
+  <% else %>
+    <p><strong style="color: red;">@subject is nil</strong></p>
+  <% end %>
+  
+  <% if @units %>
+    <p><strong>Units count:</strong> <%= @units.count %></p>
+    <ul>
+      <% @units.each do |unit| %>
+        <li><%= unit.name %> (Grade: <%= unit.grade %>)</li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p><strong style="color: red;">@units is nil</strong></p>
+  <% end %>
+  
+  <% if @test_sheet %>
+    <p><strong>Test Sheet:</strong> <%= @test_sheet.inspect %></p>
+  <% else %>
+    <p><strong style="color: red;">@test_sheet is nil</strong></p>
+  <% end %>
+  
+  <hr>
+  <a href="<%= step1_test_sheets_path %>">← Back to Step 1</a>
 </div>

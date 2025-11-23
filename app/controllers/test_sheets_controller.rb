@@ -28,6 +28,19 @@ class TestSheetsController < ApplicationController
     # デバッグモード（?debug=1を付けるとデバッグビューを表示）
     if params[:debug] == '1'
       render :step2_debug
+      return
+    end
+    
+    # ミニマルモード（?minimal=1を付けるとシンプルなビューを表示）
+    if params[:minimal] == '1'
+      render :step2_minimal
+      return
+    end
+    
+    # プレーンHTMLモード（?plain=1を付けるとプレーンHTMLを表示）
+    if params[:plain] == '1'
+      render :step2_plain, layout: false
+      return
     end
   rescue StandardError => e
     Rails.logger.error "Step2 Error: #{e.class} - #{e.message}"
