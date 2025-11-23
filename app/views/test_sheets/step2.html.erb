@@ -1,124 +1,136 @@
 <div class="bg-kiosk">
-  <div class="max-w-5xl mx-auto py-12 px-8" data-controller="test-form">
+  <div class="max-w-4xl mx-auto py-10 px-8" data-controller="test-form">
 
-    <!-- Progress -->
+    <!-- ========== Progress ========== -->
     <div class="progress-kiosk mb-10">
       <div class="progress-step done"></div>
       <div class="progress-step active"></div>
       <div class="progress-step"></div>
     </div>
 
-    <!-- Header -->
+    <!-- ========== Step Header ========== -->
     <div class="text-center mb-12">
-      <div class="subject-badge" style="background: <%= subject_color(@subject) %>;">
+      <div class="subject-badge mb-6" style="background:<%= subject_color(@subject) %>;">
         <%= subject_icon(@subject) %> <%= @subject.name %>
       </div>
-      <h1 class="heading-kiosk-1 mb-2">単元と設定を選んでください</h1>
-      <p class="text-kiosk-body">横にスライドして単元を選択</p>
+      
+      <h1 class="heading-kiosk-1 mb-4">
+        単元と設定を選んでください
+      </h1>
+      <p class="text-kiosk-body">横にスワイプして単元を選択 👉</p>
     </div>
 
-    <%= form_with model: @test_sheet, 
-                  url: step2_submit_test_sheets_path, 
+    <%= form_with model: @test_sheet,
+                  url: step2_submit_test_sheets_path,
                   method: :post,
                   data: { 
                     controller: "test-form",
                     action: "submit->test-form#handleSubmit"
                   } do |f| %>
-      
+
       <%= f.hidden_field :subject_id, value: @subject.id %>
 
-      <!-- 単元選択カルーセル -->
-      <div class="mb-12">
-        <div class="carousel-kiosk" data-test-form-target="unitList">
-          <% @units.each do |unit| %>
-            <label class="carousel-item">
-              <input type="radio" 
-                     name="test_sheet[unit_id]" 
-                     value="<%= unit.id %>" 
-                     class="hidden peer"
-                     data-test-form-target="unitRadio"
-                     data-action="change->test-form#onUnitChange"
-                     required>
-              <div class="unit-card peer-checked:selected" style="width: 280px;">
-                <div class="unit-card-grade"><%= "高#{unit.grade}" %></div>
-                <div class="unit-card-title"><%= unit.name %></div>
-                <div class="unit-card-count"><%= unit.question_count %>問</div>
+      <!-- ========== Unit Carousel ========== -->
+      <div class="carousel-kiosk mb-12">
+        <% @units.each do |unit| %>
+          <label class="carousel-item">
+            <input type="radio"
+                   name="test_sheet[unit_id]"
+                   value="<%= unit.id %>"
+                   class="hidden peer"
+                   data-test-form-target="unitRadio"
+                   data-action="change->test-form#onUnitChange"
+                   required>
+
+            <div class="unit-card peer-checked:scale-105 peer-checked:border-3 peer-checked:border-blue-400">
+              <div class="unit-card-grade">高<%= unit.grade %></div>
+              <div class="unit-card-title"><%= unit.name %></div>
+              <div class="unit-card-count" style="color:<%= subject_color(@subject) %>;">
+                <%= unit.question_count %>問
               </div>
-            </label>
-          <% end %>
-        </div>
+            </div>
+          </label>
+        <% end %>
       </div>
 
-      <!-- 設定パネル -->
-      <div class="settings-panel max-w-4xl mx-auto">
+      <!-- ========== Settings Panel ========== -->
+      <div class="settings-panel mb-12">
         <h2 class="settings-title">⚙️ テスト設定</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <!-- 難易度 -->
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+          <!-- Difficulty -->
           <div class="setting-item">
-            <label class="setting-label">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>
-              </svg>
-              難易度
-            </label>
-            <%= f.select :difficulty, 
+            <div class="setting-label">
+              📊 難易度
+            </div>
+            <%= f.select :difficulty,
                 difficulty_options_for_select_with_mix,
                 {},
                 class: "setting-select",
-                data: { 
-                  test_form_target: "difficultySelect",
-                  action: "change->test-form#onDifficultyChange"
-                } %>
+                data: { test_form_target: "difficultySelect",
+                        action: "change->test-form#onDifficultyChange" }
+            %>
           </div>
 
-          <!-- 問題数 -->
+          <!-- Question Count -->
           <div class="setting-item">
-            <label class="setting-label">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
-                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-              </svg>
-              問題数
-            </label>
+            <div class="setting-label">
+              🔢 問題数
+            </div>
             <%= f.select :question_count,
                 question_count_options,
                 { selected: TestSheet::DEFAULT_QUESTION_COUNT },
                 class: "setting-select",
-                data: { test_form_target: "questionCountSelect" } %>
-            <p class="text-kiosk-body mt-2" data-test-form-target="availableInfo">
-              利用可能: <span data-test-form-target="availableCount" class="font-bold" style="color: <%= subject_color(@subject) %>;">-</span>問
+                data: { test_form_target: "questionCountSelect" }
+            %>
+            <p class="mt-3 text-base" style="color: var(--text-light);"
+               data-test-form-target="availableInfo">
+              利用可能: 
+              <span data-test-form-target="availableCount"
+                    class="font-bold" style="color: var(--accent-blue);">-</span>問
             </p>
           </div>
+
         </div>
 
-        <!-- オプション -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Options -->
+        <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- Show Hint -->
           <label class="option-checkbox-item">
-            <%= f.check_box :include_hint, class: "option-checkbox" %>
+            <%= f.check_box :include_hint,
+                class: "option-checkbox",
+                style: "accent-color:<%= subject_color(@subject) %>;" %>
             <span class="option-label">💡 ヒントを表示</span>
           </label>
 
+          <!-- Show Answer -->
           <label class="option-checkbox-item">
             <%= f.check_box :include_answer,
                 checked: TestSheet::DEFAULT_INCLUDE_ANSWER,
-                class: "option-checkbox" %>
+                class: "option-checkbox",
+                style: "accent-color:<%= subject_color(@subject) %>;" %>
             <span class="option-label">✅ 解答を表示</span>
           </label>
+
         </div>
       </div>
 
-      <!-- ボタンエリア -->
-      <div class="grid grid-cols-1 md:grid-cols-5 gap-6 max-w-4xl mx-auto mt-12">
-        <%= link_to step1_test_sheets_path, class: "btn-neo btn-neo-secondary md:col-span-2" do %>
-          ← 戻る
-        <% end %>
-
-        <%= f.submit "🎯 テストを作成", 
-            class: "btn-neo btn-neo-green md:col-span-3",
-            data: { test_form_target: "submitButton" } %>
-      </div>
+      <!-- ========== Submit Button ========== -->
+      <%= f.submit "🎯 テストを作成",
+          class: "btn-neo btn-neo-green",
+          data: { test_form_target: "submitButton" } %>
 
     <% end %>
+
+    <!-- ========== Back Button ========== -->
+    <div class="mt-8">
+      <%= link_to step1_test_sheets_path,
+          class: "btn-neo btn-neo-secondary" do %>
+        ◀ 戻る
+      <% end %>
+    </div>
+
   </div>
 </div>
