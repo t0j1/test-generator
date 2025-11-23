@@ -130,10 +130,11 @@
     <% end %>
 
     <!-- ========== Back Button ========== -->
-    <div class="mt-8">
+    <div class="mt-8 text-center">
       <%= link_to step1_test_sheets_path,
-          class: "btn-neo btn-neo-secondary" do %>
-        ◀ 戻る
+          class: "btn-neo btn-neo-secondary",
+          data: { turbo: false } do %>
+        ⬅️ 科目選択に戻る
       <% end %>
     </div>
 

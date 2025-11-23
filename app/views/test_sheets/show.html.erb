@@ -62,6 +62,12 @@
 
     <!-- ========== Action Buttons ========== -->
     <div class="space-y-6">
+      <%= link_to step2_test_sheets_path(subject_id: @test_sheet.subject_id),
+          class: "btn-neo btn-neo-secondary mb-4",
+          data: { turbo: false } do %>
+        ⬅️ 単元選択に戻る
+      <% end %>
+
       <%= link_to step1_test_sheets_path,
           class: "btn-neo btn-neo-green",
           data: { turbo: false } do %>
