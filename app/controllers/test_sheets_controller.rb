@@ -78,36 +78,6 @@ class TestSheetsController < ApplicationController
     end
   end
 
-  # GET /test_sheets/new
-  # テスト作成画面（旧UI - 後方互換性のため残す）
-  def new
-    @test_sheet = TestSheet.new
-    @subjects = Subject.ordered
-  end
-
-  # POST /test_sheets
-  # テスト生成実行（旧UI用 - 後方互換性のため残す）
-  def create
-    @test_sheet = TestSheet.new(test_sheet_params)
-    
-    if @test_sheet.save
-      # 問題生成を実行
-      begin
-        @test_sheet.generate_questions!
-        redirect_to test_sheet_path(@test_sheet), notice: 'テストを作成しました'
-      rescue StandardError => e
-        # 問題生成失敗時
-        @test_sheet.destroy
-        redirect_to new_test_sheet_path, alert: "テスト作成に失敗しました: #{e.message}"
-      end
-    else
-      # バリデーションエラー
-      @subjects = Subject.ordered
-      flash.now[:alert] = 'テスト作成に失敗しました'
-      render :new, status: :unprocessable_entity
-    end
-  end
-
   # GET /test_sheets/:id
   # テスト表示画面（印刷用）
   def show

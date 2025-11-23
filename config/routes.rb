@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   root "test_sheets#landing"
 
   # テストシート関連
-  resources :test_sheets, only: %i[new create show index destroy] do
+  resources :test_sheets, only: %i[show index destroy] do
     member do
       get :preview              # 印刷プレビュー
       post :mark_printed        # 印刷済みマーク
