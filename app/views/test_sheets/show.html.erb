@@ -1,69 +1,142 @@
-<div class="min-h-screen bg-white" data-controller="print">
-  <!-- 画面表示用ヘッダー（印刷時は非表示） -->
-  <div class="no-print bg-kiosk">
-    <div class="mx-auto max-w-7xl px-6 py-12">
-      <!-- タイトル -->
-      <div class="glass-card mb-12 p-10 text-center">
-        <h1 class="heading-kiosk-1 mb-4">✅ テスト作成完了！</h1>
-        <p class="heading-kiosk-2 mb-2">
-          <%= @test_sheet.subject.name %> - <%= @test_sheet.unit.name %> / 全<%= @test_sheet.question_count %>問
-        </p>
-        <p class="text-kiosk-body">
-          <%= format_test_created_at(@test_sheet) %> 作成
-        </p>
-      </div>
+<div class="bg-kiosk" data-controller="auto-return" data-auto-return-timeout-value="5000">
+  <div class="max-w-3xl mx-auto py-16 px-8 text-center">
+
+    <!-- ========== Success Icon ========== -->
+    <div class="glass-card-static mx-auto mb-10 inline-flex items-center justify-center" style="width:220px; height:220px;">
+      <div class="text-8xl">✅</div>
+    </div>
+
+    <!-- ========== Main Message ========== -->
+    <h1 class="heading-kiosk-1 mb-6">
+      テスト作成完了！
+    </h1>
+
+    <p class="text-kiosk-body mb-16 text-2xl">
+      印刷ボタンを押してプリンターから用紙をお受け取りください
+    </p>
+
+    <!-- ========== Test Summary ========== -->
+    <div class="glass-card p-10 mb-12">
+      <h2 class="heading-kiosk-2 mb-8">📋 テスト内容</h2>
       
-      <!-- 印刷ボタン（キオスクモード：Neo-Glassmorphism） -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-        <!-- すべて印刷（メインボタン） -->
+      <div class="grid grid-cols-2 gap-6 text-left">
+        <div class="setting-item">
+          <div class="setting-label">📚 科目</div>
+          <div class="text-2xl font-bold" style="color: var(--text-strong);">
+            <%= subject_icon(@test_sheet.subject) %> <%= @test_sheet.subject.name %>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-label">📖 単元</div>
+          <div class="text-2xl font-bold" style="color: var(--text-strong);">
+            <%= @test_sheet.unit.name %>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-label">🔢 問題数</div>
+          <div class="text-2xl font-bold" style="color: var(--accent-blue);">
+            <%= @test_sheet.question_count %>問
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-label">📊 難易度</div>
+          <div class="text-2xl font-bold" style="color: var(--text-strong);">
+            <%= difficulty_label_for_display(@test_sheet) %>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-label">💡 ヒント</div>
+          <div class="text-2xl font-bold">
+            <%= @test_sheet.include_hint? ? "✅ あり" : "❌ なし" %>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-label">✅ 解答</div>
+          <div class="text-2xl font-bold">
+            <%= @test_sheet.include_answer? ? "✅ あり" : "❌ なし" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== Print Buttons ========== -->
+    <div class="mb-12" data-controller="print">
+      <h2 class="heading-kiosk-3 mb-6">🖨️ 印刷を選択してください</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <!-- すべて印刷 -->
         <button 
           data-action="click->print#executeAll"
           class="print-card">
           <div class="print-card-icon">🖨️</div>
-          <div class="print-card-title gradient-blue mb-3">
+          <div class="print-card-title gradient-blue mb-2">
             すべて印刷
           </div>
-          <div class="print-card-desc">問題用紙 + 解答用紙</div>
+          <div class="print-card-desc">問題 + 解答</div>
         </button>
         
-        <!-- 問題のみ印刷 -->
+        <!-- 問題のみ -->
         <button 
           data-action="click->print#executeQuestions"
           class="print-card">
           <div class="print-card-icon">📝</div>
-          <div class="print-card-title gradient-green mb-3">
+          <div class="print-card-title gradient-green mb-2">
             問題のみ
           </div>
           <div class="print-card-desc">生徒配布用</div>
         </button>
         
-        <!-- 解答のみ印刷 -->
+        <!-- 解答のみ -->
         <% if @test_sheet.include_answer? %>
           <button 
             data-action="click->print#executeAnswers"
             class="print-card">
             <div class="print-card-icon">✅</div>
-            <div class="print-card-title gradient-purple mb-3">
+            <div class="print-card-title gradient-purple mb-2">
               解答のみ
             </div>
             <div class="print-card-desc">講師用</div>
           </button>
         <% else %>
           <div class="print-card opacity-50 cursor-not-allowed">
-            <div class="print-card-icon">✅</div>
-            <div class="print-card-title mb-3" style="color: #9CA3AF;">解答なし</div>
+            <div class="print-card-icon">❌</div>
+            <div class="print-card-title mb-2" style="color: #9CA3AF;">解答なし</div>
             <div class="print-card-desc">解答を含めていません</div>
           </div>
         <% end %>
       </div>
-      
-      <!-- 戻るボタン -->
-      <%= link_to root_path, class: "btn-neo max-w-2xl mx-auto" do %>
-        🏠 新しいテストを作成
+    </div>
+
+    <!-- ========== Action Buttons ========== -->
+    <div class="space-y-6">
+      <%= link_to step1_test_sheets_path,
+          class: "btn-neo btn-neo-green",
+          data: { turbo: false } do %>
+        📚 続けてテストを作成する
+      <% end %>
+
+      <%= link_to root_path,
+          class: "btn-neo btn-neo-secondary",
+          data: { turbo: false } do %>
+        🏠 ホームに戻る
       <% end %>
     </div>
-  </div>
 
+    <!-- ========== Auto Return Note ========== -->
+    <p class="text-gray-600 mt-10 text-lg">
+      ※ 5秒後に自動で科目選択画面に戻ります
+    </p>
+
+  </div>
+</div>
+
+<!-- ========== Print Sheets (Hidden) ========== -->
+<div style="display: none;">
   <!-- 問題用紙 -->
   <div id="questions-sheet" class="print-section">
     <div class="print-page mx-auto max-w-4xl p-8">
@@ -109,13 +182,11 @@
         <% @questions.each_with_index do |test_question, index| %>
           <% question = test_question.question %>
           
-          <!-- 問題数が多い場合、途中で改ページ（31問以上なら30問目の後） -->
           <% if @test_sheet.question_count >= 31 && index == 30 %>
             <div class="page-break"></div>
           <% end %>
           
           <div class="question-item border-b border-gray-200 pb-6">
-            <!-- 問題番号と問題文 -->
             <div class="flex gap-4">
               <div class="w-12 flex-shrink-0 text-right">
                 <span class="text-xl font-bold text-gray-700">
@@ -127,14 +198,12 @@
                   <%= question.question_text %>
                 </p>
 
-                <!-- ヒント表示 -->
                 <% if @test_sheet.include_hint? && question.hint.present? %>
                   <p class="mb-2 text-sm italic text-gray-600">
                     💡 ヒント: <%= question.hint %>
                   </p>
                 <% end %>
 
-                <!-- 解答欄 -->
                 <div class="mt-3">
                   <span class="text-sm text-gray-600">解答:</span>
                   <div class="answer-line"></div>
@@ -147,11 +216,10 @@
     </div>
   </div>
 
-  <!-- 解答用紙（別紙・改ページ） -->
+  <!-- 解答用紙 -->
   <% if @test_sheet.include_answer? %>
     <div id="answers-sheet" class="print-section page-break-before">
       <div class="print-page mx-auto max-w-4xl p-8">
-        <!-- 解答用紙ヘッダー -->
         <div class="mb-8 border-b-2 border-gray-300 pb-6">
           <h2 class="mb-2 text-3xl font-bold text-gray-900">解答用紙</h2>
           <p class="text-lg text-gray-600">
@@ -162,12 +230,10 @@
           </p>
         </div>
 
-        <!-- 解答リスト -->
         <div class="grid grid-cols-2 gap-x-8 gap-y-3">
           <% @questions.each_with_index do |test_question, index| %>
             <% question = test_question.question %>
             
-            <!-- 解答数が多い場合、途中で改ページ（31問以上なら30問目の後） -->
             <% if @test_sheet.question_count >= 31 && index == 30 %>
               <div class="col-span-2 page-break"></div>
             <% end %>
