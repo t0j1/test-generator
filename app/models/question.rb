@@ -82,8 +82,7 @@ class Question < ApplicationRecord
         difficulty: row["難易度"] || row["difficulty"] || "easy",
         question_text: row["問題文"] || row["question_text"],
         answer_text: row["解答"] || row["answer_text"],
-        hint: row["ヒント"] || row["hint"],
-        answer_note: row["解答ノート"] || row["answer_note"]
+        hint: row["ヒント"] || row["hint"]
       )
       
       if question.save

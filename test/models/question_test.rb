@@ -114,9 +114,9 @@ class QuestionTest < ActiveSupport::TestCase
 
   test "import_csv succeeds with valid data" do
     csv_content = <<~CSV
-      単元ID,問題タイプ,難易度,問題文,解答,ヒント,解答ノート
-      #{units(:english_unit1).id},word,easy,dog,犬,ペット,動物
-      #{units(:english_unit1).id},word,normal,computer,コンピュータ,電子機器,IT
+      単元ID,問題タイプ,難易度,問題文,解答,ヒント
+      #{units(:english_unit1).id},word,easy,dog,犬,ペット
+      #{units(:english_unit1).id},word,normal,computer,コンピュータ,電子機器
     CSV
 
     puts "\n=== CSV Content ==="
@@ -152,8 +152,8 @@ class QuestionTest < ActiveSupport::TestCase
 
   test "import_csv handles errors gracefully" do
     csv_content = <<~CSV
-      単元ID,問題タイプ,難易度,問題文,解答,ヒント,解答ノート
-      #{units(:english_unit1).id},word,easy,,犬,ペット,動物
+      単元ID,問題タイプ,難易度,問題文,解答,ヒント
+      #{units(:english_unit1).id},word,easy,,犬,ペット
     CSV
 
     file = Tempfile.new(["questions", ".csv"])
