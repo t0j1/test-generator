@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       get :history              # 印刷履歴
       get :available_questions  # AJAX: 利用可能な問題数取得
       get :units_by_subject     # AJAX: 科目別の単元リスト取得
+      get :css_test             # CSS デバッグページ
     end
   end
 

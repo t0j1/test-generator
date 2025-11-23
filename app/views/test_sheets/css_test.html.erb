@@ -1,0 +1,139 @@
+<div class="bg-kiosk">
+  <div class="max-w-4xl mx-auto py-10 px-8">
+    <h1 class="heading-kiosk-1 mb-8 text-center">CSS Test Page</h1>
+    
+    <!-- Test 1: Glass Card -->
+    <div class="glass-card p-8 mb-8">
+      <h2 class="heading-kiosk-2 mb-4">Test 1: Glass Card</h2>
+      <p class="text-kiosk-body">
+        このカードはガラスモーフィズム効果（半透明背景 + ブラー）を持つべきです。
+      </p>
+      <p class="text-kiosk-body mt-4">
+        ✅ 背景が半透明<br>
+        ✅ 背景にブラー効果<br>
+        ✅ 角丸（28px）<br>
+        ✅ シャドウ
+      </p>
+    </div>
+
+    <!-- Test 2: Neo Button -->
+    <div class="mb-8">
+      <h2 class="heading-kiosk-2 mb-4">Test 2: Neo Button</h2>
+      <button class="btn-neo btn-neo-green mb-4">🎯 Neo Button (Green)</button>
+      <button class="btn-neo btn-neo-orange mb-4">🔥 Neo Button (Orange)</button>
+      <button class="btn-neo mb-4">💙 Neo Button (Blue)</button>
+    </div>
+
+    <!-- Test 3: Progress Bar -->
+    <div class="mb-8">
+      <h2 class="heading-kiosk-2 mb-4">Test 3: Progress Bar</h2>
+      <div class="progress-kiosk">
+        <div class="progress-step done"></div>
+        <div class="progress-step active"></div>
+        <div class="progress-step"></div>
+      </div>
+    </div>
+
+    <!-- Test 4: Subject Cards -->
+    <div class="mb-8">
+      <h2 class="heading-kiosk-2 mb-4">Test 4: Subject Cards</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+        <div class="subject-card">
+          <div class="subject-card-icon">📘</div>
+          <div class="subject-card-title">英語</div>
+        </div>
+        <div class="subject-card">
+          <div class="subject-card-icon">🔢</div>
+          <div class="subject-card-title">数学</div>
+        </div>
+        <div class="subject-card">
+          <div class="subject-card-icon">📗</div>
+          <div class="subject-card-title">国語</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Test 5: Unit Card -->
+    <div class="mb-8">
+      <h2 class="heading-kiosk-2 mb-4">Test 5: Unit Card</h2>
+      <div class="carousel-kiosk">
+        <div class="carousel-item">
+          <div class="unit-card">
+            <div class="unit-card-grade">高1</div>
+            <div class="unit-card-title">現在形・過去形</div>
+            <div class="unit-card-count">120問</div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="unit-card selected">
+            <div class="unit-card-grade">高2</div>
+            <div class="unit-card-title">現在完了形</div>
+            <div class="unit-card-count">85問</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Test 6: Settings Panel -->
+    <div class="mb-8">
+      <h2 class="heading-kiosk-2 mb-4">Test 6: Settings Panel</h2>
+      <div class="settings-panel">
+        <h3 class="settings-title">⚙️ テスト設定</h3>
+        <div class="setting-item">
+          <div class="setting-label">📊 難易度</div>
+          <select class="setting-select">
+            <option>易しい</option>
+            <option>普通</option>
+            <option>難しい</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- CSS Debug Info -->
+    <div class="glass-card p-8 mt-12">
+      <h2 class="heading-kiosk-2 mb-4">CSS Debug Info</h2>
+      <pre class="text-sm bg-gray-100 p-4 rounded overflow-x-auto">
+Loaded Stylesheets:
+<%= stylesheet_link_tag "application" %>
+
+Asset Pipeline: Propshaft
+Tailwind CSS: Enabled
+CSS Import Order:
+1. @tailwind base (reset)
+2. test_sheets.css
+3. print.css
+4. kiosk-ui.css (Main Design System)
+5. glassmorphism.css
+6. kiosk.css
+7. @tailwind components
+8. @tailwind utilities
+      </pre>
+    </div>
+
+    <!-- Back Button -->
+    <div class="mt-8">
+      <%= link_to root_path, class: "btn-neo btn-neo-secondary" do %>
+        🏠 ホームに戻る
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Inline CSS for comparison */
+  .inline-test {
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-radius: 28px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+</style>
+
+<div class="inline-test">
+  <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 1rem;">Inline CSS Test</h2>
+  <p>このボックスはインラインCSSで同じ効果を再現しています。</p>
+  <p>もしこれが表示されて、上の.glass-cardが表示されない場合、CSSファイルが読み込まれていません。</p>
+</div>

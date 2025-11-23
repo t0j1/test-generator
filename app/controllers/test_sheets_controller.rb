@@ -7,6 +7,12 @@ class TestSheetsController < ApplicationController
     # 何もしない（静的HTML表示）
   end
 
+  # GET /test_sheets/css_test
+  # CSS デバッグページ
+  def css_test
+    # 何もしない（CSS動作確認用の静的HTML表示）
+  end
+
   # GET /test_sheets/step1
   # Step 1: 科目選択
   def step1
