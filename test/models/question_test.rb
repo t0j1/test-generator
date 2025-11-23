@@ -93,8 +93,8 @@ class QuestionTest < ActiveSupport::TestCase
     question = questions(:english_easy_1)
     question.discard
     
-    assert_not Question.all.include?(question)
-    assert Question.discarded.include?(question)
+    assert_not Question.kept.exists?(question.id)
+    assert Question.discarded.exists?(question.id)
   end
 
   test "kept questions are included by default" do

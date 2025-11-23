@@ -4,7 +4,7 @@ english_test_1:
   subject: english
   unit: english_unit1
   question_count: 3
-  difficulty: easy
+  difficulty: 1
   include_hint: true
   include_answer: true
   printed_at: 2025-11-22 01:50:41
@@ -13,7 +13,7 @@ math_test_1:
   subject: math
   unit: math_unit1
   question_count: 2
-  difficulty: normal
+  difficulty: 2
   include_hint: false
   include_answer: true
   printed_at: 2025-11-22 01:50:41
@@ -22,7 +22,7 @@ english_test_2:
   subject: english
   unit: english_unit2
   question_count: 1
-  difficulty: easy
+  difficulty: 1
   include_hint: false
   include_answer: false
   printed_at: 2025-11-22 02:00:00
@@ -31,7 +31,7 @@ mix_test:
   subject: math
   unit: math_unit1
   question_count: 2
-  difficulty: mix
+  difficulty: 0
   include_hint: true
   include_answer: true
   printed_at: 2025-11-22 03:00:00

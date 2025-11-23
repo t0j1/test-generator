@@ -78,8 +78,8 @@ class Question < ApplicationRecord
       
       question = new(
         unit_id: row["単元ID"] || row["unit_id"],
-        question_type: row["問題タイプ"] || row["question_type"] || "word",
-        difficulty: row["難易度"] || row["difficulty"] || "easy",
+        question_type: row["問題タイプ"] || row["question_type"] || :word,
+        difficulty: row["難易度"] || row["difficulty"] || :easy,
         question_text: row["問題文"] || row["question_text"],
         answer_text: row["解答"] || row["answer_text"],
         hint: row["ヒント"] || row["hint"],

@@ -215,14 +215,14 @@ class TestSheetTest < ActiveSupport::TestCase
     test_sheet = TestSheet.create!(
       subject: subjects(:english),
       unit: units(:english_unit1),
-      difficulty: :easy,
+      difficulty: 1,  # easy
       question_count: 3
     )
     
     test_sheet.discard
     
-    assert_not TestSheet.all.include?(test_sheet)
-    assert TestSheet.discarded.include?(test_sheet)
+    assert_not TestSheet.kept.exists?(test_sheet.id)
+    assert TestSheet.discarded.exists?(test_sheet.id)
   end
 
   test "kept test sheets are included by default" do
