@@ -32,7 +32,8 @@
 
       <!-- ========== Unit Carousel ========== -->
       <div class="carousel-kiosk mb-12">
-        <% @units.each do |unit| %>
+        <% if @units.present? %>
+          <% @units.each do |unit| %>
           <label class="carousel-item">
             <input type="radio"
                    name="test_sheet[unit_id]"
@@ -50,6 +51,11 @@
               </div>
             </div>
           </label>
+          <% end %>
+        <% else %>
+          <div class="glass-card p-8 text-center">
+            <p class="text-kiosk-body">この科目には単元が登録されていません。</p>
+          </div>
         <% end %>
       </div>
 

@@ -29,6 +29,10 @@ class TestSheetsController < ApplicationController
     if params[:debug] == '1'
       render :step2_debug
     end
+  rescue StandardError => e
+    Rails.logger.error "Step2 Error: #{e.class} - #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
+    redirect_to step1_test_sheets_path, alert: "エラーが発生しました: #{e.message}"
   end
 
   # POST /test_sheets/step2_submit
