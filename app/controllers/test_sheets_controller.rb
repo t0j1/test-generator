@@ -132,7 +132,7 @@ class TestSheetsController < ApplicationController
     else
       # ミックス（全難易度）
       count = unit.question_count
-      label = TestSheet::MIX_LABEL
+      label = TestSheet::DIFFICULTY_LABELS["mix"]
     end
 
     render json: {

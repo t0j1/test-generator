@@ -1,9 +1,7 @@
 module TestSheetsHelper
   # 難易度の選択肢（ミックス含む）
   def difficulty_options_for_select_with_mix
-    options = [["ミックス(全難易度)", nil]]
-    options += TestSheet::DIFFICULTY_LABELS.map { |key, label| [label, key] }
-    options
+    TestSheet::DIFFICULTY_LABELS.map { |key, label| [label, key] }
   end
 
   # 問題数の選択肢
@@ -19,12 +17,12 @@ module TestSheetsHelper
     end
   end
 
-  # 難易度ラベルの表示（nilの場合はミックス）
+  # 難易度ラベルの表示
   def difficulty_label_for_display(test_sheet)
-    if test_sheet.difficulty.nil?
-      TestSheet::MIX_LABEL
+    if test_sheet.difficulty_mix?
+      TestSheet::DIFFICULTY_LABELS["mix"]
     else
-      test_sheet.difficulty_label
+      TestSheet::DIFFICULTY_LABELS[test_sheet.difficulty]
     end
   end
 
@@ -55,6 +53,8 @@ module TestSheetsHelper
   # 難易度のバッジカラー
   def difficulty_badge_color(difficulty)
     case difficulty
+    when "mix"
+      "bg-purple-100 text-purple-800"
     when "easy"
       "bg-green-100 text-green-800"
     when "normal"

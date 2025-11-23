@@ -6,8 +6,9 @@ class TestSheet < ApplicationRecord
   # 定数定義
   # ==================
 
-  # 難易度の定義（Question と同じ）
+  # 難易度の定義（0: mix はすべての難易度を含む）
   DIFFICULTIES = {
+    mix: 0,
     easy: 1,
     normal: 2,
     hard: 3
@@ -15,13 +16,11 @@ class TestSheet < ApplicationRecord
 
   # 難易度のラベル（日本語・詳細版）
   DIFFICULTY_LABELS = {
+    "mix" => "ミックス(全難易度)",
     "easy" => "易しい(基礎)",
     "normal" => "普通(標準)",
     "hard" => "難しい(応用)"
   }.freeze
-
-  # ミックス時のラベル
-  MIX_LABEL = "ミックス(全難易度)"
 
   # 問題数の制約
   MIN_QUESTION_COUNT = 1
@@ -104,11 +103,14 @@ class TestSheet < ApplicationRecord
   def get_available_questions
     questions_scope = unit.questions.kept
 
-    # 難易度フィルター
-    if difficulty.present? && difficulty != "mix"
-      questions_scope = questions_scope.where(difficulty: DIFFICULTIES[difficulty.to_sym])
+    # 難易度フィルター（mix以外の場合のみフィルタリング）
+    if difficulty_mix?
+      # mixの場合はすべての難易度を含む
+      questions_scope
+    else
+      # 特定の難易度のみ
+      # difficultyは整数値（1, 2, 3）、Questionのdifficultyも整数値
+      questions_scope.where(difficulty: DIFFICULTIES[difficulty.to_sym])
     end
-
-    questions_scope
   end
 end
