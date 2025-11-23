@@ -162,7 +162,8 @@ class TestSheetsController < ApplicationController
       :difficulty,
       :question_count,
       :include_hint,
-      :include_answer
+      :include_answer,
+      :separate_answer_sheet
     )
   end
 end

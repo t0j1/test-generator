@@ -18,6 +18,9 @@ export default class extends Controller {
     window.print()
     
     await this.markAsPrinted()
+    
+    // キオスクモード: 印刷後3秒で自動的に最初の画面に戻る
+    this.autoRedirectToNew()
   }
 
   // 問題のみ印刷
@@ -100,5 +103,19 @@ export default class extends Controller {
   getCsrfToken() {
     const token = document.querySelector('meta[name="csrf-token"]')
     return token ? token.content : ''
+  }
+
+  // キオスクモード: 印刷後に自動的に最初の画面に戻る
+  autoRedirectToNew() {
+    // キオスクモードかどうかを判定（画面サイズや設定で判断）
+    const isKioskMode = window.innerWidth >= 768 // タブレット以上
+    
+    if (isKioskMode) {
+      console.log("⏱️ 3秒後に自動的に新規作成画面に戻ります...")
+      
+      setTimeout(() => {
+        window.location.href = '/test_sheets/new'
+      }, 3000) // 3秒後
+    }
   }
 }
