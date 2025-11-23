@@ -189,33 +189,35 @@
 /* ========== コンパクト印刷レイアウト ========== */
 .print-compact-sheet {
   width: 100%;
-  max-width: 210mm;
+  max-width: 190mm;
   margin: 0 auto;
-  padding: 20px;
+  padding: 10mm;
   font-family: 'Hiragino Kaku Gothic Pro', 'Meiryo', sans-serif;
   position: relative;
   background: white;
   color: black;
+  box-sizing: border-box;
 }
 
 .print-compact-header {
   border: 2px solid #000 !important;
-  padding: 10px 15px !important;
+  padding: 8px 12px !important;
   margin-bottom: 2px;
   background: white !important;
   page-break-inside: avoid;
 }
 
 .print-compact-title {
-  font-size: 16px !important;
+  font-size: 14px !important;
   font-weight: bold !important;
   text-align: left;
   color: black !important;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .print-compact-table {
   width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
   border: 2px solid #000 !important;
   background: white !important;
@@ -232,23 +234,27 @@
 
 .print-compact-table td {
   border: 1px solid #000 !important;
-  padding: 8px 10px !important;
+  padding: 6px 8px !important;
   vertical-align: middle;
   color: black !important;
   background: white !important;
+  font-size: 13px !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .print-compact-cell-number {
-  width: 8%;
+  width: 10%;
   text-align: center;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 13px !important;
 }
 
 .print-compact-cell-word {
-  width: 42%;
+  width: 40%;
   text-align: left;
-  font-size: 14px;
+  font-size: 13px !important;
+  word-break: break-word;
 }
 
 .print-compact-qr {
