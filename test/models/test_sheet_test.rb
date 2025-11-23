@@ -222,9 +222,10 @@ class TestSheetTest < ActiveSupport::TestCase
     test_sheet.discard
     
     # default_scopeの影響でTestSheet.allには含まれない
-    assert_not TestSheet.all.map(&:id).include?(test_sheet.id)
+    # データベースから再読み込みして確認
+    assert_not TestSheet.all.pluck(:id).include?(test_sheet.id)
     # discardedスコープには含まれる
-    assert TestSheet.discarded.map(&:id).include?(test_sheet.id)
+    assert TestSheet.discarded.pluck(:id).include?(test_sheet.id)
   end
 
   test "kept test sheets are included by default" do
