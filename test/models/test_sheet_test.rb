@@ -219,13 +219,14 @@ class TestSheetTest < ActiveSupport::TestCase
       question_count: 3
     )
     
+    test_sheet_id = test_sheet.id
     test_sheet.discard
     
     # default_scopeの影響でTestSheet.allには含まれない
     # データベースから再読み込みして確認
-    assert_not TestSheet.all.pluck(:id).include?(test_sheet.id)
+    assert_not TestSheet.exists?(test_sheet_id), "Discarded test sheet should not exist in default scope"
     # discardedスコープには含まれる
-    assert TestSheet.discarded.pluck(:id).include?(test_sheet.id)
+    assert TestSheet.discarded.exists?(test_sheet_id), "Discarded test sheet should exist in discarded scope"
   end
 
   test "kept test sheets are included by default" do

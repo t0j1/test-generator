@@ -91,13 +91,14 @@ class QuestionTest < ActiveSupport::TestCase
 
   test "discarded questions are excluded by default" do
     question = questions(:english_easy_1)
+    question_id = question.id
     question.discard
     
     # default_scopeの影響でQuestion.allには含まれない
     # データベースから再読み込みして確認
-    assert_not Question.all.pluck(:id).include?(question.id)
+    assert_not Question.exists?(question_id), "Discarded question should not exist in default scope"
     # discardedスコープには含まれる
-    assert Question.discarded.pluck(:id).include?(question.id)
+    assert Question.discarded.exists?(question_id), "Discarded question should exist in discarded scope"
   end
 
   test "kept questions are included by default" do
@@ -124,7 +125,14 @@ class QuestionTest < ActiveSupport::TestCase
 
     result = Question.import_csv(file.path)
     
-    assert_equal 2, result[:success_count]
+    # デバッグ: エラーがあれば出力
+    if result[:error_count] > 0
+      puts "\n=== CSV Import Errors ==="
+      puts "Errors: #{result[:errors].inspect}"
+      puts "========================\n"
+    end
+    
+    assert_equal 2, result[:success_count], "Expected 2 successful imports, but got #{result[:success_count]}. Errors: #{result[:errors].inspect}"
     assert_equal 0, result[:error_count]
     
     file.close
