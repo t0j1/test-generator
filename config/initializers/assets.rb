@@ -11,6 +11,12 @@ Rails.application.config.assets.version = "1.0"
 # folder are already added.
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 
-# CSS
-Rails.application.config.assets.precompile += %w[application.css]
-Rails.application.config.assets.precompile += %w[test_sheets.css]
+# CSS - Precompile all stylesheets
+Rails.application.config.assets.precompile += %w[
+  application.css
+  test_sheets.css
+  print.css
+  kiosk-ui.css
+  glassmorphism.css
+  kiosk.css
+]

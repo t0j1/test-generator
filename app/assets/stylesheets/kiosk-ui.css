@@ -1,6 +1,9 @@
 /* =======================================================================
    KIOSK UI DESIGN SYSTEM
    Glassmorphism × Neumorphism × Tablet-First (10-inch Vertical)
+   
+   IMPORTANT: This CSS is loaded AFTER Tailwind base (reset)
+   Use specific selectors to avoid being overridden by Tailwind utilities
    ======================================================================= */
 
 /* ---------------------------------------
