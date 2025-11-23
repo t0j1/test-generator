@@ -24,6 +24,11 @@ class TestSheetsController < ApplicationController
     
     @units = @subject.units.ordered
     @test_sheet = TestSheet.new(subject_id: @subject.id)
+    
+    # デバッグモード（?debug=1を付けるとデバッグビューを表示）
+    if params[:debug] == '1'
+      render :step2_debug
+    end
   end
 
   # POST /test_sheets/step2_submit
