@@ -1,0 +1,68 @@
+/* ========================================
+   印刷用スタイル
+   ======================================== */
+
+@media print {
+  /* 印刷時は画面UI要素を非表示 */
+  .no-print {
+    display: none !important;
+  }
+
+  /* ページ設定 */
+  @page {
+    size: A4;
+    margin: 15mm 10mm;
+  }
+
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  /* 改ページ制御 */
+  .page-break-before {
+    page-break-before: always;
+  }
+
+  /* 問題の途中で改ページしない */
+  .question-item {
+    page-break-inside: avoid;
+  }
+}
+
+/* ========================================
+   解答欄のスタイル（Tailwindで表現困難）
+   ======================================== */
+
+.answer-line {
+  display: inline-block;
+  border-bottom: 2px solid #9CA3AF;
+  min-width: 300px;
+  height: 24px;
+  margin-left: 0.5rem;
+}
+
+.name-line {
+  border-bottom: 2px solid #9CA3AF;
+  height: 2rem;
+}
+
+.score-line {
+  border-bottom: 2px solid #9CA3AF;
+  height: 2rem;
+  width: 8rem;
+}
+
+/* ========================================
+   画面表示時の印刷プレビュー
+   ======================================== */
+
+@media screen {
+  .print-content {
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    min-height: 297mm;
+    width: 210mm;
+    margin: 20px auto;
+  }
+}

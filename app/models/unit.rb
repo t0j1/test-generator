@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Unit < ApplicationRecord
   # ==================
   # 定数定義
@@ -6,7 +8,7 @@ class Unit < ApplicationRecord
   # 学年の範囲
   MIN_GRADE = 1
   MAX_GRADE = 3
-  VALID_GRADES = (MIN_GRADE..MAX_GRADE).freeze
+  VALID_GRADES = (MIN_GRADE..MAX_GRADE)
 
   # 難易度の定義（Question と同じ）
   DIFFICULTY_KEYS = %i[easy normal hard].freeze
@@ -37,7 +39,7 @@ class Unit < ApplicationRecord
   # 学年の選択肢を取得（フォーム用）
   def self.grade_options_for_select
     VALID_GRADES.map do |grade|
-      [ "高#{grade}", grade ]
+      ["高#{grade}", grade]
     end
   end
 

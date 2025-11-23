@@ -1,5 +1,22 @@
+# frozen_string_literal: true
+
 class TestSheetsController < ApplicationController
-  before_action :set_test_sheet, only: [ :show, :preview, :mark_printed ]
+  before_action :set_test_sheet, only: %i[show preview mark_printed]
+
+  # GET /test_sheets
+  # テスト一覧（印刷履歴）
+  def index
+    @test_sheets = TestSheet.includes(:subject, :unit)
+                            .order(created_at: :desc)
+                            .page(params[:page])
+                            .per(20)
+  end
+
+  # GET /test_sheets/:id
+  # テスト表示画面（印刷用）
+  def show
+    @questions = @test_sheet.test_questions.includes(:question).order(:question_order)
+  end
 
   # GET /test_sheets/new
   # テスト作成画面
@@ -27,14 +44,8 @@ class TestSheetsController < ApplicationController
       # バリデーションエラー
       @subjects = Subject.ordered
       flash.now[:alert] = "テスト作成に失敗しました"
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
-  end
-
-  # GET /test_sheets/:id
-  # テスト表示画面（印刷用）
-  def show
-    @questions = @test_sheet.test_questions.includes(:question).order(:question_order)
   end
 
   # GET /test_sheets/:id/preview
@@ -50,26 +61,17 @@ class TestSheetsController < ApplicationController
     @test_sheet.mark_as_printed!
     render json: { success: true, printed_at: @test_sheet.printed_at }
   rescue StandardError => e
-    render json: { success: false, error: e.message }, status: :unprocessable_entity
-  end
-
-  # GET /test_sheets
-  # テスト一覧（印刷履歴）
-  def index
-    @test_sheets = TestSheet.includes(:subject, :unit)
-                             .order(created_at: :desc)
-                             .page(params[:page])
-                             .per(20)
+    render json: { success: false, error: e.message }, status: :unprocessable_content
   end
 
   # GET /test_sheets/history
   # 印刷履歴（indexのエイリアス）
   def history
     @test_sheets = TestSheet.includes(:subject, :unit)
-                             .where.not(printed_at: nil)
-                             .order(printed_at: :desc)
-                             .page(params[:page])
-                             .per(20)
+                            .where.not(printed_at: nil)
+                            .order(printed_at: :desc)
+                            .page(params[:page])
+                            .per(20)
     render :index
   end
 
@@ -116,13 +118,13 @@ class TestSheetsController < ApplicationController
   end
 
   def test_sheet_params
-    params.require(:test_sheet).permit(
-      :subject_id,
-      :unit_id,
-      :difficulty,
-      :question_count,
-      :include_hint,
-      :include_answer
+    params.expect(
+      test_sheet: %i[subject_id
+                     unit_id
+                     difficulty
+                     question_count
+                     include_hint
+                     include_answer]
     )
   end
 end

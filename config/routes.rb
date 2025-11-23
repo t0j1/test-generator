@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   # ヘルスチェック
   get "up" => "rails/health#show", as: :rails_health_check
@@ -6,7 +8,7 @@ Rails.application.routes.draw do
   root "test_sheets#new"
 
   # テストシート関連
-  resources :test_sheets, only: [ :new, :create, :show, :index ] do
+  resources :test_sheets, only: %i[new create show index] do
     member do
       get :preview              # 印刷プレビュー
       post :mark_printed        # 印刷済みマーク

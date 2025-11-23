@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   # CSRF対策（Rails標準）
   # protect_from_forgery with: :exception はRails 7.1ではデフォルト
@@ -8,7 +10,7 @@ class ApplicationController < ActionController::Base
   private
 
   # タイムゾーンを日本時間に設定
-  def set_time_zone(&block)
-    Time.use_zone("Tokyo", &block)
+  def set_time_zone(&)
+    Time.use_zone("Tokyo", &)
   end
 end

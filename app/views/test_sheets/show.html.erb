@@ -1,0 +1,121 @@
+<div class="min-h-screen bg-white" data-controller="print">
+  <!-- 画面表示用ヘッダー（印刷時は非表示） -->
+  <div class="no-print border-b border-gray-200 bg-gray-50 px-6 py-4">
+    <div class="mx-auto flex max-w-4xl items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">テスト表示</h1>
+        <p class="mt-1 text-sm text-gray-600">
+          <%= format_test_created_at(@test_sheet) %> 作成
+        </p>
+      </div>
+      <div class="flex gap-3">
+        <%= link_to "戻る", new_test_sheet_path, class: "rounded-lg bg-gray-600 px-4 py-2 text-white transition-colors hover:bg-gray-700" %>
+        <button 
+          data-action="click->print#execute"
+          class="rounded-lg bg-blue-600 px-6 py-2 font-bold text-white transition-colors hover:bg-blue-700">
+          🖨️ 印刷する
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 印刷用コンテンツ -->
+  <div class="print-content mx-auto max-w-4xl p-8">
+    <!-- テストヘッダー -->
+    <div class="mb-8 border-b-2 border-gray-300 pb-6">
+      <div class="mb-4 flex items-start justify-between">
+        <div>
+          <h2 class="mb-2 text-3xl font-bold text-gray-900">
+            <%= @test_sheet.subject.name %> - <%= @test_sheet.unit.name %>
+          </h2>
+          <p class="text-lg text-gray-600">
+            <%= difficulty_label_for_display(@test_sheet) %> / 
+            全<%= @test_sheet.question_count %>問
+          </p>
+        </div>
+        <div class="text-right">
+          <div class="mb-2">
+            <span class="text-sm text-gray-600">学年:</span>
+            <span class="text-lg font-bold">高<%= @test_sheet.unit.grade %></span>
+          </div>
+          <div>
+            <span class="text-sm text-gray-600">作成日:</span>
+            <span class="text-sm"><%= format_test_created_at(@test_sheet) %></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 名前記入欄 -->
+      <div class="flex gap-6">
+        <div class="flex-1">
+          <label class="mb-1 block text-sm font-medium text-gray-700">氏名</label>
+          <div class="name-line"></div>
+        </div>
+        <div class="w-32">
+          <label class="mb-1 block text-sm font-medium text-gray-700">得点</label>
+          <div class="score-line"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 問題リスト -->
+    <div class="space-y-6">
+      <% @questions.each do |test_question| %>
+        <% question = test_question.question %>
+        <div class="question-item border-b border-gray-200 pb-6">
+          <!-- 問題番号と問題文 -->
+          <div class="flex gap-4">
+            <div class="w-12 flex-shrink-0 text-right">
+              <span class="text-xl font-bold text-gray-700">
+                <%= question_number_label(test_question.question_order) %>
+              </span>
+            </div>
+            <div class="flex-1">
+              <p class="mb-2 text-lg text-gray-900">
+                <%= question.question_text %>
+              </p>
+
+              <!-- ヒント表示 -->
+              <% if @test_sheet.include_hint? && question.hint_text.present? %>
+                <p class="mb-2 text-sm italic text-gray-600">
+                  💡 ヒント: <%= question.hint_text %>
+                </p>
+              <% end %>
+
+              <!-- 解答欄 -->
+              <div class="mt-3">
+                <span class="text-sm text-gray-600">解答:</span>
+                <div class="answer-line"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- 解答欄（include_answer が true の場合のみ） -->
+    <% if @test_sheet.include_answer? %>
+      <div class="page-break-before mt-12 border-t-4 border-gray-300 pt-8">
+        <h3 class="mb-6 text-2xl font-bold text-gray-900">解答</h3>
+        <div class="grid grid-cols-2 gap-x-8 gap-y-3">
+          <% @questions.each do |test_question| %>
+            <% question = test_question.question %>
+            <div class="flex items-baseline gap-3">
+              <span class="w-8 text-right font-bold text-gray-700">
+                <%= test_question.question_order %>.
+              </span>
+              <span class="text-gray-900">
+                <%= question.answer_text %>
+              </span>
+              <% if question.answer_note.present? %>
+                <span class="text-sm text-gray-500">
+                  (<%= question.answer_note %>)
+                </span>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
