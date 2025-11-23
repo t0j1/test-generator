@@ -1,15 +1,64 @@
 class TestSheetsController < ApplicationController
   before_action :set_test_sheet, only: [:show, :preview, :mark_printed]
 
+  # GET / (root_path)
+  # キオスク待機画面（ランディング）
+  def landing
+    # 何もしない（静的HTML表示）
+  end
+
+  # GET /test_sheets/step1
+  # Step 1: 科目選択
+  def step1
+    @subjects = Subject.ordered
+  end
+
+  # GET /test_sheets/step2
+  # Step 2: 単元+設定選択
+  def step2
+    @subject = Subject.find_by(id: params[:subject_id])
+    unless @subject
+      redirect_to step1_test_sheets_path, alert: '科目を選択してください'
+      return
+    end
+    
+    @units = @subject.units.ordered
+    @test_sheet = TestSheet.new(subject_id: @subject.id)
+  end
+
+  # POST /test_sheets/step2_submit
+  # Step 2: フォーム送信 → テスト生成 → Step 3へリダイレクト
+  def step2_submit
+    @test_sheet = TestSheet.new(test_sheet_params)
+    
+    if @test_sheet.save
+      # 問題生成を実行
+      begin
+        @test_sheet.generate_questions!
+        redirect_to test_sheet_path(@test_sheet), notice: 'テストを作成しました'
+      rescue StandardError => e
+        # 問題生成失敗時
+        @test_sheet.destroy
+        redirect_to step1_test_sheets_path, alert: "テスト作成に失敗しました: #{e.message}"
+      end
+    else
+      # バリデーションエラー
+      @subject = Subject.find_by(id: test_sheet_params[:subject_id])
+      @units = @subject&.units&.ordered || []
+      flash.now[:alert] = 'テスト作成に失敗しました'
+      render :step2, status: :unprocessable_entity
+    end
+  end
+
   # GET /test_sheets/new
-  # テスト作成画面
+  # テスト作成画面（旧UI - 後方互換性のため残す）
   def new
     @test_sheet = TestSheet.new
     @subjects = Subject.ordered
   end
 
   # POST /test_sheets
-  # テスト生成実行
+  # テスト生成実行（旧UI用 - 後方互換性のため残す）
   def create
     @test_sheet = TestSheet.new(test_sheet_params)
     

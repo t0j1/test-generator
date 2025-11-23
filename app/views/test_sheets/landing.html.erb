@@ -1,0 +1,40 @@
+<div class="bg-gradient-landing" data-controller="kiosk">
+  <div class="flex min-h-screen flex-col items-center justify-center px-8 py-12">
+    
+    <!-- メインカード -->
+    <div class="soft-card-static fade-in mb-8 max-w-2xl px-12 py-16 text-center">
+      <!-- タイトル -->
+      <h1 class="heading-1 mb-8">
+        📚 今日の単語力を、<br>
+        今すぐプリントアウト。
+      </h1>
+      
+      <!-- イラスト（プレースホルダー） -->
+      <div class="my-12 flex items-center justify-center gap-8 text-8xl">
+        <span>📚</span>
+        <span class="text-6xl text-gray-400">→</span>
+        <span>🖨️</span>
+      </div>
+      
+      <!-- 説明文 -->
+      <p class="body-text mb-8 text-gray-600">
+        科目を選んで、単元を選んで、印刷ボタンを押すだけ。<br>
+        簡単3ステップで、あなただけのテストが完成します。
+      </p>
+    </div>
+    
+    <!-- スタートボタン -->
+    <%= link_to step1_test_sheets_path, 
+        data: { turbo: false },
+        class: "pulse-animation btn-next max-w-2xl" do %>
+      <span class="text-4xl">画面をタッチしてスタート</span>
+    <% end %>
+    
+    <!-- 補足情報 -->
+    <div class="mt-8 text-center">
+      <p class="text-lg text-gray-500">
+        ※ 操作は簡単3ステップ！推定時間：約1分
+      </p>
+    </div>
+  </div>
+</div>

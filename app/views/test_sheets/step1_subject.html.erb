@@ -1,0 +1,85 @@
+<div class="bg-gradient-soft" data-controller="kiosk step-navigation">
+  <div class="mx-auto max-w-6xl px-8 py-8">
+    
+    <!-- ヘッダー -->
+    <div class="mb-8 flex items-center justify-between">
+      <!-- 戻るボタン -->
+      <%= link_to root_path, class: "btn-back", data: { turbo: false } do %>
+        <i data-lucide="chevron-left"></i>
+        <span>戻る</span>
+      <% end %>
+      
+      <!-- プログレスバー -->
+      <div class="flex items-center gap-4">
+        <div class="progress-bar">
+          <div class="progress-dot active"></div>
+          <div class="progress-dot"></div>
+          <div class="progress-dot"></div>
+        </div>
+        <span class="progress-text">(1/3)</span>
+      </div>
+    </div>
+    
+    <!-- タイトル -->
+    <div class="mb-12 text-center">
+      <h2 class="heading-2 mb-4">科目を選んでください</h2>
+      <p class="body-text text-gray-600">
+        問題数が表示されている科目を選択できます
+      </p>
+    </div>
+    
+    <!-- 科目カードグリッド -->
+    <div class="fade-in mb-12 grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-5">
+      <% @subjects.each do |subject| %>
+        <% has_questions = subject.units.joins(:questions).kept.exists? %>
+        <% question_count = subject.units.joins(:questions).kept.select('questions.*').count %>
+        
+        <%= link_to step2_test_sheets_path(subject_id: subject.id), 
+            class: "subject-card #{has_questions ? '' : 'disabled'}",
+            data: { 
+              turbo: false,
+              subject_id: subject.id 
+            } do %>
+          
+          <div class="subject-icon">
+            <%= subject_icon(subject) %>
+          </div>
+          
+          <div class="subject-name">
+            <%= subject.name %>
+          </div>
+          
+          <div class="subject-count">
+            <%= question_count %>問
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    
+    <!-- 推定時間 -->
+    <div class="text-center">
+      <div class="soft-card-static inline-block px-8 py-4">
+        <p class="flex items-center gap-2 text-lg font-semibold text-gray-700">
+          <i data-lucide="clock"></i>
+          <span>推定時間: 約1分</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Lucide Icons 初期化
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons()
+    }
+  })
+  
+  // Turbo遷移後もLucide Icons を再初期化
+  document.addEventListener('turbo:load', () => {
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons()
+    }
+  })
+</script>

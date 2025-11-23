@@ -1,0 +1,131 @@
+<div class="kiosk-container" data-controller="kiosk-navigation test-form">
+  <!-- ヘッダー: プログレスバー -->
+  <div class="kiosk-header">
+    <div class="progress-bar">
+      <div class="progress-segment completed"></div>
+      <div class="progress-segment active"></div>
+      <div class="progress-segment"></div>
+    </div>
+    <div class="progress-label">Step 2 / 3</div>
+  </div>
+
+  <!-- メインコンテンツ -->
+  <div class="kiosk-main">
+    <div class="step-header">
+      <div class="subject-badge" style="background-color: <%= subject_color(@subject) %>">
+        <%= @subject.name %>
+      </div>
+      <h1 class="step-title">単元と設定を選んでください</h1>
+      <p class="step-subtitle">横にスライドして単元を選択</p>
+    </div>
+
+    <%= form_with model: @test_sheet, 
+                  url: step2_submit_test_sheets_path, 
+                  method: :post,
+                  data: { 
+                    controller: "test-form",
+                    action: "submit->test-form#handleSubmit"
+                  } do |f| %>
+      
+      <%= f.hidden_field :subject_id, value: @subject.id %>
+
+      <!-- 単元選択カルーセル -->
+      <div class="carousel-container">
+        <div class="carousel-scroll" data-test-form-target="unitList">
+          <% @units.each do |unit| %>
+            <label class="carousel-item">
+              <input type="radio" 
+                     name="test_sheet[unit_id]" 
+                     value="<%= unit.id %>" 
+                     class="hidden peer"
+                     data-test-form-target="unitRadio"
+                     data-action="change->test-form#onUnitChange"
+                     required>
+              <div class="soft-card unit-card peer-checked:ring-4 peer-checked:ring-primary-500">
+                <div class="unit-grade"><%= "高#{unit.grade}" %></div>
+                <div class="unit-name"><%= unit.name %></div>
+                <div class="unit-count">
+                  <%= unit.question_count %>問
+                </div>
+              </div>
+            </label>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- 設定パネル -->
+      <div class="settings-panel">
+        <h2 class="settings-title">テスト設定</h2>
+        
+        <div class="settings-grid">
+          <!-- 難易度 -->
+          <div class="setting-item">
+            <label class="setting-label">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>
+              </svg>
+              難易度
+            </label>
+            <%= f.select :difficulty, 
+                difficulty_options_for_select_with_mix,
+                {},
+                class: "setting-select",
+                data: { 
+                  test_form_target: "difficultySelect",
+                  action: "change->test-form#onDifficultyChange"
+                } %>
+          </div>
+
+          <!-- 問題数 -->
+          <div class="setting-item">
+            <label class="setting-label">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+              </svg>
+              問題数
+            </label>
+            <%= f.select :question_count,
+                question_count_options,
+                { selected: TestSheet::DEFAULT_QUESTION_COUNT },
+                class: "setting-select",
+                data: { test_form_target: "questionCountSelect" } %>
+            <p class="available-info" data-test-form-target="availableInfo">
+              利用可能: <span data-test-form-target="availableCount" class="font-bold">-</span>問
+            </p>
+          </div>
+        </div>
+
+        <!-- オプション -->
+        <div class="options-group">
+          <label class="option-item">
+            <%= f.check_box :include_hint, class: "option-checkbox" %>
+            <span class="option-label">ヒントを表示</span>
+          </label>
+
+          <label class="option-item">
+            <%= f.check_box :include_answer,
+                checked: TestSheet::DEFAULT_INCLUDE_ANSWER,
+                class: "option-checkbox" %>
+            <span class="option-label">解答を表示</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- ボタンエリア -->
+      <div class="button-group">
+        <%= link_to step1_test_sheets_path, class: "btn-secondary" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6"/>
+          </svg>
+          戻る
+        <% end %>
+
+        <%= f.submit "テストを作成", 
+            class: "btn-primary",
+            data: { test_form_target: "submitButton" } %>
+      </div>
+
+    <% end %>
+  </div>
+</div>

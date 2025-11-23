@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   # ヘルスチェック
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # ルートパス（テスト作成画面）
-  root "test_sheets#new"
+  # ルートパス（ランディング画面 - キオスクモード待機画面）
+  root "test_sheets#landing"
 
   # テストシート関連
   resources :test_sheets, only: %i[new create show index] do
@@ -14,6 +14,10 @@ Rails.application.routes.draw do
     end
 
     collection do
+      get :landing              # キオスク待機画面
+      get :step1                # Step 1: 科目選択
+      get :step2                # Step 2: 単元+設定
+      post :step2_submit        # Step 2: フォーム送信
       get :history              # 印刷履歴
       get :available_questions  # AJAX: 利用可能な問題数取得
       get :units_by_subject     # AJAX: 科目別の単元リスト取得

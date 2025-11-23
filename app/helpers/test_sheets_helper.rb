@@ -31,6 +31,18 @@ module TestSheetsHelper
     subject.color_code || Subject::DEFAULT_COLORS[subject.name] || "#6B7280"
   end
 
+  # 科目のアイコンを取得
+  def subject_icon(subject)
+    icons = {
+      '英語' => '📘',
+      '数学' => '🔢',
+      '国語' => '📗',
+      '理科' => '🔬',
+      '社会' => '🌍'
+    }
+    icons[subject.name] || '📚'
+  end
+
   # 問題番号のフォーマット（1. 2. 3. ...）
   def question_number_label(order)
     "#{order}."

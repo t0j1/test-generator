@@ -1,0 +1,52 @@
+<div class="kiosk-container" data-controller="kiosk-navigation">
+  <!-- ヘッダー: プログレスバー -->
+  <div class="kiosk-header">
+    <div class="progress-bar">
+      <div class="progress-segment active"></div>
+      <div class="progress-segment"></div>
+      <div class="progress-segment"></div>
+    </div>
+    <div class="progress-label">Step 1 / 3</div>
+  </div>
+
+  <!-- メインコンテンツ -->
+  <div class="kiosk-main">
+    <div class="step-header">
+      <div class="step-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+        </svg>
+      </div>
+      <h1 class="step-title">科目を選んでください</h1>
+      <p class="step-subtitle">タップして科目を選択</p>
+    </div>
+
+    <!-- 科目選択カード -->
+    <div class="subject-grid">
+      <% @subjects.each do |subject| %>
+        <%= link_to step2_test_sheets_path(subject_id: subject.id), 
+                    class: "soft-card subject-card",
+                    data: { 
+                      subject_id: subject.id,
+                      action: "click->kiosk-navigation#selectSubject"
+                    } do %>
+          <div class="card-icon" style="color: <%= subject_color(subject) %>">
+            <%= subject_icon(subject) %>
+          </div>
+          <div class="card-title"><%= subject.name %></div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- フッター: ホームボタン -->
+  <div class="kiosk-footer">
+    <%= link_to root_path, class: "btn-back" do %>
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      <span>最初に戻る</span>
+    <% end %>
+  </div>
+</div>
