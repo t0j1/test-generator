@@ -128,12 +128,13 @@
         </tbody>
       </table>
 
-      <!-- QRコード（左下） -->
+      <!-- QRコード（テーブル下） -->
       <div class="print-compact-qr">
-        <%= image_tag "https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=#{test_sheet_url(@test_sheet)}", 
+        <%= image_tag "https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=#{test_sheet_url(@test_sheet)}", 
                       alt: "QRコード", 
-                      style: "width: 80px; height: 80px;" %>
-        <div style="font-size: 10px; margin-top: 4px; text-align: center;">← 読み込みと解答が表示されます</div>
+                      style: "width: 60px; height: 60px;" %>
+        <div style="font-size: 9px; margin-top: 2px;">解答確認用</div>
+      </div>
     </div>
   </div>
 </div>
@@ -245,14 +246,13 @@
 }
 
 .print-compact-qr {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  text-align: center;
+  margin-top: 15px;
+  text-align: left;
+  padding-left: 10px;
 }
 
 .print-compact-qr img {
-  display: block;
-  margin-bottom: 4px;
+  display: inline-block;
+  margin-bottom: 2px;
 }
 </style>
