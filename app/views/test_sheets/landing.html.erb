@@ -1,42 +1,48 @@
-<div class="bg-kiosk">
-  <div class="flex min-h-screen flex-col items-center justify-center px-8 py-12">
+<div class="bg-kiosk min-h-screen flex items-center justify-center px-8 py-12" 
+     style="background: linear-gradient(135deg, #e0f2f7 0%, #b3e5fc 100%);">
+  
+  <div class="max-w-2xl w-full text-center">
     
-    <!-- メインカード -->
-    <div class="glass-card mb-12 max-w-3xl px-16 py-20 text-center">
-      <!-- タイトル -->
-      <h1 class="heading-kiosk-1 mb-12">
-        📚 今日の単語力を、<br>
-        今すぐプリントアウト。
+    <!-- イラスト背景 -->
+    <div class="mb-12 relative" style="height: 280px;">
+      <!-- 画像を背景として配置 -->
+      <div class="absolute inset-0 flex items-center justify-center opacity-40">
+        <img src="https://www.genspark.ai/api/files/s/V4IVttZS" 
+             alt="本とプリンター" 
+             class="h-full w-auto object-contain">
+      </div>
+    </div>
+    
+    <!-- メインメッセージ -->
+    <div class="glass-card px-12 py-16 mb-10" style="background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px);">
+      <h1 class="text-4xl md:text-5xl font-black mb-6" style="color: #1e3a8a; line-height: 1.4;">
+        今日の単語力を、<br>
+        今すぐプリントアウト
       </h1>
       
-      <!-- イラスト -->
-      <div class="my-16 flex items-center justify-center gap-12 text-9xl">
-        <span>📚</span>
-        <span class="text-7xl" style="color: rgba(108, 141, 255, 0.6);">→</span>
-        <span>🖨️</span>
-      </div>
+      <p class="text-xl md:text-2xl font-medium mb-2" style="color: #475569;">
+        簡単3ステップ
+      </p>
       
-      <!-- 説明文 -->
-      <p class="text-kiosk-body mb-8">
-        科目を選んで、単元を選んで、印刷ボタンを押すだけ。<br>
-        簡単3ステップで、あなただけのテストが完成します。
+      <p class="text-lg" style="color: #64748b;">
+        科目を選んで、単元を選んで、印刷するだけ
       </p>
     </div>
     
     <!-- スタートボタン -->
     <%= link_to step1_test_sheets_path, 
         data: { turbo: false },
-        class: "btn-neo max-w-2xl" do %>
-      🚀 画面をタッチしてスタート
+        class: "btn-neo btn-neo-green w-full block text-center",
+        style: "font-size: 2rem; padding: 2rem 3rem; max-width: 100%;" do %>
+      画面をタップしてスタート
     <% end %>
     
-    <!-- 補足情報 -->
-    <div class="mt-12 text-center">
-      <div class="glass-card-static inline-block px-8 py-4">
-        <p class="text-kiosk-body font-semibold">
-          ⚡ 操作は簡単3ステップ！推定時間：約1分
-        </p>
-      </div>
+    <!-- 所要時間 -->
+    <div class="mt-8">
+      <p class="text-lg font-semibold" style="color: #475569;">
+        ⚡ 推定時間：約1分
+      </p>
     </div>
+    
   </div>
 </div>
