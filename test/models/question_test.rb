@@ -92,7 +92,21 @@ class QuestionTest < ActiveSupport::TestCase
   test "discarded questions are excluded by default" do
     question = questions(:english_easy_1)
     question_id = question.id
+    
+    puts "\n=== Before discard ==="
+    puts "Question ID: #{question_id}"
+    puts "discarded_at: #{question.discarded_at.inspect}"
+    puts "Question.exists?(#{question_id}): #{Question.exists?(question_id)}"
+    puts "Question.discarded.exists?(#{question_id}): #{Question.discarded.exists?(question_id)}"
+    
     question.discard
+    
+    puts "\n=== After discard ==="
+    puts "discarded_at: #{question.discarded_at.inspect}"
+    puts "Question.exists?(#{question_id}): #{Question.exists?(question_id)}"
+    puts "Question.discarded.exists?(#{question_id}): #{Question.discarded.exists?(question_id)}"
+    puts "Question.unscoped.find(#{question_id}).discarded_at: #{Question.unscoped.find(question_id).discarded_at.inspect}"
+    puts "========================\n"
     
     # default_scopeの影響でQuestion.allには含まれない
     # データベースから再読み込みして確認
@@ -119,18 +133,29 @@ class QuestionTest < ActiveSupport::TestCase
       #{units(:english_unit1).id},word,normal,computer,コンピュータ,電子機器,IT
     CSV
 
+    puts "\n=== CSV Content ==="
+    puts csv_content
+    puts "==================\n"
+
     file = Tempfile.new(["questions", ".csv"])
     file.write(csv_content)
     file.rewind
 
     result = Question.import_csv(file.path)
     
-    # デバッグ: エラーがあれば出力
+    # デバッグ: 結果を詳細出力
+    puts "\n=== CSV Import Result ==="
+    puts "success_count: #{result[:success_count]}"
+    puts "error_count: #{result[:error_count]}"
     if result[:error_count] > 0
-      puts "\n=== CSV Import Errors ==="
-      puts "Errors: #{result[:errors].inspect}"
-      puts "========================\n"
+      puts "\nErrors:"
+      result[:errors].each_with_index do |error, i|
+        puts "  #{i + 1}. Line #{error[:line]}"
+        puts "     Row: #{error[:row]}"
+        puts "     Errors: #{error[:errors]}"
+      end
     end
+    puts "========================\n"
     
     assert_equal 2, result[:success_count], "Expected 2 successful imports, but got #{result[:success_count]}. Errors: #{result[:errors].inspect}"
     assert_equal 0, result[:error_count]
