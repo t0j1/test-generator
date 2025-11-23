@@ -117,7 +117,17 @@ class TestSheetsController < ApplicationController
     
     # 難易度指定がある場合
     if difficulty.present? && TestSheet::DIFFICULTIES.key?(difficulty.to_sym)
-      count = unit.questions.send("difficulty_#{difficulty}").count
+      # セキュリティのため、sendの代わりに明示的なcase文を使用
+      count = case difficulty.to_sym
+              when :easy
+                unit.questions.difficulty_easy.count
+              when :normal
+                unit.questions.difficulty_normal.count
+              when :hard
+                unit.questions.difficulty_hard.count
+              else
+                unit.question_count
+              end
       label = TestSheet::DIFFICULTY_LABELS[difficulty]
     else
       # ミックス（全難易度）
