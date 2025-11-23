@@ -1,0 +1,14 @@
+<% base = "flex h-10 w-10 items-center justify-center rounded-lg border" %>
+
+<li>
+  <% if page.current? %>
+    <span class="#{base} border-blue-500 bg-blue-500 font-bold text-white">
+      <%= page %>
+    </span>
+  <% else %>
+    <%= link_to url,
+        class: "#{base} border-gray-300 bg-white text-gray-700 hover:border-gray-400 hover:bg-gray-50" do %>
+      <%= page %>
+    <% end %>
+  <% end %>
+</li>

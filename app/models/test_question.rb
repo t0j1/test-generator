@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TestQuestion < ApplicationRecord
   # リレーション
   belongs_to :test_sheet

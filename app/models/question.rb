@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/models/question.rb
 
 class Question < ApplicationRecord
@@ -14,8 +16,8 @@ class Question < ApplicationRecord
 
   # 問題タイプのラベル（日本語）
   QUESTION_TYPE_LABELS = {
-    "word"        => "単語",
-    "sentence"    => "文章",
+    "word" => "単語",
+    "sentence" => "文章",
     "calculation" => "計算"
   }.freeze
 
@@ -28,9 +30,9 @@ class Question < ApplicationRecord
 
   # 難易度のラベル（日本語）
   DIFFICULTY_LABELS = {
-    "easy"   => "易しい",
+    "easy" => "易しい",
     "normal" => "普通",
-    "hard"   => "難しい"
+    "hard" => "難しい"
   }.freeze
 
   # デフォルト値

@@ -1,0 +1,147 @@
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-4xl mx-auto px-4">
+    <!-- ヘッダー -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-gray-900 mb-2">単語テスト作成</h1>
+      <p class="text-gray-600">科目・単元・難易度を選んでテストを作成します</p>
+    </div>
+
+    <!-- フラッシュメッセージ -->
+    <% if flash[:notice] %>
+      <div class="mb-6 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded">
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
+    
+    <% if flash[:alert] %>
+      <div class="mb-6 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded">
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
+
+    <!-- エラーメッセージ -->
+    <% if @test_sheet && @test_sheet.errors.any? %>
+      <div class="mb-6 bg-red-50 border border-red-200 rounded p-4">
+        <h3 class="text-red-800 font-bold mb-2">エラーが発生しました</h3>
+        <ul class="list-disc list-inside text-red-700">
+          <% @test_sheet.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- フォーム -->
+    <div class="bg-white shadow rounded-lg p-8">
+      <%= form_with model: @test_sheet, url: test_sheets_path, method: :post, data: { controller: "test-form" } do |f| %>
+        
+        <!-- Step 1: 科目選択 -->
+        <div class="mb-8">
+          <label class="block text-xl font-bold text-gray-900 mb-4">
+            1. 科目を選んでください
+          </label>
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <% @subjects.each do |subject| %>
+              <label class="cursor-pointer">
+                <input 
+                  type="radio" 
+                  name="test_sheet[subject_id]" 
+                  value="<%= subject.id %>" 
+                  class="hidden peer"
+                  data-test-form-target="subjectRadio"
+                  data-action="change->test-form#onSubjectChange"
+                  required
+                >
+                <div class="border-2 border-gray-200 rounded-lg p-6 text-center hover:border-gray-400 peer-checked:border-4 peer-checked:shadow-lg transition-all"
+                     style="peer-checked:border-color: <%= subject_color(subject) %>">
+                  <div class="text-3xl mb-2" style="color: <%= subject_color(subject) %>">●</div>
+                  <div class="font-bold text-lg"><%= subject.name %></div>
+                </div>
+              </label>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Step 2: 単元選択 -->
+        <div class="mb-8" data-test-form-target="unitSection" style="display: none;">
+          <label class="block text-xl font-bold text-gray-900 mb-4">
+            2. 単元を選んでください
+          </label>
+          <div id="unit-selection" data-test-form-target="unitList">
+            <!-- JavaScriptで動的に生成 -->
+          </div>
+        </div>
+
+        <!-- Step 3: 設定 -->
+        <div class="mb-8" data-test-form-target="settingsSection" style="display: none;">
+          <label class="block text-xl font-bold text-gray-900 mb-4">
+            3. テストの設定
+          </label>
+
+          <div class="space-y-6">
+            <!-- 難易度 -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                難易度
+              </label>
+              <%= f.select :difficulty, 
+                  difficulty_options_for_select_with_mix, 
+                  {},
+                  class: "w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500",
+                  data: { 
+                    test_form_target: "difficultySelect",
+                    action: "change->test-form#onDifficultyChange"
+                  }
+              %>
+            </div>
+
+            <!-- 問題数 -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                問題数
+              </label>
+              <%= f.select :question_count,
+                  question_count_options,
+                  { selected: TestSheet::DEFAULT_QUESTION_COUNT },
+                  class: "w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500",
+                  data: { test_form_target: "questionCountSelect" }
+              %>
+              <p class="mt-2 text-sm text-gray-500" data-test-form-target="availableInfo">
+                利用可能な問題数: <span data-test-form-target="availableCount">-</span>問
+              </p>
+            </div>
+
+            <!-- ヒント表示 -->
+            <div class="flex items-center">
+              <%= f.check_box :include_hint, 
+                  class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
+              <%= f.label :include_hint, "ヒントを表示する", class: "ml-2 text-sm text-gray-700" %>
+            </div>
+
+            <!-- 解答表示 -->
+            <div class="flex items-center">
+              <%= f.check_box :include_answer,
+                  checked: TestSheet::DEFAULT_INCLUDE_ANSWER,
+                  class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
+              <%= f.label :include_answer, "解答を表示する", class: "ml-2 text-sm text-gray-700" %>
+            </div>
+          </div>
+        </div>
+
+        <!-- 送信ボタン -->
+        <div class="mt-8" data-test-form-target="submitSection" style="display: none;">
+          <%= f.submit "テストを作成", 
+              class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-lg text-xl transition-colors",
+              data: { test_form_target: "submitButton" }
+          %>
+        </div>
+
+      <% end %>
+    </div>
+
+    <!-- 印刷履歴へのリンク -->
+    <div class="mt-6 text-center">
+      <%= link_to "印刷履歴を見る", history_test_sheets_path, class: "text-blue-600 hover:text-blue-800 underline" %>
+    </div>
+  </div>
+</div>
