@@ -92,27 +92,13 @@ class QuestionTest < ActiveSupport::TestCase
   test "discarded questions are excluded by default" do
     question = questions(:english_easy_1)
     question_id = question.id
-    
-    puts "\n=== Before discard ==="
-    puts "Question ID: #{question_id}"
-    puts "discarded_at: #{question.discarded_at.inspect}"
-    puts "Question.exists?(#{question_id}): #{Question.exists?(question_id)}"
-    puts "Question.discarded.exists?(#{question_id}): #{Question.discarded.exists?(question_id)}"
-    
     question.discard
     
-    puts "\n=== After discard ==="
-    puts "discarded_at: #{question.discarded_at.inspect}"
-    puts "Question.exists?(#{question_id}): #{Question.exists?(question_id)}"
-    puts "Question.discarded.exists?(#{question_id}): #{Question.discarded.exists?(question_id)}"
-    puts "Question.unscoped.find(#{question_id}).discarded_at: #{Question.unscoped.find(question_id).discarded_at.inspect}"
-    puts "========================\n"
-    
     # default_scopeの影響でQuestion.allには含まれない
-    # データベースから再読み込みして確認
     assert_not Question.exists?(question_id), "Discarded question should not exist in default scope"
-    # discardedスコープには含まれる
-    assert Question.discarded.exists?(question_id), "Discarded question should exist in discarded scope"
+    
+    # discardedスコープには含まれる（default_scopeを無効化して確認）
+    assert Question.unscoped.discarded.exists?(question_id), "Discarded question should exist in unscoped.discarded scope"
   end
 
   test "kept questions are included by default" do
