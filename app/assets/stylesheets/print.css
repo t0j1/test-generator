@@ -1,0 +1,129 @@
+/* 印刷用スタイル */
+
+/* 画面表示時のスタイル */
+@media screen {
+  .no-print {
+    display: block;
+  }
+  
+  .print-section {
+    display: block;
+  }
+  
+  .page-break,
+  .page-break-before {
+    display: none; /* 画面表示時は改ページ非表示 */
+  }
+}
+
+/* 印刷時のスタイル */
+@media print {
+  /* 画面表示用の要素を非表示 */
+  .no-print {
+    display: none !important;
+  }
+  
+  /* ページ設定 */
+  @page {
+    size: A4;
+    margin: 15mm;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    background: white;
+  }
+  
+  /* 改ページ */
+  .page-break {
+    page-break-after: always;
+    break-after: page;
+    height: 0;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .page-break-before {
+    page-break-before: always;
+    break-before: page;
+  }
+  
+  /* 問題用紙と解答用紙を分離 */
+  #questions-sheet {
+    page-break-after: always;
+  }
+  
+  #answers-sheet {
+    page-break-before: always;
+  }
+  
+  /* 印刷時の基本スタイル */
+  .print-page {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* 解答欄の下線 */
+  .answer-line {
+    border-bottom: 1px solid #333;
+    height: 24px;
+    margin-top: 4px;
+  }
+  
+  .name-line,
+  .score-line {
+    border-bottom: 2px solid #333;
+    height: 32px;
+    margin-top: 4px;
+  }
+  
+  /* 問題項目 */
+  .question-item {
+    page-break-inside: avoid; /* 問題の途中で改ページしない */
+  }
+  
+  /* 色を黒に変換（インク節約） */
+  * {
+    color: #000 !important;
+    background: white !important;
+    border-color: #333 !important;
+  }
+  
+  /* 影を削除 */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+}
+
+/* 画面表示時の装飾 */
+@media screen {
+  .answer-line {
+    border-bottom: 1px dashed #d1d5db;
+    height: 32px;
+    margin-top: 8px;
+  }
+  
+  .name-line,
+  .score-line {
+    border-bottom: 2px solid #e5e7eb;
+    height: 40px;
+    margin-top: 8px;
+  }
+}
+
+/* 個別印刷モード（JavaScriptで制御） */
+@media print {
+  /* 問題のみ印刷 */
+  body.print-questions-only #answers-sheet {
+    display: none !important;
+  }
+  
+  /* 解答のみ印刷 */
+  body.print-answers-only #questions-sheet {
+    display: none !important;
+  }
+}

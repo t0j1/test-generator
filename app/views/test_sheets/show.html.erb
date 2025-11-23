@@ -10,96 +10,140 @@
       </div>
       <div class="flex gap-3">
         <%= link_to "戻る", new_test_sheet_path, class: "rounded-lg bg-gray-600 px-4 py-2 text-white transition-colors hover:bg-gray-700" %>
+        
+        <!-- 印刷ボタン（キオスクモード用：大型） -->
         <button 
-          data-action="click->print#execute"
-          class="rounded-lg bg-blue-600 px-6 py-2 font-bold text-white transition-colors hover:bg-blue-700">
-          🖨️ 印刷する
+          data-action="click->print#executeAll"
+          class="rounded-lg bg-blue-600 px-8 py-3 text-xl font-bold text-white transition-colors hover:bg-blue-700">
+          🖨️ すべて印刷
         </button>
+        
+        <!-- 個別印刷ボタン（詳細設定用） -->
+        <button 
+          data-action="click->print#executeQuestions"
+          class="rounded-lg bg-green-600 px-4 py-2 text-sm text-white transition-colors hover:bg-green-700">
+          📝 問題のみ
+        </button>
+        
+        <% if @test_sheet.include_answer? %>
+          <button 
+            data-action="click->print#executeAnswers"
+            class="rounded-lg bg-purple-600 px-4 py-2 text-sm text-white transition-colors hover:bg-purple-700">
+            ✅ 解答のみ
+          </button>
+        <% end %>
       </div>
     </div>
   </div>
 
-  <!-- 印刷用コンテンツ -->
-  <div class="print-content mx-auto max-w-4xl p-8">
-    <!-- テストヘッダー -->
-    <div class="mb-8 border-b-2 border-gray-300 pb-6">
-      <div class="mb-4 flex items-start justify-between">
-        <div>
-          <h2 class="mb-2 text-3xl font-bold text-gray-900">
-            <%= @test_sheet.subject.name %> - <%= @test_sheet.unit.name %>
-          </h2>
-          <p class="text-lg text-gray-600">
-            <%= difficulty_label_for_display(@test_sheet) %> / 
-            全<%= @test_sheet.question_count %>問
-          </p>
-        </div>
-        <div class="text-right">
-          <div class="mb-2">
-            <span class="text-sm text-gray-600">学年:</span>
-            <span class="text-lg font-bold">高<%= @test_sheet.unit.grade %></span>
-          </div>
+  <!-- 問題用紙 -->
+  <div id="questions-sheet" class="print-section">
+    <div class="print-page mx-auto max-w-4xl p-8">
+      <!-- テストヘッダー -->
+      <div class="mb-8 border-b-2 border-gray-300 pb-6">
+        <div class="mb-4 flex items-start justify-between">
           <div>
-            <span class="text-sm text-gray-600">作成日:</span>
-            <span class="text-sm"><%= format_test_created_at(@test_sheet) %></span>
+            <h2 class="mb-2 text-3xl font-bold text-gray-900">
+              <%= @test_sheet.subject.name %> - <%= @test_sheet.unit.name %>
+            </h2>
+            <p class="text-lg text-gray-600">
+              <%= difficulty_label_for_display(@test_sheet) %> / 
+              全<%= @test_sheet.question_count %>問
+            </p>
+          </div>
+          <div class="text-right">
+            <div class="mb-2">
+              <span class="text-sm text-gray-600">学年:</span>
+              <span class="text-lg font-bold">高<%= @test_sheet.unit.grade %></span>
+            </div>
+            <div>
+              <span class="text-sm text-gray-600">作成日:</span>
+              <span class="text-sm"><%= format_test_created_at(@test_sheet) %></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 名前記入欄 -->
+        <div class="flex gap-6">
+          <div class="flex-1">
+            <label class="mb-1 block text-sm font-medium text-gray-700">氏名</label>
+            <div class="name-line"></div>
+          </div>
+          <div class="w-32">
+            <label class="mb-1 block text-sm font-medium text-gray-700">得点</label>
+            <div class="score-line"></div>
           </div>
         </div>
       </div>
 
-      <!-- 名前記入欄 -->
-      <div class="flex gap-6">
-        <div class="flex-1">
-          <label class="mb-1 block text-sm font-medium text-gray-700">氏名</label>
-          <div class="name-line"></div>
-        </div>
-        <div class="w-32">
-          <label class="mb-1 block text-sm font-medium text-gray-700">得点</label>
-          <div class="score-line"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 問題リスト -->
-    <div class="space-y-6">
-      <% @questions.each do |test_question| %>
-        <% question = test_question.question %>
-        <div class="question-item border-b border-gray-200 pb-6">
-          <!-- 問題番号と問題文 -->
-          <div class="flex gap-4">
-            <div class="w-12 flex-shrink-0 text-right">
-              <span class="text-xl font-bold text-gray-700">
-                <%= question_number_label(test_question.question_order) %>
-              </span>
-            </div>
-            <div class="flex-1">
-              <p class="mb-2 text-lg text-gray-900">
-                <%= question.question_text %>
-              </p>
-
-              <!-- ヒント表示 -->
-              <% if @test_sheet.include_hint? && question.hint.present? %>
-                <p class="mb-2 text-sm italic text-gray-600">
-                  💡 ヒント: <%= question.hint %>
+      <!-- 問題リスト -->
+      <div class="space-y-6">
+        <% @questions.each_with_index do |test_question, index| %>
+          <% question = test_question.question %>
+          
+          <!-- 問題数が多い場合、途中で改ページ（例: 15問以上なら10問目の後） -->
+          <% if @test_sheet.question_count >= 15 && index == 10 %>
+            <div class="page-break"></div>
+          <% end %>
+          
+          <div class="question-item border-b border-gray-200 pb-6">
+            <!-- 問題番号と問題文 -->
+            <div class="flex gap-4">
+              <div class="w-12 flex-shrink-0 text-right">
+                <span class="text-xl font-bold text-gray-700">
+                  <%= question_number_label(test_question.question_order) %>
+                </span>
+              </div>
+              <div class="flex-1">
+                <p class="mb-2 text-lg text-gray-900">
+                  <%= question.question_text %>
                 </p>
-              <% end %>
 
-              <!-- 解答欄 -->
-              <div class="mt-3">
-                <span class="text-sm text-gray-600">解答:</span>
-                <div class="answer-line"></div>
+                <!-- ヒント表示 -->
+                <% if @test_sheet.include_hint? && question.hint.present? %>
+                  <p class="mb-2 text-sm italic text-gray-600">
+                    💡 ヒント: <%= question.hint %>
+                  </p>
+                <% end %>
+
+                <!-- 解答欄 -->
+                <div class="mt-3">
+                  <span class="text-sm text-gray-600">解答:</span>
+                  <div class="answer-line"></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
     </div>
+  </div>
 
-    <!-- 解答欄（include_answer が true の場合のみ） -->
-    <% if @test_sheet.include_answer? %>
-      <div class="page-break-before mt-12 border-t-4 border-gray-300 pt-8">
-        <h3 class="mb-6 text-2xl font-bold text-gray-900">解答</h3>
+  <!-- 解答用紙（別紙・改ページ） -->
+  <% if @test_sheet.include_answer? %>
+    <div id="answers-sheet" class="print-section page-break-before">
+      <div class="print-page mx-auto max-w-4xl p-8">
+        <!-- 解答用紙ヘッダー -->
+        <div class="mb-8 border-b-2 border-gray-300 pb-6">
+          <h2 class="mb-2 text-3xl font-bold text-gray-900">解答用紙</h2>
+          <p class="text-lg text-gray-600">
+            <%= @test_sheet.subject.name %> - <%= @test_sheet.unit.name %>
+          </p>
+          <p class="mt-1 text-sm text-gray-500">
+            作成日: <%= format_test_created_at(@test_sheet) %>
+          </p>
+        </div>
+
+        <!-- 解答リスト -->
         <div class="grid grid-cols-2 gap-x-8 gap-y-3">
-          <% @questions.each do |test_question| %>
+          <% @questions.each_with_index do |test_question, index| %>
             <% question = test_question.question %>
+            
+            <!-- 解答数が多い場合、途中で改ページ（例: 30問以上なら20問目の後） -->
+            <% if @test_sheet.question_count >= 30 && index == 20 %>
+              <div class="col-span-2 page-break"></div>
+            <% end %>
+            
             <div class="flex items-baseline gap-3">
               <span class="w-8 text-right font-bold text-gray-700">
                 <%= test_question.question_order %>.
@@ -116,6 +160,6 @@
           <% end %>
         </div>
       </div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 </div>
