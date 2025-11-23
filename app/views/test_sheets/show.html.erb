@@ -1,68 +1,66 @@
 <div class="min-h-screen bg-white" data-controller="print">
   <!-- 画面表示用ヘッダー（印刷時は非表示） -->
-  <div class="no-print bg-gradient-animated">
+  <div class="no-print bg-kiosk">
     <div class="mx-auto max-w-7xl px-6 py-12">
       <!-- タイトル -->
-      <div class="glass-card mb-8 p-8 text-center">
-        <h1 class="heading-glass-1 mb-4">✅ テスト作成完了！</h1>
-        <p class="heading-glass-3 mb-2">
+      <div class="glass-card mb-12 p-10 text-center">
+        <h1 class="heading-kiosk-1 mb-4">✅ テスト作成完了！</h1>
+        <p class="heading-kiosk-2 mb-2">
           <%= @test_sheet.subject.name %> - <%= @test_sheet.unit.name %> / 全<%= @test_sheet.question_count %>問
         </p>
-        <p class="text-glass-body">
+        <p class="text-kiosk-body">
           <%= format_test_created_at(@test_sheet) %> 作成
         </p>
       </div>
       
-      <!-- 印刷ボタン（キオスクモード：Glassmorphism） -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <!-- 印刷ボタン（キオスクモード：Neo-Glassmorphism） -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
         <!-- すべて印刷（メインボタン） -->
         <button 
           data-action="click->print#executeAll"
-          class="glass-card glass-card-pulse p-10 text-center cursor-pointer">
-          <div class="text-7xl mb-4">🖨️</div>
-          <div class="heading-glass-3 mb-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+          class="print-card">
+          <div class="print-card-icon">🖨️</div>
+          <div class="print-card-title gradient-blue mb-3">
             すべて印刷
           </div>
-          <div class="text-glass-body">問題用紙 + 解答用紙</div>
+          <div class="print-card-desc">問題用紙 + 解答用紙</div>
         </button>
         
         <!-- 問題のみ印刷 -->
         <button 
           data-action="click->print#executeQuestions"
-          class="glass-card p-10 text-center cursor-pointer">
-          <div class="text-7xl mb-4">📝</div>
-          <div class="heading-glass-3 mb-3" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+          class="print-card">
+          <div class="print-card-icon">📝</div>
+          <div class="print-card-title gradient-green mb-3">
             問題のみ
           </div>
-          <div class="text-glass-body">生徒配布用</div>
+          <div class="print-card-desc">生徒配布用</div>
         </button>
         
         <!-- 解答のみ印刷 -->
         <% if @test_sheet.include_answer? %>
           <button 
             data-action="click->print#executeAnswers"
-            class="glass-card p-10 text-center cursor-pointer">
-            <div class="text-7xl mb-4">✅</div>
-            <div class="heading-glass-3 mb-3" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            class="print-card">
+            <div class="print-card-icon">✅</div>
+            <div class="print-card-title gradient-purple mb-3">
               解答のみ
             </div>
-            <div class="text-glass-body">講師用</div>
+            <div class="print-card-desc">講師用</div>
           </button>
         <% else %>
-          <div class="glass-card-static p-10 text-center opacity-50">
-            <div class="text-7xl mb-4">✅</div>
-            <div class="heading-glass-3 mb-3 text-gray-400">解答なし</div>
-            <div class="text-glass-body text-gray-500">解答を含めていません</div>
+          <div class="print-card opacity-50 cursor-not-allowed">
+            <div class="print-card-icon">✅</div>
+            <div class="print-card-title mb-3" style="color: #9CA3AF;">解答なし</div>
+            <div class="print-card-desc">解答を含めていません</div>
           </div>
         <% end %>
       </div>
       
       <!-- 戻るボタン -->
-      <div class="text-center">
-        <%= link_to root_path, class: "btn-glass-primary inline-block" do %>
-          🏠 新しいテストを作成
-        <% end %>
-      </div>
+      <%= link_to root_path, class: "btn-neo max-w-2xl mx-auto" do %>
+        🏠 新しいテストを作成
+      <% end %>
     </div>
   </div>
 

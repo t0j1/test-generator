@@ -1,28 +1,21 @@
-<div class="bg-gradient-animated">
-  <div class="kiosk-container-glass" data-controller="kiosk-navigation test-form">
-    <!-- ヘッダー: プログレスバー -->
-    <div class="kiosk-header-glass">
-      <div class="progress-bar-glass">
-        <div class="progress-segment-glass completed"></div>
-        <div class="progress-segment-glass active"></div>
-        <div class="progress-segment-glass"></div>
-      </div>
-      <div class="text-center">
-        <p class="text-glass-body font-bold">Step 2 / 3</p>
-      </div>
+<div class="bg-kiosk">
+  <div class="max-w-5xl mx-auto py-12 px-8" data-controller="test-form">
+
+    <!-- Progress -->
+    <div class="progress-kiosk mb-10">
+      <div class="progress-step done"></div>
+      <div class="progress-step active"></div>
+      <div class="progress-step"></div>
     </div>
 
-    <!-- メインコンテンツ -->
-    <div class="kiosk-main-glass">
-      <div class="text-center mb-12">
-        <div class="glass-card-static inline-block px-10 py-5 mb-6 rounded-glass-lg" style="background: <%= subject_color(@subject) %>33;">
-          <p class="text-3xl font-black" style="color: <%= subject_color(@subject) %>;">
-            <%= subject_icon(@subject) %> <%= @subject.name %>
-          </p>
-        </div>
-        <h1 class="heading-glass-2 mb-4">単元と設定を選んでください</h1>
-        <p class="text-glass-body">横にスライドして単元を選択</p>
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <div class="subject-badge" style="background: <%= subject_color(@subject) %>;">
+        <%= subject_icon(@subject) %> <%= @subject.name %>
       </div>
+      <h1 class="heading-kiosk-1 mb-2">単元と設定を選んでください</h1>
+      <p class="text-kiosk-body">横にスライドして単元を選択</p>
+    </div>
 
     <%= form_with model: @test_sheet, 
                   url: step2_submit_test_sheets_path, 
@@ -36,11 +29,9 @@
 
       <!-- 単元選択カルーセル -->
       <div class="mb-12">
-        <div class="flex gap-6 overflow-x-auto pb-6 px-2 snap-x snap-mandatory" 
-             style="scrollbar-width: none; -ms-overflow-style: none;"
-             data-test-form-target="unitList">
-          <% @units.each_with_index do |unit, index| %>
-            <label class="snap-center flex-shrink-0">
+        <div class="carousel-kiosk" data-test-form-target="unitList">
+          <% @units.each do |unit| %>
+            <label class="carousel-item">
               <input type="radio" 
                      name="test_sheet[unit_id]" 
                      value="<%= unit.id %>" 
@@ -48,17 +39,10 @@
                      data-test-form-target="unitRadio"
                      data-action="change->test-form#onUnitChange"
                      required>
-              <div class="glass-card w-64 p-8 text-center cursor-pointer peer-checked:border-2 peer-checked:shadow-glass-lg"
-                   style="border-color: <%= subject_color(@subject) %>; animation-delay: #{index * 0.1}s;">
-                <div class="text-glass-small mb-3 font-bold" style="color: <%= subject_color(@subject) %>;">
-                  <%= "高#{unit.grade}" %>
-                </div>
-                <div class="heading-glass-3 mb-4">
-                  <%= unit.name %>
-                </div>
-                <div class="text-glass-body font-bold" style="color: <%= subject_color(@subject) %>;">
-                  <%= unit.question_count %>問
-                </div>
+              <div class="unit-card peer-checked:selected" style="width: 280px;">
+                <div class="unit-card-grade"><%= "高#{unit.grade}" %></div>
+                <div class="unit-card-title"><%= unit.name %></div>
+                <div class="unit-card-count"><%= unit.question_count %>問</div>
               </div>
             </label>
           <% end %>
@@ -66,13 +50,13 @@
       </div>
 
       <!-- 設定パネル -->
-      <div class="glass-card max-w-4xl mx-auto p-10">
-        <h2 class="heading-glass-3 text-center mb-8">⚙️ テスト設定</h2>
+      <div class="settings-panel max-w-4xl mx-auto">
+        <h2 class="settings-title">⚙️ テスト設定</h2>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <!-- 難易度 -->
-          <div>
-            <label class="flex items-center gap-3 text-glass-body font-bold mb-4">
+          <div class="setting-item">
+            <label class="setting-label">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>
               </svg>
@@ -81,8 +65,7 @@
             <%= f.select :difficulty, 
                 difficulty_options_for_select_with_mix,
                 {},
-                class: "w-full px-6 py-4 text-lg font-semibold rounded-glass-md border-glass-thick glass-blur-sm focus:outline-none focus:border-2 transition-all",
-                style: "background: rgba(255, 255, 255, 0.1); border-color: #{subject_color(@subject)}33;",
+                class: "setting-select",
                 data: { 
                   test_form_target: "difficultySelect",
                   action: "change->test-form#onDifficultyChange"
@@ -90,8 +73,8 @@
           </div>
 
           <!-- 問題数 -->
-          <div>
-            <label class="flex items-center gap-3 text-glass-body font-bold mb-4">
+          <div class="setting-item">
+            <label class="setting-label">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
                 <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
@@ -101,51 +84,41 @@
             <%= f.select :question_count,
                 question_count_options,
                 { selected: TestSheet::DEFAULT_QUESTION_COUNT },
-                class: "w-full px-6 py-4 text-lg font-semibold rounded-glass-md border-glass-thick glass-blur-sm focus:outline-none focus:border-2 transition-all",
-                style: "background: rgba(255, 255, 255, 0.1); border-color: #{subject_color(@subject)}33;",
+                class: "setting-select",
                 data: { test_form_target: "questionCountSelect" } %>
-            <p class="mt-3 text-glass-small" data-test-form-target="availableInfo">
-              利用可能: <span data-test-form-target="availableCount" class="font-bold text-lg" style="color: <%= subject_color(@subject) %>;">-</span>問
+            <p class="text-kiosk-body mt-2" data-test-form-target="availableInfo">
+              利用可能: <span data-test-form-target="availableCount" class="font-bold" style="color: <%= subject_color(@subject) %>;">-</span>問
             </p>
           </div>
         </div>
 
         <!-- オプション -->
-        <div class="pt-8 border-t border-glass">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <label class="glass-card-static p-6 cursor-pointer flex items-center gap-4 hover:shadow-glass-md transition-all">
-              <%= f.check_box :include_hint, 
-                  class: "w-6 h-6 rounded-lg cursor-pointer",
-                  style: "accent-color: #{subject_color(@subject)};" %>
-              <span class="text-glass-body font-semibold">💡 ヒントを表示</span>
-            </label>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <label class="option-checkbox-item">
+            <%= f.check_box :include_hint, class: "option-checkbox" %>
+            <span class="option-label">💡 ヒントを表示</span>
+          </label>
 
-            <label class="glass-card-static p-6 cursor-pointer flex items-center gap-4 hover:shadow-glass-md transition-all">
-              <%= f.check_box :include_answer,
-                  checked: TestSheet::DEFAULT_INCLUDE_ANSWER,
-                  class: "w-6 h-6 rounded-lg cursor-pointer",
-                  style: "accent-color: #{subject_color(@subject)};" %>
-              <span class="text-glass-body font-semibold">✅ 解答を表示</span>
-            </label>
-          </div>
+          <label class="option-checkbox-item">
+            <%= f.check_box :include_answer,
+                checked: TestSheet::DEFAULT_INCLUDE_ANSWER,
+                class: "option-checkbox" %>
+            <span class="option-label">✅ 解答を表示</span>
+          </label>
         </div>
       </div>
 
       <!-- ボタンエリア -->
-      <div class="flex flex-col md:flex-row gap-6 max-w-4xl mx-auto mt-12">
-        <%= link_to step1_test_sheets_path, class: "btn-glass-secondary flex items-center justify-center gap-3" do %>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m15 18-6-6 6-6"/>
-          </svg>
-          戻る
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-6 max-w-4xl mx-auto mt-12">
+        <%= link_to step1_test_sheets_path, class: "btn-neo btn-neo-secondary md:col-span-2" do %>
+          ← 戻る
         <% end %>
 
         <%= f.submit "🎯 テストを作成", 
-            class: "btn-glass-primary flex-1",
+            class: "btn-neo btn-neo-green md:col-span-3",
             data: { test_form_target: "submitButton" } %>
       </div>
 
     <% end %>
   </div>
-</div>
 </div>

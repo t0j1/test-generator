@@ -1,23 +1,23 @@
-<div class="bg-gradient-animated">
+<div class="bg-kiosk">
   <div class="flex min-h-screen flex-col items-center justify-center px-8 py-12">
     
     <!-- メインカード -->
-    <div class="glass-card glass-card-floating mb-12 max-w-3xl px-16 py-20 text-center">
+    <div class="glass-card mb-12 max-w-3xl px-16 py-20 text-center">
       <!-- タイトル -->
-      <h1 class="heading-glass-1 mb-12">
+      <h1 class="heading-kiosk-1 mb-12">
         📚 今日の単語力を、<br>
         今すぐプリントアウト。
       </h1>
       
-      <!-- イラスト（プレースホルダー） -->
+      <!-- イラスト -->
       <div class="my-16 flex items-center justify-center gap-12 text-9xl">
-        <span class="glass-card-floating" style="animation-delay: 0s;">📚</span>
-        <span class="text-7xl" style="color: rgba(102, 126, 234, 0.6);">→</span>
-        <span class="glass-card-floating" style="animation-delay: 0.5s;">🖨️</span>
+        <span>📚</span>
+        <span class="text-7xl" style="color: rgba(108, 141, 255, 0.6);">→</span>
+        <span>🖨️</span>
       </div>
       
       <!-- 説明文 -->
-      <p class="text-glass-body mb-8">
+      <p class="text-kiosk-body mb-8">
         科目を選んで、単元を選んで、印刷ボタンを押すだけ。<br>
         簡単3ステップで、あなただけのテストが完成します。
       </p>
@@ -26,14 +26,14 @@
     <!-- スタートボタン -->
     <%= link_to step1_test_sheets_path, 
         data: { turbo: false },
-        class: "btn-glass-primary glass-card-pulse max-w-2xl inline-block" do %>
-      <span class="text-4xl font-bold">🚀 画面をタッチしてスタート</span>
+        class: "btn-neo max-w-2xl" do %>
+      🚀 画面をタッチしてスタート
     <% end %>
     
     <!-- 補足情報 -->
     <div class="mt-12 text-center">
-      <div class="glass-card-static inline-block px-8 py-4 rounded-glass-md">
-        <p class="text-glass-body font-semibold">
+      <div class="glass-card-static inline-block px-8 py-4">
+        <p class="text-kiosk-body font-semibold">
           ⚡ 操作は簡単3ステップ！推定時間：約1分
         </p>
       </div>

@@ -1,0 +1,615 @@
+/* =======================================================================
+   KIOSK UI DESIGN SYSTEM
+   Glassmorphism × Neumorphism × Tablet-First (10-inch Vertical)
+   ======================================================================= */
+
+/* ---------------------------------------
+   COLOR SYSTEM
+---------------------------------------- */
+
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.18);
+  --glass-bg-strong: rgba(255, 255, 255, 0.28);
+  --glass-border: rgba(255, 255, 255, 0.35);
+  --glass-shadow: rgba(0, 0, 0, 0.15);
+
+  --neo-shadow-light: rgba(255, 255, 255, 0.9);
+  --neo-shadow-dark: rgba(150, 170, 190, 0.4);
+
+  --accent-blue: #6C8DFF;
+  --accent-green: #43E97B;
+  --accent-red: #FF7B7B;
+  --accent-orange: #FF8C42;
+
+  --text-strong: #1A1A2E;
+  --text-light: #52527A;
+
+  --radius-lg: 28px;
+  --radius-xl: 40px;
+
+  --transition: 260ms cubic-bezier(0.23,1,0.32,1);
+}
+
+/* ---------------------------------------
+   BACKGROUND
+---------------------------------------- */
+
+.bg-kiosk {
+  min-height: 100vh;
+  background: linear-gradient(135deg,#e0eeff 0%,#f3e8ff 40%,#fff0f5 100%);
+  background-size: 200% 200%;
+  animation: bgSlide 18s ease infinite;
+}
+
+@keyframes bgSlide {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ---------------------------------------
+   GLASS CARD
+---------------------------------------- */
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 32px var(--glass-shadow);
+  transition: var(--transition);
+}
+
+.glass-card:hover {
+  background: var(--glass-bg-strong);
+  transform: translateY(-4px);
+}
+
+.glass-card-static {
+  background: var(--glass-bg);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border);
+}
+
+/* ---------------------------------------
+   NEO BUTTON
+---------------------------------------- */
+
+.btn-neo {
+  padding: 24px;
+  font-size: 32px;
+  font-weight: 800;
+  color: white;
+  background: var(--accent-blue);
+  border-radius: var(--radius-lg);
+  border: none;
+  cursor: pointer;
+  box-shadow:
+    6px 6px 14px var(--neo-shadow-dark),
+    -6px -6px 14px var(--neo-shadow-light);
+  transition: var(--transition);
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+}
+
+.btn-neo:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    8px 8px 16px var(--neo-shadow-dark),
+    -8px -8px 16px var(--neo-shadow-light);
+}
+
+.btn-neo:active {
+  box-shadow: inset 4px 4px 12px var(--neo-shadow-dark),
+              inset -4px -4px 12px var(--neo-shadow-light);
+  transform: scale(0.97);
+}
+
+.btn-neo-green {
+  background: var(--accent-green);
+}
+
+.btn-neo-orange {
+  background: var(--accent-orange);
+}
+
+.btn-neo-secondary {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--text-strong);
+  border: 2px solid var(--glass-border);
+}
+
+/* ---------------------------------------
+   PROGRESS BAR
+---------------------------------------- */
+
+.progress-kiosk {
+  display: flex;
+  gap: 12px;
+  padding: 10px;
+  background: var(--glass-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.progress-step {
+  flex: 1;
+  height: 10px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.25);
+  transition: var(--transition);
+}
+
+.progress-step.active {
+  background: var(--accent-blue);
+  box-shadow: 0 0 12px var(--accent-blue);
+}
+
+.progress-step.done {
+  background: var(--accent-green);
+  box-shadow: 0 0 12px var(--accent-green);
+}
+
+/* ---------------------------------------
+   SUBJECT CARD
+---------------------------------------- */
+
+.subject-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 32px 24px;
+  min-height: 200px;
+
+  background: var(--glass-bg);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 6px 24px var(--glass-shadow);
+
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+  text-decoration: none;
+}
+
+.subject-card:hover {
+  background: var(--glass-bg-strong);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(0,0,0,0.25);
+}
+
+.subject-card:active {
+  transform: translateY(-2px) scale(0.98);
+}
+
+.subject-card-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  transition: var(--transition);
+}
+
+.subject-card:hover .subject-card-icon {
+  transform: scale(1.1);
+}
+
+.subject-card-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text-strong);
+}
+
+/* ---------------------------------------
+   UNIT CARD (Step 2)
+---------------------------------------- */
+
+.unit-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  padding: 28px 20px;
+  min-height: 180px;
+  
+  background: var(--glass-bg);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--glass-border);
+  box-shadow: 0 6px 24px var(--glass-shadow);
+  
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+}
+
+.unit-card:hover {
+  background: var(--glass-bg-strong);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+}
+
+.unit-card.selected {
+  border: 3px solid var(--accent-blue);
+  background: rgba(108, 141, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(108, 141, 255, 0.4);
+}
+
+.unit-card-grade {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent-blue);
+  margin-bottom: 8px;
+}
+
+.unit-card-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-strong);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.unit-card-count {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent-green);
+}
+
+/* ---------------------------------------
+   SETTINGS PANEL (Step 2)
+---------------------------------------- */
+
+.settings-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border);
+  padding: 32px;
+  box-shadow: 0 8px 32px var(--glass-shadow);
+}
+
+.settings-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text-strong);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.setting-item {
+  margin-bottom: 24px;
+}
+
+.setting-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-strong);
+  margin-bottom: 12px;
+}
+
+.setting-select {
+  width: 100%;
+  padding: 16px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-strong);
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid var(--glass-border);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.setting-select:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 4px rgba(108, 141, 255, 0.2);
+}
+
+.option-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.option-checkbox-item:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.option-checkbox {
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  accent-color: var(--accent-blue);
+}
+
+.option-label {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+/* ---------------------------------------
+   PRINT BUTTONS (Step 3)
+---------------------------------------- */
+
+.print-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border);
+  padding: 40px 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 8px 32px var(--glass-shadow);
+}
+
+.print-card:hover {
+  background: var(--glass-bg-strong);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.25);
+}
+
+.print-card:active {
+  transform: translateY(-2px) scale(0.98);
+}
+
+.print-card-icon {
+  font-size: 72px;
+  margin-bottom: 16px;
+}
+
+.print-card-title {
+  font-size: 32px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+
+.print-card-title.gradient-blue {
+  background: linear-gradient(135deg, #6C8DFF 0%, #4A5FFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.print-card-title.gradient-green {
+  background: linear-gradient(135deg, #43E97B 0%, #38D9A9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.print-card-title.gradient-purple {
+  background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.print-card-desc {
+  font-size: 18px;
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+/* ---------------------------------------
+   BADGE
+---------------------------------------- */
+
+.subject-badge {
+  display: inline-block;
+  padding: 16px 32px;
+  border-radius: 24px;
+  font-size: 24px;
+  font-weight: 900;
+  color: white;
+  background: var(--accent-blue);
+  box-shadow: 0 4px 16px rgba(108, 141, 255, 0.4);
+  margin-bottom: 16px;
+}
+
+/* ---------------------------------------
+   TYPOGRAPHY
+---------------------------------------- */
+
+.heading-kiosk-1 {
+  font-size: 48px;
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  color: var(--text-strong);
+}
+
+.heading-kiosk-2 {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+  color: var(--text-strong);
+}
+
+.heading-kiosk-3 {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--text-strong);
+}
+
+.text-kiosk-body {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--text-light);
+}
+
+/* ---------------------------------------
+   CAROUSEL (Step 2)
+---------------------------------------- */
+
+.carousel-kiosk {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 8px 4px 24px;
+}
+
+.carousel-kiosk::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-item {
+  scroll-snap-align: center;
+  flex-shrink: 0;
+}
+
+/* ---------------------------------------
+   RESPONSIVE (Tablet-first)
+---------------------------------------- */
+
+@media (max-width: 1024px) {
+  .subject-card {
+    min-height: 180px;
+    padding: 24px 16px;
+  }
+  
+  .subject-card-icon {
+    font-size: 56px;
+  }
+  
+  .subject-card-title {
+    font-size: 24px;
+  }
+  
+  .btn-neo {
+    padding: 22px;
+    font-size: 28px;
+  }
+  
+  .heading-kiosk-1 {
+    font-size: 40px;
+  }
+  
+  .heading-kiosk-2 {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .subject-card {
+    min-height: 160px;
+    padding: 20px 12px;
+  }
+  
+  .subject-card-title {
+    font-size: 22px;
+  }
+  
+  .subject-card-icon {
+    font-size: 48px;
+  }
+  
+  .btn-neo {
+    padding: 20px;
+    font-size: 24px;
+  }
+  
+  .heading-kiosk-1 {
+    font-size: 32px;
+  }
+  
+  .heading-kiosk-2 {
+    font-size: 28px;
+  }
+  
+  .heading-kiosk-3 {
+    font-size: 24px;
+  }
+  
+  .unit-card {
+    min-height: 160px;
+    padding: 24px 16px;
+  }
+  
+  .unit-card-title {
+    font-size: 20px;
+  }
+  
+  .print-card-icon {
+    font-size: 56px;
+  }
+  
+  .print-card-title {
+    font-size: 28px;
+  }
+}
+
+/* ---------------------------------------
+   UTILITY CLASSES
+---------------------------------------- */
+
+.w-full { width: 100%; }
+.text-center { text-align: center; }
+.inline-block { display: inline-block; }
+.flex { display: flex; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.gap-2 { gap: 0.5rem; }
+.gap-4 { gap: 1rem; }
+.gap-6 { gap: 1.5rem; }
+.gap-8 { gap: 2rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mb-8 { margin-bottom: 2rem; }
+.mb-10 { margin-bottom: 2.5rem; }
+.mb-12 { margin-bottom: 3rem; }
+.mb-14 { margin-bottom: 3.5rem; }
+.mb-16 { margin-bottom: 4rem; }
+.mt-8 { margin-top: 2rem; }
+.mt-12 { margin-top: 3rem; }
+.mt-16 { margin-top: 4rem; }
+.p-4 { padding: 1rem; }
+.p-6 { padding: 1.5rem; }
+.p-8 { padding: 2rem; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+.px-8 { padding-left: 2rem; padding-right: 2rem; }
+.py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+.py-5 { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+.py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+.py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+.py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+
+/* ======================================================================= */
