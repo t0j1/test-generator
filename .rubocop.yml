@@ -12,6 +12,7 @@ AllCops:
     - "node_modules/**/*"
     - "vendor/**/*"
     - "tmp/**/*"
+    - "test/**/*"
 
 # ---- 無視してOKな Cop をオフ ----
 Style/Documentation:

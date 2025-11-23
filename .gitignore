@@ -57,4 +57,5 @@
 
 # IDE
 /.idea
-/.vscode
+/.vscode.test_backup/
+*.bak
