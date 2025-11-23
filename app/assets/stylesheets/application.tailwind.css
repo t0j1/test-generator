@@ -1,0 +1,14 @@
+/*
+ * This is the main Tailwind CSS file
+ * It will be processed by Tailwind CLI
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Layer for custom components */
+@layer components {
+  /* Import kiosk-ui styles */
+  @import "./kiosk-ui.css";
+}

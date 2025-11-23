@@ -1,24 +1,8 @@
 /*
  * This is the main stylesheet for the application.
- * Import order is critical: Tailwind base → Custom styles → Tailwind utilities
+ * Tailwind CSS only - custom styles are loaded separately
  */
 
-/* Tailwind Base (resets) */
 @tailwind base;
-
-/* Custom Component Styles (after Tailwind reset) */
-@import "test_sheets.css";
-@import "print.css";
-
-/* Kiosk UI System (Glass × Neo Design) */
-@import "kiosk-ui.css";
-
-/* Legacy styles (if needed) */
-@import "glassmorphism.css";
-@import "kiosk.css";
-
-/* Tailwind Components */
 @tailwind components;
-
-/* Tailwind Utilities (highest priority) */
 @tailwind utilities;
