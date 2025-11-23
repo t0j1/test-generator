@@ -185,6 +185,16 @@ export default class extends Controller {
     const unitName = event.target.dataset.unitName
     console.log("📌 Unit selected:", this.selectedUnitId, unitName)
 
+    // 全ての単元カードから selected クラスを削除
+    const allUnitCards = document.querySelectorAll('.unit-card')
+    allUnitCards.forEach(card => card.classList.remove('selected'))
+
+    // 選択された単元カードに selected クラスを追加
+    const selectedCard = event.target.closest('label').querySelector('.unit-card')
+    if (selectedCard) {
+      selectedCard.classList.add('selected')
+    }
+
     if (this.hasSettingsSectionTarget) {
       this.settingsSectionTarget.classList.remove("hidden")
       

@@ -248,9 +248,16 @@
   box-shadow: 0 8px 32px rgba(108, 141, 255, 0.4);
 }
 
-/* Peer-checked state (for radio button selection) */
-input[type="radio"]:checked + .unit-card,
-input[type="radio"].peer:checked ~ .unit-card {
+/* Radio button checked state (for unit selection) */
+label:has(input[type="radio"]:checked) .unit-card {
+  border: 3px solid var(--accent-blue);
+  background: rgba(108, 141, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(108, 141, 255, 0.4);
+  transform: scale(1.05);
+}
+
+/* Fallback for browsers that don't support :has() */
+input[type="radio"]:checked + .unit-card {
   border: 3px solid var(--accent-blue);
   background: rgba(108, 141, 255, 0.15);
   box-shadow: 0 8px 32px rgba(108, 141, 255, 0.4);

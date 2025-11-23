@@ -37,12 +37,12 @@
             <input type="radio"
                    name="test_sheet[unit_id]"
                    value="<%= unit.id %>"
-                   class="hidden peer"
+                   class="hidden"
                    data-test-form-target="unitRadio"
                    data-action="change->test-form#onUnitChange"
                    required>
 
-            <div class="unit-card peer-checked:scale-105 peer-checked:border-3 peer-checked:border-blue-400">
+            <div class="unit-card">
               <div class="unit-card-grade">高<%= unit.grade %></div>
               <div class="unit-card-title"><%= unit.name %></div>
               <div class="unit-card-count" style="color:<%= subject_color(@subject) %>;">
