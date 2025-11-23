@@ -76,9 +76,9 @@
               </p>
 
               <!-- ヒント表示 -->
-              <% if @test_sheet.include_hint? && question.hint_text.present? %>
+              <% if @test_sheet.include_hint? && question.hint.present? %>
                 <p class="mb-2 text-sm italic text-gray-600">
-                  💡 ヒント: <%= question.hint_text %>
+                  💡 ヒント: <%= question.hint %>
                 </p>
               <% end %>
 
