@@ -29,5 +29,8 @@ module TestGenerator
     # Set default locale to Japanese
     config.i18n.default_locale = :ja
     config.i18n.available_locales = [:ja, :en]
+
+    # Add vendor/javascript to asset load paths for Propshaft (importmap)
+    config.assets.paths << Rails.root.join("vendor/javascript")
   end
 end
