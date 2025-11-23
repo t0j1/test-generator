@@ -9,11 +9,11 @@ class Question < ApplicationRecord
   # 定数定義
   # ==================
 
-  # 問題タイプの定義
+  # 問題タイプの定義（string型カラム用）
   QUESTION_TYPES = {
-    word: 0,
-    sentence: 1,
-    calculation: 2
+    word: "word",
+    sentence: "sentence",
+    calculation: "calculation"
   }.freeze
 
   # 問題タイプのラベル（日本語）

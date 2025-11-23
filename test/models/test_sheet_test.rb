@@ -221,8 +221,10 @@ class TestSheetTest < ActiveSupport::TestCase
     
     test_sheet.discard
     
-    assert_not TestSheet.kept.exists?(test_sheet.id)
-    assert TestSheet.discarded.exists?(test_sheet.id)
+    # default_scopeの影響でTestSheet.allには含まれない
+    assert_not TestSheet.all.map(&:id).include?(test_sheet.id)
+    # discardedスコープには含まれる
+    assert TestSheet.discarded.map(&:id).include?(test_sheet.id)
   end
 
   test "kept test sheets are included by default" do

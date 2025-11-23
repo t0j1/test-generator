@@ -93,8 +93,10 @@ class QuestionTest < ActiveSupport::TestCase
     question = questions(:english_easy_1)
     question.discard
     
-    assert_not Question.kept.exists?(question.id)
-    assert Question.discarded.exists?(question.id)
+    # default_scopeの影響でQuestion.allには含まれない
+    assert_not Question.all.map(&:id).include?(question.id)
+    # discardedスコープには含まれる
+    assert Question.discarded.map(&:id).include?(question.id)
   end
 
   test "kept questions are included by default" do
