@@ -63,7 +63,7 @@
         </div>
 
         <!-- Step 2: 単元選択 -->
-        <div class="mb-8" data-test-form-target="unitSection" style="display: none;">
+        <div class="mb-8 hidden" data-test-form-target="unitSection">
           <label class="block text-xl font-bold text-gray-900 mb-4">
             2. 単元を選んでください
           </label>
@@ -73,7 +73,7 @@
         </div>
 
         <!-- Step 3: 設定 -->
-        <div class="mb-8" data-test-form-target="settingsSection" style="display: none;">
+        <div class="mb-8 hidden" data-test-form-target="settingsSection">
           <label class="block text-xl font-bold text-gray-900 mb-4">
             3. テストの設定
           </label>
@@ -129,7 +129,7 @@
         </div>
 
         <!-- 送信ボタン -->
-        <div class="mt-8" data-test-form-target="submitSection" style="display: none;">
+        <div class="mt-8 hidden" data-test-form-target="submitSection">
           <%= f.submit "テストを作成", 
               class: "w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-lg text-xl transition-colors",
               data: { test_form_target: "submitButton" }
