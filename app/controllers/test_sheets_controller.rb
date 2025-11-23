@@ -1,5 +1,5 @@
 class TestSheetsController < ApplicationController
-  before_action :set_test_sheet, only: [:show, :preview, :mark_printed]
+  before_action :set_test_sheet, only: [:show, :preview, :mark_printed, :destroy]
 
   # GET / (root_path)
   # キオスク待機画面（ランディング）
@@ -148,6 +148,16 @@ class TestSheetsController < ApplicationController
                              .page(params[:page])
                              .per(20)
     render :index
+  end
+
+  # DELETE /test_sheets/:id
+  # テストシート削除
+  def destroy
+    @test_sheet.destroy
+    redirect_to test_sheets_path, notice: 'テストを削除しました'
+  rescue StandardError => e
+    Rails.logger.error "Destroy Error: #{e.class} - #{e.message}"
+    redirect_to test_sheets_path, alert: "削除に失敗しました: #{e.message}"
   end
 
   # GET /test_sheets/units_by_subject

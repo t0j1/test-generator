@@ -547,6 +547,43 @@ input[type="radio"]:checked + .unit-card {
 .text-9xl { font-size: 8rem; line-height: 1; }
 
 /* ---------------------------------------
+   HISTORY CARD (Index Page)
+---------------------------------------- */
+
+.history-card {
+  transition: var(--transition);
+}
+
+.history-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25);
+}
+
+.history-delete-btn {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  color: #DC2626;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.history-delete-btn:hover {
+  background: rgba(220, 38, 38, 0.1);
+  border-color: #DC2626;
+  transform: translateY(-2px);
+}
+
+.history-delete-btn:active {
+  transform: scale(0.98);
+}
+
+/* ---------------------------------------
    RESPONSIVE (Tablet-first)
 ---------------------------------------- */
 

@@ -1,109 +1,169 @@
-<div class="min-h-screen bg-gray-50 py-8">
-  <div class="mx-auto max-w-6xl px-4">
-    <!-- ヘッダー -->
-    <div class="mb-8 flex items-center justify-between">
-      <div>
-        <h1 class="mb-2 text-3xl font-bold text-gray-900">印刷履歴</h1>
-        <p class="text-gray-600">作成したテストの履歴を確認できます</p>
+<div class="bg-kiosk min-h-screen py-12 px-8">
+  <div class="max-w-6xl mx-auto">
+
+    <!-- ========== Header ========== -->
+    <div class="text-center mb-14">
+      <div class="glass-card-static inline-block px-10 py-5 mb-6">
+        <div class="text-5xl">🖨️</div>
       </div>
-      <div>
-        <%= link_to "新しいテストを作る", new_test_sheet_path, class: "rounded-lg bg-blue-600 px-6 py-3 font-bold text-white transition-colors hover:bg-blue-700" %>
+
+      <h1 class="heading-kiosk-1 mb-4">
+        印刷履歴
+      </h1>
+      <p class="text-kiosk-body text-xl">過去に作成したテストの一覧</p>
+    </div>
+
+    <!-- ========== Stats Summary ========== -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      <!-- Total Tests -->
+      <div class="glass-card p-8 text-center">
+        <div class="text-5xl mb-4">📚</div>
+        <div class="text-4xl font-black mb-2" style="color: var(--accent-blue);">
+          <%= TestSheet.count %>
+        </div>
+        <div class="text-xl font-bold" style="color: var(--text-light);">
+          総テスト数
+        </div>
+      </div>
+
+      <!-- Printed Tests -->
+      <div class="glass-card p-8 text-center">
+        <div class="text-5xl mb-4">✅</div>
+        <div class="text-4xl font-black mb-2" style="color: var(--accent-green);">
+          <%= TestSheet.where.not(printed_at: nil).count %>
+        </div>
+        <div class="text-xl font-bold" style="color: var(--text-light);">
+          印刷済み
+        </div>
+      </div>
+
+      <!-- Unprinted Tests -->
+      <div class="glass-card p-8 text-center">
+        <div class="text-5xl mb-4">⏳</div>
+        <div class="text-4xl font-black mb-2" style="color: var(--text-light);">
+          <%= TestSheet.where(printed_at: nil).count %>
+        </div>
+        <div class="text-xl font-bold" style="color: var(--text-light);">
+          未印刷
+        </div>
       </div>
     </div>
 
-    <!-- テスト件数 -->
-    <div class="mb-6 rounded-lg bg-white p-6 shadow">
-      <div class="grid grid-cols-3 gap-6">
-        <div>
-          <div class="mb-1 text-sm text-gray-600">総テスト数</div>
-          <div class="text-3xl font-bold text-gray-900">
-            <%= TestSheet.count %>件
-          </div>
-        </div>
-        <div>
-          <div class="mb-1 text-sm text-gray-600">印刷済み</div>
-          <div class="text-3xl font-bold text-green-600">
-            <%= TestSheet.where.not(printed_at: nil).count %>件
-          </div>
-        </div>
-        <div>
-          <div class="mb-1 text-sm text-gray-600">未印刷</div>
-          <div class="text-3xl font-bold text-gray-500">
-            <%= TestSheet.where(printed_at: nil).count %>件
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- テスト一覧 -->
+    <!-- ========== History List ========== -->
     <% if @test_sheets.any? %>
-      <div class="space-y-4">
-        <% @test_sheets.each do |test_sheet| %>
-          <div class="rounded-lg bg-white p-6 shadow transition-shadow hover:shadow-md">
-            <div class="flex items-start justify-between">
-              <!-- 左側: テスト情報 -->
-              <div class="flex-1">
-                <div class="mb-2 flex items-center gap-3">
-                  <h3 class="text-xl font-bold text-gray-900">
-                    <%= test_sheet.subject.name %> - <%= test_sheet.unit.name %>
-                  </h3>
-                  <%= print_status_badge(test_sheet) %>
-                </div>
-                
-                <div class="flex gap-6 text-sm text-gray-600">
-                  <div>
-                    <span class="font-medium">難易度:</span>
-                    <%= difficulty_label_for_display(test_sheet) %>
-                  </div>
-                  <div>
-                    <span class="font-medium">問題数:</span>
-                    <%= test_sheet.question_count %>問
-                  </div>
-                  <div>
-                    <span class="font-medium">学年:</span>
-                    高<%= test_sheet.unit.grade %>
-                  </div>
-                </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <% @test_sheets.each do |sheet| %>
+          <div class="glass-card p-8 history-card">
 
-                <div class="mt-3 flex gap-6 text-xs text-gray-500">
-                  <div>
-                    <span class="font-medium">作成:</span>
-                    <%= format_test_created_at(test_sheet) %>
-                  </div>
-                  <% if test_sheet.printed? %>
-                    <div>
-                      <span class="font-medium">印刷:</span>
-                      <%= format_printed_at(test_sheet) %>
-                    </div>
-                  <% end %>
-                </div>
+            <!-- Subject Icon & Title -->
+            <div class="flex items-center gap-5 mb-6">
+              <div class="text-6xl flex-shrink-0">
+                <%= subject_icon(sheet.subject) %>
               </div>
+              <div class="flex-1">
+                <p class="text-2xl font-black mb-1" style="color: var(--text-strong);">
+                  <%= sheet.subject.name %>
+                </p>
+                <p class="text-xl font-semibold" style="color: var(--text-light);">
+                  <%= sheet.unit.name %>
+                </p>
+              </div>
+              <% if sheet.printed? %>
+                <div class="text-3xl">✅</div>
+              <% else %>
+                <div class="text-3xl opacity-30">⏳</div>
+              <% end %>
+            </div>
 
-              <!-- 右側: アクションボタン -->
-              <div class="flex gap-2">
-                <%= link_to "表示", test_sheet_path(test_sheet), class: "rounded-lg bg-blue-600 px-4 py-2 text-sm text-white transition-colors hover:bg-blue-700" %>
-                <%= link_to "印刷", preview_test_sheet_path(test_sheet), class: "rounded-lg bg-gray-600 px-4 py-2 text-sm text-white transition-colors hover:bg-gray-700" %>
+            <!-- Details -->
+            <div class="space-y-3 mb-8 text-lg" style="color: var(--text-light);">
+              <div class="flex justify-between">
+                <span class="font-semibold">問題数:</span>
+                <span class="font-bold" style="color: var(--accent-blue);">
+                  <%= sheet.question_count %>問
+                </span>
+              </div>
+              <div class="flex justify-between">
+                <span class="font-semibold">難易度:</span>
+                <span class="font-bold">
+                  <%= difficulty_label_for_display(sheet) %>
+                </span>
+              </div>
+              <div class="flex justify-between">
+                <span class="font-semibold">ヒント:</span>
+                <span><%= sheet.include_hint? ? "✅ あり" : "❌ なし" %></span>
+              </div>
+              <div class="flex justify-between">
+                <span class="font-semibold">解答:</span>
+                <span><%= sheet.include_answer? ? "✅ あり" : "❌ なし" %></span>
+              </div>
+              <div class="pt-3 border-t border-gray-300">
+                <div class="text-base" style="color: var(--text-light);">
+                  <%= format_test_created_at(sheet) %> 作成
+                </div>
+                <% if sheet.printed? %>
+                  <div class="text-base" style="color: var(--accent-green);">
+                    <%= format_printed_at(sheet) %> 印刷
+                  </div>
+                <% end %>
               </div>
             </div>
+
+            <!-- Action Buttons -->
+            <div class="grid grid-cols-2 gap-4">
+              <!-- View/Reprint -->
+              <%= link_to test_sheet_path(sheet),
+                  data: { turbo: false },
+                  class: "btn-neo btn-neo-green text-center py-5 text-xl font-bold" do %>
+                🔄 再印刷
+              <% end %>
+
+              <!-- Delete -->
+              <%= link_to test_sheet_path(sheet),
+                  data: { 
+                    turbo_method: :delete,
+                    turbo_confirm: "このテストを削除しますか？"
+                  },
+                  class: "history-delete-btn text-center py-5 text-xl font-bold" do %>
+                🗑️ 削除
+              <% end %>
+            </div>
+
           </div>
         <% end %>
       </div>
 
-      <!-- ページネーション（kaminari gem使用時） -->
+      <!-- Pagination -->
       <% if @test_sheets.respond_to?(:total_pages) && @test_sheets.total_pages > 1 %>
-        <div class="mt-8 flex justify-center">
+        <div class="glass-card p-6 text-center mb-12">
           <%= paginate @test_sheets %>
         </div>
       <% end %>
 
     <% else %>
-      <!-- テストが1件もない場合 -->
-      <div class="rounded-lg bg-white p-12 text-center shadow">
-        <div class="mb-4 text-6xl">📝</div>
-        <h3 class="mb-2 text-xl font-bold text-gray-900">テストがまだありません</h3>
-        <p class="mb-6 text-gray-600">最初のテストを作成しましょう</p>
-        <%= link_to "テストを作る", new_test_sheet_path, class: "inline-block rounded-lg bg-blue-600 px-6 py-3 font-bold text-white transition-colors hover:bg-blue-700" %>
+      <!-- Empty State -->
+      <div class="glass-card p-16 text-center mb-12">
+        <div class="text-8xl mb-8">📝</div>
+        <h2 class="heading-kiosk-2 mb-4">テストがまだありません</h2>
+        <p class="text-kiosk-body mb-8 text-xl">
+          最初のテストを作成しましょう
+        </p>
+        <%= link_to step1_test_sheets_path,
+            class: "btn-neo btn-neo-green inline-block",
+            data: { turbo: false } do %>
+          🚀 テストを作成する
+        <% end %>
       </div>
     <% end %>
+
+    <!-- ========== Back Button ========== -->
+    <div class="text-center">
+      <%= link_to root_path,
+          class: "btn-neo btn-neo-secondary inline-block max-w-md",
+          data: { turbo: false } do %>
+        🏠 ホームに戻る
+      <% end %>
+    </div>
+
   </div>
 </div>
