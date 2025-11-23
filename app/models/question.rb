@@ -3,6 +3,8 @@
 # app/models/question.rb
 
 class Question < ApplicationRecord
+  include Discard::Model
+
   # ==================
   # 定数定義
   # ==================
@@ -45,6 +47,9 @@ class Question < ApplicationRecord
   belongs_to :unit
   has_many :test_questions, dependent: :destroy
 
+  # Discard scope
+  default_scope -> { kept }
+
   # ==================
   # enum 定義（Rails 7.1 形式）
   # ==================
@@ -54,8 +59,8 @@ class Question < ApplicationRecord
   # ==================
   # バリデーション
   # ==================
-  validates :word, presence: true
-  validates :meaning, presence: true
+  validates :question_text, presence: true
+  validates :answer_text, presence: true
   
   # subject_idを委譲
   delegate :subject, to: :unit
@@ -72,13 +77,12 @@ class Question < ApplicationRecord
       next if row.to_h.values.all?(&:blank?)
       
       question = new(
-        subject_id: row["科目ID"] || row["subject_id"],
         unit_id: row["単元ID"] || row["unit_id"],
         question_type: row["問題タイプ"] || row["question_type"] || "word",
         difficulty: row["難易度"] || row["difficulty"] || "easy",
-        word: row["単語"] || row["word"],
-        meaning: row["意味"] || row["meaning"],
-        hint: row["ヒント"] || row["hint"],
+        question_text: row["問題文"] || row["question_text"],
+        answer_text: row["解答"] || row["answer_text"],
+        hint_text: row["ヒント"] || row["hint_text"],
         answer_note: row["解答ノート"] || row["answer_note"]
       )
       

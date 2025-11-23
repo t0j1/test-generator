@@ -1,11 +1,16 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
-  color_code: MyString
+english:
+  name: 英語
+  color_code: "#3B82F6"
   sort_order: 1
 
-two:
-  name: MyString
-  color_code: MyString
-  sort_order: 1
+math:
+  name: 数学
+  color_code: "#EF4444"
+  sort_order: 2
+
+japanese:
+  name: 国語
+  color_code: "#10B981"
+  sort_order: 3

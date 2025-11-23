@@ -64,6 +64,9 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   gem "rubocop-erb", require: false
+
+  # N+1 query detection
+  gem "bullet"
 end
 
 group :development do
