@@ -6,59 +6,13 @@ export default class extends Controller {
     console.log("PrintController connected")
   }
 
-  // すべて印刷（問題用紙 + 解答用紙）
+  // 印刷実行
   async executeAll(event) {
     event.preventDefault()
     
-    // 印刷モードをリセット
-    document.body.classList.remove('print-questions-only', 'print-answers-only')
-    
-    console.log("🖨️ すべて印刷: 問題用紙 + 解答用紙")
+    console.log("🖨️ テスト用紙を印刷")
     
     window.print()
-    
-    await this.markAsPrinted()
-    
-    // キオスクモード: 印刷後3秒で自動的に最初の画面に戻る
-    this.autoRedirectToNew()
-  }
-
-  // 問題のみ印刷
-  async executeQuestions(event) {
-    event.preventDefault()
-    
-    // 問題のみモードを設定
-    document.body.classList.add('print-questions-only')
-    document.body.classList.remove('print-answers-only')
-    
-    console.log("📝 問題のみ印刷")
-    
-    window.print()
-    
-    // 印刷後、クラスをリセット
-    setTimeout(() => {
-      document.body.classList.remove('print-questions-only')
-    }, 100)
-    
-    await this.markAsPrinted()
-  }
-
-  // 解答のみ印刷
-  async executeAnswers(event) {
-    event.preventDefault()
-    
-    // 解答のみモードを設定
-    document.body.classList.add('print-answers-only')
-    document.body.classList.remove('print-questions-only')
-    
-    console.log("✅ 解答のみ印刷")
-    
-    window.print()
-    
-    // 印刷後、クラスをリセット
-    setTimeout(() => {
-      document.body.classList.remove('print-answers-only')
-    }, 100)
     
     await this.markAsPrinted()
   }
@@ -105,17 +59,5 @@ export default class extends Controller {
     return token ? token.content : ''
   }
 
-  // キオスクモード: 印刷後に自動的に最初の画面に戻る
-  autoRedirectToNew() {
-    // キオスクモードかどうかを判定（画面サイズや設定で判断）
-    const isKioskMode = window.innerWidth >= 768 // タブレット以上
-    
-    if (isKioskMode) {
-      console.log("⏱️ 3秒後に自動的に新規作成画面に戻ります...")
-      
-      setTimeout(() => {
-        window.location.href = '/test_sheets/new'
-      }, 3000) // 3秒後
-    }
-  }
+
 }

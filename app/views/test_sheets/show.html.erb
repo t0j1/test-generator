@@ -1,4 +1,4 @@
-<div class="bg-kiosk" data-controller="auto-return" data-auto-return-timeout-value="5000">
+<div class="bg-kiosk">
   <div class="max-w-3xl mx-auto py-16 px-8 text-center">
 
     <!-- ========== Success Icon ========== -->
@@ -47,69 +47,17 @@
             <%= difficulty_label_for_display(@test_sheet) %>
           </div>
         </div>
-
-        <div class="setting-item">
-          <div class="setting-label">💡 ヒント</div>
-          <div class="text-2xl font-bold">
-            <%= @test_sheet.include_hint? ? "✅ あり" : "❌ なし" %>
-          </div>
-        </div>
-
-        <div class="setting-item">
-          <div class="setting-label">✅ 解答</div>
-          <div class="text-2xl font-bold">
-            <%= @test_sheet.include_answer? ? "✅ あり" : "❌ なし" %>
-          </div>
-        </div>
       </div>
     </div>
 
-    <!-- ========== Print Buttons ========== -->
+    <!-- ========== Print Button ========== -->
     <div class="mb-12" data-controller="print">
-      <h2 class="heading-kiosk-3 mb-6">🖨️ 印刷を選択してください</h2>
-      
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <!-- すべて印刷 -->
-        <button 
-          data-action="click->print#executeAll"
-          class="print-card">
-          <div class="print-card-icon">🖨️</div>
-          <div class="print-card-title gradient-blue mb-2">
-            すべて印刷
-          </div>
-          <div class="print-card-desc">問題 + 解答</div>
-        </button>
-        
-        <!-- 問題のみ -->
-        <button 
-          data-action="click->print#executeQuestions"
-          class="print-card">
-          <div class="print-card-icon">📝</div>
-          <div class="print-card-title gradient-green mb-2">
-            問題のみ
-          </div>
-          <div class="print-card-desc">生徒配布用</div>
-        </button>
-        
-        <!-- 解答のみ -->
-        <% if @test_sheet.include_answer? %>
-          <button 
-            data-action="click->print#executeAnswers"
-            class="print-card">
-            <div class="print-card-icon">✅</div>
-            <div class="print-card-title gradient-purple mb-2">
-              解答のみ
-            </div>
-            <div class="print-card-desc">講師用</div>
-          </button>
-        <% else %>
-          <div class="print-card opacity-50 cursor-not-allowed">
-            <div class="print-card-icon">❌</div>
-            <div class="print-card-title mb-2" style="color: #9CA3AF;">解答なし</div>
-            <div class="print-card-desc">解答を含めていません</div>
-          </div>
-        <% end %>
-      </div>
+      <button 
+        data-action="click->print#executeAll"
+        class="btn-neo btn-neo-green mb-8"
+        style="font-size: 2rem; padding: 2rem 4rem;">
+        🖨️ 印刷する
+      </button>
     </div>
 
     <!-- ========== Action Buttons ========== -->
@@ -127,133 +75,148 @@
       <% end %>
     </div>
 
-    <!-- ========== Auto Return Note ========== -->
-    <p class="text-gray-600 mt-10 text-lg">
-      ※ 5秒後に自動で科目選択画面に戻ります
-    </p>
-
   </div>
 </div>
 
-<!-- ========== Print Sheets (Hidden) ========== -->
+<!-- ========== Print Sheet (Hidden) ========== -->
 <div style="display: none;">
-  <!-- 問題用紙 -->
-  <div id="questions-sheet" class="print-section">
-    <div class="print-page mx-auto max-w-4xl p-8">
-      <!-- テストヘッダー -->
-      <div class="mb-8 border-b-2 border-gray-300 pb-6">
-        <div class="mb-4 flex items-start justify-between">
-          <div>
-            <h2 class="mb-2 text-3xl font-bold text-gray-900">
-              <%= @test_sheet.subject.name %> - <%= @test_sheet.unit.name %>
-            </h2>
-            <p class="text-lg text-gray-600">
-              <%= difficulty_label_for_display(@test_sheet) %> / 
-              全<%= @test_sheet.question_count %>問
-            </p>
-          </div>
-          <div class="text-right">
-            <div class="mb-2">
-              <span class="text-sm text-gray-600">学年:</span>
-              <span class="text-lg font-bold">高<%= @test_sheet.unit.grade %></span>
-            </div>
-            <div>
-              <span class="text-sm text-gray-600">作成日:</span>
-              <span class="text-sm"><%= format_test_created_at(@test_sheet) %></span>
-            </div>
-          </div>
-        </div>
-
-        <!-- 名前記入欄 -->
-        <div class="flex gap-6">
-          <div class="flex-1">
-            <label class="mb-1 block text-sm font-medium text-gray-700">氏名</label>
-            <div class="name-line"></div>
-          </div>
-          <div class="w-32">
-            <label class="mb-1 block text-sm font-medium text-gray-700">得点</label>
-            <div class="score-line"></div>
-          </div>
+  <div id="print-sheet" class="print-section">
+    <div class="print-compact-sheet">
+      <!-- ヘッダー -->
+      <div class="print-compact-header">
+        <div class="print-compact-title">
+          [1～<%= @test_sheet.question_count %>] 
+          <%= @test_sheet.created_at.strftime('%-m/%d') %><%= @test_sheet.subject.name %>
+          <span style="margin-left: 2rem;">名前：</span>
+          <span style="display: inline-block; width: 200px; border-bottom: 1px solid #000; margin-left: 0.5rem;"></span>
         </div>
       </div>
 
-      <!-- 問題リスト -->
-      <div class="space-y-6">
-        <% @questions.each_with_index do |test_question, index| %>
-          <% question = test_question.question %>
-          
-          <% if @test_sheet.question_count >= 31 && index == 30 %>
-            <div class="page-break"></div>
+      <!-- 4列テーブル -->
+      <table class="print-compact-table">
+        <tbody>
+          <% 
+            # 問題を2列に分割（左右に配置）
+            half = (@test_sheet.question_count / 2.0).ceil
+            left_questions = @questions[0...half]
+            right_questions = @questions[half..-1] || []
+            
+            left_questions.each_with_index do |left_q, index|
+              right_q = right_questions[index]
+          %>
+            <tr>
+              <!-- 左列: 番号 -->
+              <td class="print-compact-cell-number">
+                <%= left_q.question_order %>
+              </td>
+              
+              <!-- 左列: 単語 -->
+              <td class="print-compact-cell-word">
+                <%= left_q.question.question_text %>
+              </td>
+              
+              <!-- 右列: 番号 -->
+              <td class="print-compact-cell-number">
+                <%= right_q ? right_q.question_order : '' %>
+              </td>
+              
+              <!-- 右列: 単語 -->
+              <td class="print-compact-cell-word">
+                <%= right_q ? right_q.question.question_text : '' %>
+              </td>
+            </tr>
           <% end %>
-          
-          <div class="question-item border-b border-gray-200 pb-6">
-            <div class="flex gap-4">
-              <div class="w-12 flex-shrink-0 text-right">
-                <span class="text-xl font-bold text-gray-700">
-                  <%= question_number_label(test_question.question_order) %>
-                </span>
-              </div>
-              <div class="flex-1">
-                <p class="mb-2 text-lg text-gray-900">
-                  <%= question.question_text %>
-                </p>
+        </tbody>
+      </table>
 
-                <% if @test_sheet.include_hint? && question.hint.present? %>
-                  <p class="mb-2 text-sm italic text-gray-600">
-                    💡 ヒント: <%= question.hint %>
-                  </p>
-                <% end %>
-
-                <div class="mt-3">
-                  <span class="text-sm text-gray-600">解答:</span>
-                  <div class="answer-line"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        <% end %>
+      <!-- QRコード（左下） -->
+      <div class="print-compact-qr">
+        <%= image_tag "https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=#{test_sheet_url(@test_sheet)}", 
+                      alt: "QRコード", 
+                      style: "width: 80px; height: 80px;" %>
+        <div style="font-size: 10px; margin-top: 4px; text-align: center;">← 読み込みと解答が表示されます</div>
       </div>
     </div>
   </div>
-
-  <!-- 解答用紙 -->
-  <% if @test_sheet.include_answer? %>
-    <div id="answers-sheet" class="print-section page-break-before">
-      <div class="print-page mx-auto max-w-4xl p-8">
-        <div class="mb-8 border-b-2 border-gray-300 pb-6">
-          <h2 class="mb-2 text-3xl font-bold text-gray-900">解答用紙</h2>
-          <p class="text-lg text-gray-600">
-            <%= @test_sheet.subject.name %> - <%= @test_sheet.unit.name %>
-          </p>
-          <p class="mt-1 text-sm text-gray-500">
-            作成日: <%= format_test_created_at(@test_sheet) %>
-          </p>
-        </div>
-
-        <div class="grid grid-cols-2 gap-x-8 gap-y-3">
-          <% @questions.each_with_index do |test_question, index| %>
-            <% question = test_question.question %>
-            
-            <% if @test_sheet.question_count >= 31 && index == 30 %>
-              <div class="col-span-2 page-break"></div>
-            <% end %>
-            
-            <div class="flex items-baseline gap-3">
-              <span class="w-8 text-right font-bold text-gray-700">
-                <%= test_question.question_order %>.
-              </span>
-              <span class="text-gray-900">
-                <%= question.answer_text %>
-              </span>
-              <% if question.respond_to?(:answer_note) && question.answer_note.present? %>
-                <span class="text-sm text-gray-500">
-                  (<%= question.answer_note %>)
-                </span>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  <% end %>
 </div>
+
+<style>
+/* ========== 印刷専用スタイル ========== */
+@media print {
+  /* 画面要素を非表示 */
+  body > *:not(#print-sheet) {
+    display: none !important;
+  }
+  
+  #print-sheet {
+    display: block !important;
+  }
+  
+  /* 余白設定 */
+  @page {
+    margin: 15mm;
+    size: A4;
+  }
+}
+
+/* ========== コンパクト印刷レイアウト ========== */
+.print-compact-sheet {
+  width: 100%;
+  max-width: 210mm;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Hiragino Kaku Gothic Pro', 'Meiryo', sans-serif;
+  position: relative;
+}
+
+.print-compact-header {
+  border: 2px solid #000;
+  padding: 10px 15px;
+  margin-bottom: 2px;
+}
+
+.print-compact-title {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.print-compact-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid #000;
+}
+
+.print-compact-table td {
+  border: 1px solid #000;
+  padding: 8px 10px;
+  vertical-align: middle;
+}
+
+.print-compact-cell-number {
+  width: 8%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.print-compact-cell-word {
+  width: 42%;
+  text-align: left;
+  font-size: 14px;
+}
+
+.print-compact-qr {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  text-align: center;
+}
+
+/* 画面表示時は非表示 */
+@media screen {
+  .print-section {
+    display: none;
+  }
+}
+</style>
