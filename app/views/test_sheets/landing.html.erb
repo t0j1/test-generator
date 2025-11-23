@@ -1,25 +1,23 @@
-<div class="min-h-screen flex items-center justify-center px-8 py-12 relative overflow-hidden" 
+<div class="min-h-screen flex flex-col justify-between px-8 py-8 relative overflow-hidden" 
      style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);">
   
-  <!-- 背景イラスト（全画面） -->
-  <div class="absolute inset-0 flex items-center justify-center" style="opacity: 0.35;">
-    <%= image_tag "book-printer-illustration.png", 
+  <!-- 背景イラスト（中央） -->
+  <div class="absolute inset-0 flex items-center justify-center" style="opacity: 0.40;">
+    <%= image_tag "book-printer-bg.png", 
         alt: "本とプリンター", 
-        class: "h-full w-auto object-contain",
-        style: "max-height: 85vh;" %>
+        class: "object-contain",
+        style: "max-width: 600px; max-height: 400px;" %>
   </div>
   
-  <!-- メインコンテンツ -->
-  <div class="max-w-3xl w-full text-center relative z-10">
-    
-    <!-- メインメッセージカード -->
-    <div class="px-16 py-20 mb-12 rounded-3xl" 
-         style="background: rgba(255, 255, 255, 0.65); 
+  <!-- 上部: メインメッセージカード -->
+  <div class="relative z-10 flex justify-center pt-8">
+    <div class="max-w-2xl w-full px-12 py-12 rounded-3xl text-center" 
+         style="background: rgba(255, 255, 255, 0.75); 
                 backdrop-filter: blur(30px); 
-                border: 2px solid rgba(255, 255, 255, 0.8);
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);">
+                border: 2px solid rgba(255, 255, 255, 0.9);
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);">
       
-      <h1 class="text-5xl md:text-6xl font-black mb-8" 
+      <h1 class="text-4xl md:text-5xl font-black mb-6" 
           style="color: #1565c0; 
                  line-height: 1.3; 
                  letter-spacing: -0.02em;">
@@ -27,40 +25,47 @@
         今すぐプリントアウト
       </h1>
       
-      <div class="space-y-4">
-        <p class="text-2xl md:text-3xl font-bold" style="color: #1976d2;">
+      <div class="space-y-3">
+        <p class="text-2xl font-bold" style="color: #1976d2;">
           簡単3ステップ
         </p>
         
-        <p class="text-xl font-medium" style="color: #455a64;">
+        <p class="text-lg font-medium" style="color: #455a64;">
           科目を選んで → 単元を選んで → 印刷ボタンを押すだけ
         </p>
       </div>
     </div>
+  </div>
+  
+  <!-- 下部: スタートボタンと所要時間 -->
+  <div class="relative z-10 flex flex-col items-center pb-8 space-y-6">
     
-    <!-- スタートボタン -->
+    <!-- スタートボタン（青色） -->
     <%= link_to step1_test_sheets_path, 
         data: { turbo: false },
-        class: "btn-neo btn-neo-green w-full block text-center mb-8 rounded-2xl",
+        class: "btn-neo block text-center rounded-2xl",
         style: "font-size: 2.25rem; 
-               padding: 2.5rem 4rem; 
-               max-width: 100%;
+               padding: 2.5rem 6rem; 
                font-weight: 800;
                letter-spacing: 0.02em;
-               box-shadow: 0 12px 32px rgba(34, 197, 94, 0.35);
-               background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);" do %>
+               box-shadow: 0 12px 32px rgba(33, 150, 243, 0.4);
+               background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
+               color: white;
+               border: 2px solid rgba(255, 255, 255, 0.3);
+               max-width: 600px;" do %>
       📱 画面をタップしてスタート
     <% end %>
     
     <!-- 所要時間表示 -->
-    <div class="px-8 py-4 inline-block rounded-2xl" 
-         style="background: rgba(255, 255, 255, 0.60); 
+    <div class="px-8 py-3 rounded-2xl" 
+         style="background: rgba(255, 255, 255, 0.70); 
                 backdrop-filter: blur(20px);
-                border: 2px solid rgba(255, 255, 255, 0.7);">
-      <p class="text-xl font-bold" style="color: #1976d2;">
+                border: 2px solid rgba(255, 255, 255, 0.8);">
+      <p class="text-lg font-bold" style="color: #1976d2;">
         ⚡ 推定時間：約1分
       </p>
     </div>
     
   </div>
+  
 </div>
