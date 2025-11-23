@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class TestQuestion < ApplicationRecord
+  include Discard::Model
   # リレーション
   belongs_to :test_sheet
   belongs_to :question

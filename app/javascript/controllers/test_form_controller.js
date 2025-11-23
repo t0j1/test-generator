@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
-// TestSheets#new フォームの動的制御
+// TestSheets#new フォームの動的制御（タブレット最適化版）
 export default class extends Controller {
   static targets = [
     "subjectRadio",
@@ -20,6 +20,23 @@ export default class extends Controller {
     console.log("Targets:", this.constructor.targets)
     this.units = {}
     this.selectedUnitId = null
+    this.isSubmitting = false
+  }
+
+  // ローディングオーバーレイ表示
+  showLoading() {
+    const overlay = document.getElementById("loading-overlay")
+    if (overlay) {
+      overlay.classList.remove("hidden")
+    }
+  }
+
+  // ローディングオーバーレイ非表示
+  hideLoading() {
+    const overlay = document.getElementById("loading-overlay")
+    if (overlay) {
+      overlay.classList.add("hidden")
+    }
   }
 
   // 科目が選択されたとき
@@ -31,6 +48,11 @@ export default class extends Controller {
     if (this.hasUnitSectionTarget) {
       console.log("✅ unitSection found, showing...")
       this.unitSectionTarget.classList.remove("hidden")
+      
+      // スムーズスクロール
+      setTimeout(() => {
+        this.unitSectionTarget.scrollIntoView({ behavior: "smooth", block: "start" })
+      }, 100)
     } else {
       console.error("❌ unitSection target not found")
     }
@@ -59,16 +81,7 @@ export default class extends Controller {
       }
 
       // ローディング表示
-      if (this.hasUnitListTarget) {
-        this.unitListTarget.innerHTML = `
-          <div class="flex items-center justify-center py-8">
-            <div class="text-center">
-              <div class="mb-2 text-4xl">⏳</div>
-              <p class="text-sm text-gray-500">単元を読み込んでいます...</p>
-            </div>
-          </div>
-        `
-      }
+      this.showLoading()
 
       // APIから単元データを取得
       console.log("🌐 Fetching units from API...")
@@ -91,16 +104,18 @@ export default class extends Controller {
       console.error("❌ Failed to load units:", error)
       if (this.hasUnitListTarget) {
         this.unitListTarget.innerHTML = `
-          <div class="rounded-lg border border-red-200 bg-red-50 p-4">
-            <p class="text-sm text-red-800">単元の読み込みに失敗しました</p>
-            <p class="mt-1 text-xs text-red-600">${error.message}</p>
+          <div class="rounded-xl border-2 border-red-200 bg-red-50 p-6 text-center">
+            <p class="text-xl font-bold text-red-800 mb-2">単元の読み込みに失敗しました</p>
+            <p class="text-base text-red-600">${error.message}</p>
           </div>
         `
       }
+    } finally {
+      this.hideLoading()
     }
   }
 
-  // 単元をレンダリング
+  // 単元をレンダリング（タブレット向け大型ボタン）
   renderUnits(units) {
     console.log("🎨 Rendering units:", units)
     
@@ -111,15 +126,15 @@ export default class extends Controller {
 
     if (!units || units.length === 0) {
       this.unitListTarget.innerHTML = `
-        <div class="rounded-lg border border-gray-200 bg-gray-50 p-4">
-          <p class="text-sm text-gray-600">この科目には単元が登録されていません</p>
+        <div class="rounded-xl border-2 border-gray-200 bg-gray-50 p-6 text-center">
+          <p class="text-xl text-gray-600">この科目には単元が登録されていません</p>
         </div>
       `
       return
     }
 
     const html = units.map(unit => `
-      <label class="block cursor-pointer">
+      <label class="block cursor-pointer touch-manipulation select-none">
         <input 
           type="radio" 
           name="test_sheet[unit_id]" 
@@ -130,15 +145,26 @@ export default class extends Controller {
           data-unit-grade="${unit.grade}"
           required
         >
-        <div class="rounded-lg border-2 border-gray-200 p-4 transition-all hover:border-gray-400 peer-checked:border-4 peer-checked:border-blue-500 peer-checked:bg-blue-50">
+        <div class="
+          min-h-24
+          rounded-2xl 
+          border-4 border-gray-200 
+          p-6 
+          active:scale-95
+          peer-checked:border-8 
+          peer-checked:border-blue-500 
+          peer-checked:bg-blue-50
+          peer-checked:shadow-xl
+          transition-all
+        ">
           <div class="flex items-center justify-between">
-            <div>
-              <div class="text-lg font-bold">${this.escapeHtml(unit.name)}</div>
-              <div class="text-sm text-gray-500">${unit.grade_label}</div>
+            <div class="flex-1">
+              <div class="text-xl md:text-2xl font-bold text-gray-900 mb-1">${this.escapeHtml(unit.name)}</div>
+              <div class="text-base md:text-lg text-gray-500">${unit.grade_label}</div>
             </div>
-            <div class="text-right">
-              <div class="text-sm text-gray-500">問題数: ${unit.question_count}問</div>
-              <div class="mt-1 flex gap-2 text-xs text-gray-400">
+            <div class="text-right ml-4">
+              <div class="text-base md:text-lg font-bold text-blue-600">問題数: ${unit.question_count}問</div>
+              <div class="mt-2 flex gap-3 text-sm md:text-base text-gray-500">
                 <span>易:${unit.question_counts_by_difficulty.easy}</span>
                 <span>普:${unit.question_counts_by_difficulty.normal}</span>
                 <span>難:${unit.question_counts_by_difficulty.hard}</span>
@@ -149,7 +175,7 @@ export default class extends Controller {
       </label>
     `).join('')
 
-    this.unitListTarget.innerHTML = `<div class="space-y-3">${html}</div>`
+    this.unitListTarget.innerHTML = `<div class="space-y-4">${html}</div>`
     console.log("✅ Units rendered successfully")
   }
 
@@ -161,6 +187,11 @@ export default class extends Controller {
 
     if (this.hasSettingsSectionTarget) {
       this.settingsSectionTarget.classList.remove("hidden")
+      
+      // スムーズスクロール
+      setTimeout(() => {
+        this.settingsSectionTarget.scrollIntoView({ behavior: "smooth", block: "start" })
+      }, 100)
     }
     if (this.hasSubmitSectionTarget) {
       this.submitSectionTarget.classList.remove("hidden")
@@ -212,7 +243,7 @@ export default class extends Controller {
         console.warn("⚠️ Not enough questions available")
         if (this.hasAvailableInfoTarget) {
           this.availableInfoTarget.classList.add('text-red-600')
-          this.availableInfoTarget.classList.remove('text-gray-500')
+          this.availableInfoTarget.classList.remove('text-gray-600')
         }
         if (this.hasSubmitButtonTarget) {
           this.submitButtonTarget.disabled = true
@@ -222,7 +253,7 @@ export default class extends Controller {
         console.log("✅ Enough questions available")
         if (this.hasAvailableInfoTarget) {
           this.availableInfoTarget.classList.remove('text-red-600')
-          this.availableInfoTarget.classList.add('text-gray-500')
+          this.availableInfoTarget.classList.add('text-gray-600')
         }
         if (this.hasSubmitButtonTarget) {
           this.submitButtonTarget.disabled = false
@@ -233,6 +264,42 @@ export default class extends Controller {
     } catch (error) {
       console.error("❌ Failed to update available questions:", error)
     }
+  }
+
+  // フォーム送信時（連打防止）
+  async handleSubmit(event) {
+    if (this.isSubmitting) {
+      event.preventDefault()
+      console.log("⚠️ Already submitting, prevented double submission")
+      return false
+    }
+
+    // 確認ダイアログ
+    if (!confirm("テストを作成します。よろしいですか？")) {
+      event.preventDefault()
+      return false
+    }
+
+    this.isSubmitting = true
+    this.showLoading()
+
+    // 送信ボタンを無効化
+    if (this.hasSubmitButtonTarget) {
+      this.submitButtonTarget.disabled = true
+      this.submitButtonTarget.textContent = "作成中..."
+    }
+
+    // 3秒後に再度有効化（エラー時のため）
+    setTimeout(() => {
+      this.isSubmitting = false
+      if (this.hasSubmitButtonTarget) {
+        this.submitButtonTarget.disabled = false
+        this.submitButtonTarget.textContent = "テストを作成"
+      }
+      this.hideLoading()
+    }, 3000)
+
+    return true
   }
 
   // HTMLエスケープ

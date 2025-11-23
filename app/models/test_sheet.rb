@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class TestSheet < ApplicationRecord
+  include Discard::Model
   # ==================
   # 定数定義
   # ==================
@@ -41,6 +42,9 @@ class TestSheet < ApplicationRecord
   belongs_to :unit
   has_many :test_questions, dependent: :destroy
   has_many :questions, through: :test_questions
+
+  # Discard scope
+  default_scope -> { kept }
 
   # ==================
   # enum 定義（Rails 7.1 形式）

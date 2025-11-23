@@ -45,7 +45,10 @@ gem "thruster", require: false
 gem "image_processing", "~> 1.2"
 
 # Pagination
-gem 'kaminari'
+gem "kaminari"
+
+# Soft delete
+gem "discard", "~> 1.3"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
