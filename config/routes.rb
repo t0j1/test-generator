@@ -1,6 +1,5 @@
-# frozen_string_literal: true
-
 Rails.application.routes.draw do
+  get "test_pages/index"
   # ヘルスチェック
   get "up" => "rails/health#show", as: :rails_health_check
 
@@ -17,6 +16,7 @@ Rails.application.routes.draw do
     collection do
       get :history              # 印刷履歴
       get :available_questions  # AJAX: 利用可能な問題数取得
+      get :units_by_subject     # AJAX: 科目別の単元リスト取得
     end
   end
 end

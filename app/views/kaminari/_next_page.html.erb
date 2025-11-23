@@ -1,0 +1,14 @@
+<% base = "flex items-center justify-center rounded-lg border px-4 py-2 text-sm" %>
+
+<li>
+  <% if current_page.last? %>
+    <span class="<%= "#{base} border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed" %>">
+      次へ &raquo;
+    </span>
+  <% else %>
+    <%= link_to url,
+        class: "#{base} border-gray-300 bg-white text-gray-700 hover:border-gray-400 hover:bg-gray-50" do %>
+      次へ &raquo;
+    <% end %>
+  <% end %>
+</li>
