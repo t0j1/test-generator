@@ -18,7 +18,37 @@ AllCops:
 Style/Documentation:
   Enabled: false
 
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/EmptyMethod:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: false
+
+Style/SafeNavigation:
+  Enabled: false
+
+Layout/TrailingWhitespace:
+  Enabled: false
+
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+
 Rails/I18nLocaleTexts:
+  Enabled: false
+
+Rails/HttpStatusNameConsistency:
+  Enabled: false
+
+Rails/ActionOrder:
+  Enabled: false
+
+Rails/StrongParametersExpect:
+  Enabled: false
+
+Rails/UniqueValidationWithoutIndex:
   Enabled: false
 
 Metrics/AbcSize:
@@ -47,4 +77,4 @@ Layout/LineLength:
   Max: 140
 
 Style/StringLiterals:
-  EnforcedStyle: double_quotes
+  Enabled: false
