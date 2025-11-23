@@ -57,5 +57,9 @@
 
 # IDE
 /.idea
-/.vscode.test_backup/
+/.vscode
+.test_backup/
 *.bak
+
+# 重複ディレクトリを無視（誤って作成されないようにする）
+/test_generator/
