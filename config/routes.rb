@@ -19,4 +19,27 @@ Rails.application.routes.draw do
       get :units_by_subject     # AJAX: 科目別の単元リスト取得
     end
   end
+
+  # 管理画面
+  namespace :admin do
+    root "dashboard#index"
+    
+    # ダッシュボード
+    resource :dashboard, only: [:show], controller: "dashboard"
+    
+    # 問題管理
+    resources :questions do
+      collection do
+        get :import_form        # CSVインポートフォーム
+        post :import            # CSVインポート実行
+        get :export             # CSVエクスポート
+      end
+    end
+    
+    # 科目管理
+    resources :subjects, only: [:index, :show]
+    
+    # 単元管理
+    resources :units, only: [:index, :show]
+  end
 end

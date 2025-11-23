@@ -1,16 +1,23 @@
-# frozen_string_literal: true
-
 class ApplicationController < ActionController::Base
-  # CSRF対策（Rails標準）
-  # protect_from_forgery with: :exception はRails 7.1ではデフォルト
+  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
+  allow_browser versions: :modern
 
-  # タイムゾーン設定
-  around_action :set_time_zone
+  # Basic認証（管理画面用）
+  before_action :authenticate_admin, if: :admin_path?
 
   private
 
-  # タイムゾーンを日本時間に設定
-  def set_time_zone(&)
-    Time.use_zone("Tokyo", &)
+  def admin_path?
+    request.path.start_with?("/admin")
+  end
+
+  def authenticate_admin
+    authenticate_or_request_with_http_basic("Admin Area") do |username, password|
+      admin_user = ENV.fetch("ADMIN_USER", "admin")
+      admin_password = ENV.fetch("ADMIN_PASSWORD", "password")
+      
+      ActiveSupport::SecurityUtils.secure_compare(username, admin_user) &&
+        ActiveSupport::SecurityUtils.secure_compare(password, admin_password)
+    end
   end
 end

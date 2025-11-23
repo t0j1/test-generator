@@ -1,0 +1,55 @@
+<%= form_with model: [:admin, question], class: "space-y-6" do |f| %>
+  <% if question.errors.any? %>
+    <div class="rounded-lg border border-red-200 bg-red-50 p-4">
+      <h3 class="text-red-800 font-bold mb-2">エラーが発生しました</h3>
+      <ul class="list-disc list-inside text-red-700">
+        <% question.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :unit_id, "単元", class: "block text-sm font-medium text-gray-700 mb-2" %>
+    <%= f.collection_select :unit_id, 
+                            @units, 
+                            :id, 
+                            :name,
+                            { prompt: "単元を選択" },
+                            { class: "w-full rounded-lg border-gray-300", required: true } %>
+  </div>
+
+  <div>
+    <%= f.label :difficulty, "難易度", class: "block text-sm font-medium text-gray-700 mb-2" %>
+    <%= f.select :difficulty,
+                 options_for_select(Question::DIFFICULTY_LABELS.invert, question.difficulty),
+                 {},
+                 { class: "w-full rounded-lg border-gray-300", required: true } %>
+  </div>
+
+  <div>
+    <%= f.label :word, "単語", class: "block text-sm font-medium text-gray-700 mb-2" %>
+    <%= f.text_field :word, class: "w-full rounded-lg border-gray-300", required: true %>
+  </div>
+
+  <div>
+    <%= f.label :meaning, "意味", class: "block text-sm font-medium text-gray-700 mb-2" %>
+    <%= f.text_field :meaning, class: "w-full rounded-lg border-gray-300", required: true %>
+  </div>
+
+  <div>
+    <%= f.label :hint, "ヒント", class: "block text-sm font-medium text-gray-700 mb-2" %>
+    <%= f.text_area :hint, rows: 3, class: "w-full rounded-lg border-gray-300" %>
+  </div>
+
+  <div>
+    <%= f.label :answer_note, "解答ノート", class: "block text-sm font-medium text-gray-700 mb-2" %>
+    <%= f.text_area :answer_note, rows: 3, class: "w-full rounded-lg border-gray-300" %>
+  </div>
+
+  <div class="flex gap-4">
+    <%= f.submit class: "px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700" %>
+    <%= link_to "キャンセル", admin_questions_path, class: "px-6 py-3 bg-gray-300 text-gray-700 font-bold rounded-lg hover:bg-gray-400" %>
+  </div>
+<% end %>

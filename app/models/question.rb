@@ -54,8 +54,55 @@ class Question < ApplicationRecord
   # ==================
   # バリデーション
   # ==================
-  validates :question_text, presence: true
-  validates :answer_text, presence: true
+  validates :word, presence: true
+  validates :meaning, presence: true
+  
+  # subject_idを委譲
+  delegate :subject, to: :unit
+  delegate :subject_id, to: :unit
 
-  # 以下は変更なし...
+  # CSVインポート
+  def self.import_csv(file_path)
+    require "csv"
+    
+    success_count = 0
+    errors = []
+    
+    CSV.foreach(file_path, headers: true, encoding: "UTF-8") do |row|
+      next if row.to_h.values.all?(&:blank?)
+      
+      question = new(
+        subject_id: row["科目ID"] || row["subject_id"],
+        unit_id: row["単元ID"] || row["unit_id"],
+        question_type: row["問題タイプ"] || row["question_type"] || "word",
+        difficulty: row["難易度"] || row["difficulty"] || "easy",
+        word: row["単語"] || row["word"],
+        meaning: row["意味"] || row["meaning"],
+        hint: row["ヒント"] || row["hint"],
+        answer_note: row["解答ノート"] || row["answer_note"]
+      )
+      
+      if question.save
+        success_count += 1
+      else
+        errors << {
+          row: row.to_h,
+          line: $INPUT_LINE_NUMBER,
+          errors: question.errors.full_messages
+        }
+      end
+    end
+    
+    {
+      success_count: success_count,
+      error_count: errors.size,
+      errors: errors
+    }
+  rescue StandardError => e
+    {
+      success_count: 0,
+      error_count: 0,
+      errors: [{ message: e.message }]
+    }
+  end
 end

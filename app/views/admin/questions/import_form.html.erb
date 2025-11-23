@@ -1,0 +1,107 @@
+<div class="space-y-6">
+  <h2 class="text-3xl font-bold text-gray-900">CSVインポート</h2>
+  
+  <!-- インポート結果 -->
+  <% if defined?(@import_result) && @import_result.present? %>
+    <div class="bg-white rounded-lg shadow p-6">
+      <% if @import_result[:errors].empty? %>
+        <div class="rounded-lg border border-green-200 bg-green-50 p-4">
+          <h3 class="text-green-800 font-bold mb-2">✅ インポート成功</h3>
+          <p class="text-green-700"><%= @import_result[:success_count] %>件の問題をインポートしました</p>
+        </div>
+      <% else %>
+        <div class="rounded-lg border border-red-200 bg-red-50 p-4 mb-4">
+          <h3 class="text-red-800 font-bold mb-2">❌ エラーが発生しました</h3>
+          <p class="text-red-700">
+            成功: <%= @import_result[:success_count] %>件 / 
+            失敗: <%= @import_result[:error_count] %>件
+          </p>
+        </div>
+        
+        <div class="space-y-4">
+          <h4 class="font-bold text-gray-900">エラー詳細:</h4>
+          <% @import_result[:errors].each_with_index do |error, index| %>
+            <div class="border border-gray-200 rounded-lg p-4">
+              <div class="font-bold text-gray-700 mb-2">
+                エラー <%= index + 1 %>
+                <% if error[:line] %>
+                  <span class="text-sm text-gray-500">(行: <%= error[:line] %>)</span>
+                <% end %>
+              </div>
+              
+              <% if error[:message] %>
+                <p class="text-red-600"><%= error[:message] %></p>
+              <% else %>
+                <ul class="list-disc list-inside text-red-600">
+                  <% error[:errors].each do |err| %>
+                    <li><%= err %></li>
+                  <% end %>
+                </ul>
+                
+                <% if error[:row] %>
+                  <div class="mt-2 text-xs text-gray-600">
+                    <details>
+                      <summary class="cursor-pointer">データを表示</summary>
+                      <pre class="mt-2 p-2 bg-gray-50 rounded"><%= error[:row].to_json %></pre>
+                    </details>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+  
+  <!-- CSVフォーマット説明 -->
+  <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+    <h3 class="text-blue-900 font-bold mb-3">📋 CSVフォーマット</h3>
+    <p class="text-blue-800 mb-3">以下の形式でCSVファイルを作成してください：</p>
+    
+    <div class="bg-white rounded p-4 text-sm font-mono mb-3">
+      科目ID,単元ID,問題タイプ,難易度,単語,意味,ヒント,解答ノート<br>
+      1,1,word,easy,apple,りんご,果物の一種,<br>
+      1,1,word,normal,book,本,読むもの,
+    </div>
+    
+    <div class="text-sm text-blue-800 space-y-1">
+      <p>• <strong>科目ID:</strong> 科目の ID</p>
+      <p>• <strong>単元ID:</strong> 単元の ID（必須）</p>
+      <p>• <strong>問題タイプ:</strong> word（デフォルト）</p>
+      <p>• <strong>難易度:</strong> easy, normal, hard（デフォルト: easy）</p>
+      <p>• <strong>単語:</strong> 問題の単語（必須）</p>
+      <p>• <strong>意味:</strong> 単語の意味（必須）</p>
+      <p>• <strong>ヒント:</strong> ヒント（任意）</p>
+      <p>• <strong>解答ノート:</strong> 解答に関する補足（任意）</p>
+    </div>
+  </div>
+  
+  <!-- アップロードフォーム -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <%= form_with url: import_admin_questions_path, multipart: true, class: "space-y-4" do |f| %>
+      <div>
+        <%= f.label :file, "CSVファイルを選択", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= f.file_field :file, 
+                         accept: ".csv",
+                         required: true,
+                         class: "block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" %>
+      </div>
+      
+      <div class="flex gap-4">
+        <%= f.submit "インポート実行", class: "px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700" %>
+        <%= link_to "キャンセル", admin_questions_path, class: "px-6 py-3 bg-gray-300 text-gray-700 font-bold rounded-lg hover:bg-gray-400" %>
+      </div>
+    <% end %>
+  </div>
+  
+  <!-- サンプルCSVダウンロード -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <h3 class="font-bold text-gray-900 mb-3">サンプルCSVダウンロード</h3>
+    <p class="text-gray-600 mb-4">サンプルのCSVファイルをダウンロードして参考にしてください。</p>
+    <%= link_to "📥 サンプルCSVをダウンロード", 
+                "#", 
+                class: "inline-block px-6 py-3 bg-gray-600 text-white font-bold rounded-lg hover:bg-gray-700",
+                download: "sample_questions.csv" %>
+  </div>
+</div>
