@@ -1,0 +1,97 @@
+ja:
+  activerecord:
+    errors:
+      messages:
+        record_invalid: "バリデーションに失敗しました: %{errors}"
+        restrict_dependent_destroy:
+          has_one: "%{record}が存在しているので削除できません"
+          has_many: "%{record}が存在しているので削除できません"
+    models:
+      subject: 科目
+      unit: 単元
+      question: 問題
+      test_sheet: テストシート
+    attributes:
+      subject:
+        name: 科目名
+        color_code: カラーコード
+      unit:
+        name: 単元名
+        grade: 学年
+        subject: 科目
+      question:
+        question_text: 問題文
+        answer_text: 解答
+        hint: ヒント
+        question_type: 問題タイプ
+        difficulty: 難易度
+        unit: 単元
+      test_sheet:
+        subject: 科目
+        unit: 単元
+        question_count: 問題数
+        difficulty: 難易度
+        include_hint: ヒント表示
+        include_answer: 解答表示
+
+  enums:
+    question:
+      question_type:
+        word: 単語
+        sentence: 文章
+        calculation: 計算
+        other: その他
+      difficulty:
+        easy: 易しい
+        normal: 普通
+        hard: 難しい
+    test_sheet:
+      difficulty:
+        mix: ミックス
+        easy: 易しい
+        normal: 普通
+        hard: 難しい
+
+  errors:
+    format: "%{attribute}%{message}"
+    messages:
+      blank: "を入力してください"
+      taken: "はすでに存在します"
+      too_short: "は%{count}文字以上で入力してください"
+      too_long: "は%{count}文字以内で入力してください"
+      invalid: "は不正な値です"
+      not_a_number: "は数値で入力してください"
+      not_an_integer: "は整数で入力してください"
+      greater_than: "は%{count}より大きい値にしてください"
+      greater_than_or_equal_to: "は%{count}以上の値にしてください"
+      less_than: "は%{count}より小さい値にしてください"
+      less_than_or_equal_to: "は%{count}以下の値にしてください"
+      inclusion: "は一覧にありません"
+      exclusion: "は予約されています"
+      confirmation: "と%{attribute}の入力が一致しません"
+      accepted: "を受諾してください"
+      empty: "を入力してください"
+      present: "は入力しないでください"
+      required: "を入力してください"
+      model_invalid: "バリデーションに失敗しました: %{errors}"
+      must_exist: "を入力してください"
+
+  date:
+    formats:
+      default: "%Y/%m/%d"
+      long: "%Y年%m月%d日(%a)"
+      short: "%m/%d"
+
+  time:
+    formats:
+      default: "%Y年%m月%d日(%a) %H時%M分%S秒 %z"
+      long: "%Y/%m/%d %H:%M"
+      short: "%m/%d %H:%M"
+
+  helpers:
+    select:
+      prompt: 選択してください
+    submit:
+      create: 登録する
+      submit: 保存する
+      update: 更新する
