@@ -58,7 +58,7 @@ class SubjectTest < ActiveSupport::TestCase
   # ==================
 
   test "sets default color on create" do
-    subject = Subject.create!(name: "英語")
+    subject = Subject.create!(name: "テスト科目A")
     assert_equal "#EF4444", subject.color_code
   end
 
@@ -68,7 +68,7 @@ class SubjectTest < ActiveSupport::TestCase
   end
 
   test "does not override provided color" do
-    subject = Subject.create!(name: "英語", color_code: "#123456")
+    subject = Subject.create!(name: "テスト科目B", color_code: "#123456")
     assert_equal "#123456", subject.color_code
   end
 
