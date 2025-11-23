@@ -6,7 +6,7 @@ english_easy_1:
   question_type: word
   question_text: apple
   answer_text: りんご
-  hint_text: 赤い果物
+  hint: 赤い果物
   difficulty: 1
 
 english_easy_2:
@@ -14,7 +14,7 @@ english_easy_2:
   question_type: word
   question_text: book
   answer_text: 本
-  hint_text: 読むもの
+  hint: 読むもの
   difficulty: 1
 
 english_easy_3:
@@ -22,7 +22,7 @@ english_easy_3:
   question_type: word
   question_text: cat
   answer_text: 猫
-  hint_text: ペット
+  hint: ペット
   difficulty: 1
 
 # 英単語 - 基礎英単語 - 普通
@@ -31,7 +31,7 @@ english_normal_1:
   question_type: word
   question_text: beautiful
   answer_text: 美しい
-  hint_text: 形容詞
+  hint: 形容詞
   difficulty: 2
 
 english_normal_2:
@@ -39,7 +39,7 @@ english_normal_2:
   question_type: word
   question_text: difficult
   answer_text: 難しい
-  hint_text: 形容詞
+  hint: 形容詞
   difficulty: 2
 
 # 英単語 - 基礎英単語 - 難しい
@@ -48,7 +48,7 @@ english_hard_1:
   question_type: word
   question_text: magnificent
   answer_text: 壮大な
-  hint_text: 高級な形容詞
+  hint: 高級な形容詞
   difficulty: 3
 
 # 英単語 - 中級英単語 - 易しい
@@ -57,7 +57,7 @@ english_unit2_easy_1:
   question_type: word
   question_text: table
   answer_text: テーブル
-  hint_text: 家具
+  hint: 家具
   difficulty: 1
 
 # 数学 - 計算基礎 - 易しい
@@ -66,7 +66,7 @@ math_easy_1:
   question_type: calculation
   question_text: 3 + 5
   answer_text: "8"
-  hint_text: 足し算
+  hint: 足し算
   difficulty: 1
 
 math_easy_2:
@@ -74,7 +74,7 @@ math_easy_2:
   question_type: calculation
   question_text: 10 - 4
   answer_text: "6"
-  hint_text: 引き算
+  hint: 引き算
   difficulty: 1
 
 # 数学 - 計算基礎 - 普通
@@ -83,5 +83,5 @@ math_normal_1:
   question_type: calculation
   question_text: 7 × 8
   answer_text: "56"
-  hint_text: 掛け算
+  hint: 掛け算
   difficulty: 2

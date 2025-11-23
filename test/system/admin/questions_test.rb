@@ -45,7 +45,7 @@ class Admin::QuestionsTest < ApplicationSystemTestCase
     select "易しい", from: "question[difficulty]"
     fill_in "question[question_text]", with: "hello"
     fill_in "question[answer_text]", with: "こんにちは"
-    fill_in "question[hint_text]", with: "挨拶"
+    fill_in "question[hint]", with: "挨拶"
     
     click_button "登録する"
     
