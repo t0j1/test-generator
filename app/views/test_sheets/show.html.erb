@@ -107,7 +107,7 @@
               <span class="text-gray-900">
                 <%= question.answer_text %>
               </span>
-              <% if question.answer_note.present? %>
+              <% if question.respond_to?(:answer_note) && question.answer_note.present? %>
                 <span class="text-sm text-gray-500">
                   (<%= question.answer_note %>)
                 </span>
