@@ -1,25 +1,28 @@
-<div class="min-h-screen flex flex-col justify-center items-center px-6 py-4 relative overflow-hidden bg-landing">
+<div class="min-h-screen flex flex-col relative overflow-hidden bg-landing">
   
-  <!-- 背景イラスト（中央） -->
-  <div class="absolute inset-0 flex items-center justify-center landing-illustration">
+  <!-- 背景イラスト（背面・中央固定） -->
+  <div class="absolute inset-0 flex items-center justify-center landing-illustration-bg">
     <%= image_tag "book-printer-bg.png", 
         alt: "本とプリンター", 
-        class: "object-contain" %>
+        class: "landing-illustration-img" %>
   </div>
   
-  <!-- 上部: メインメッセージ（イラスト上） -->
-  <div class="relative z-10 text-center mb-16">
-    <h1 class="text-4xl md:text-5xl font-black landing-title">
+  <!-- 上部: メインメッセージ（イラスト上部に重ねる） -->
+  <div class="relative z-10 flex-shrink-0 landing-title-area">
+    <h1 class="text-5xl md:text-6xl font-black text-center landing-title">
       今日の単語力を、<br>
       今すぐプリントアウト
     </h1>
   </div>
   
-  <!-- 下部: スタートボタン（イラスト下） -->
-  <div class="relative z-10 mt-16">
+  <!-- 中央: スペーサー（イラストの領域） -->
+  <div class="flex-grow"></div>
+  
+  <!-- 下部: スタートボタン（イラスト下部に重ねる） -->
+  <div class="relative z-10 flex-shrink-0 landing-button-area">
     <%= link_to step1_test_sheets_path, 
         data: { turbo: false },
-        class: "landing-start-button btn-neo block text-center rounded-2xl" do %>
+        class: "landing-start-button btn-neo block text-center rounded-2xl mx-auto" do %>
       📱 画面をタップしてスタート
     <% end %>
   </div>
