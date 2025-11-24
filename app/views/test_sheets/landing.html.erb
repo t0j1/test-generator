@@ -1,36 +1,27 @@
-<div class="min-h-screen flex flex-col justify-between px-8 py-8 relative overflow-hidden" 
-     style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);">
+<div class="min-h-screen flex flex-col justify-between px-8 py-8 relative overflow-hidden bg-landing">
   
   <!-- 背景イラスト（中央） -->
-  <div class="absolute inset-0 flex items-center justify-center" style="opacity: 0.40;">
+  <div class="absolute inset-0 flex items-center justify-center landing-illustration">
     <%= image_tag "book-printer-bg.png", 
         alt: "本とプリンター", 
-        class: "object-contain",
-        style: "max-width: 600px; max-height: 400px;" %>
+        class: "object-contain" %>
   </div>
   
   <!-- 上部: メインメッセージカード -->
   <div class="relative z-10 flex justify-center pt-8">
-    <div class="max-w-2xl w-full px-12 py-12 rounded-3xl text-center" 
-         style="background: rgba(255, 255, 255, 0.75); 
-                backdrop-filter: blur(30px); 
-                border: 2px solid rgba(255, 255, 255, 0.9);
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);">
+    <div class="max-w-2xl w-full px-12 py-12 rounded-3xl text-center landing-message-card">
       
-      <h1 class="text-4xl md:text-5xl font-black mb-6" 
-          style="color: #1565c0; 
-                 line-height: 1.3; 
-                 letter-spacing: -0.02em;">
+      <h1 class="text-4xl md:text-5xl font-black mb-6 landing-title">
         今日の単語力を、<br>
         今すぐプリントアウト
       </h1>
       
       <div class="space-y-3">
-        <p class="text-2xl font-bold" style="color: #1976d2;">
+        <p class="text-2xl font-bold landing-subtitle">
           簡単3ステップ
         </p>
         
-        <p class="text-lg font-medium" style="color: #455a64;">
+        <p class="text-lg font-medium landing-description">
           科目を選んで → 単元を選んで → 印刷ボタンを押すだけ
         </p>
       </div>
@@ -43,25 +34,13 @@
     <!-- スタートボタン（青色） -->
     <%= link_to step1_test_sheets_path, 
         data: { turbo: false },
-        class: "btn-neo block text-center rounded-2xl",
-        style: "font-size: 2.25rem; 
-               padding: 2.5rem 6rem; 
-               font-weight: 800;
-               letter-spacing: 0.02em;
-               box-shadow: 0 12px 32px rgba(33, 150, 243, 0.4);
-               background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
-               color: white;
-               border: 2px solid rgba(255, 255, 255, 0.3);
-               max-width: 600px;" do %>
+        class: "landing-start-button btn-neo block text-center rounded-2xl" do %>
       📱 画面をタップしてスタート
     <% end %>
     
     <!-- 所要時間表示 -->
-    <div class="px-8 py-3 rounded-2xl" 
-         style="background: rgba(255, 255, 255, 0.70); 
-                backdrop-filter: blur(20px);
-                border: 2px solid rgba(255, 255, 255, 0.8);">
-      <p class="text-lg font-bold" style="color: #1976d2;">
+    <div class="px-8 py-3 rounded-2xl landing-time-card">
+      <p class="text-lg font-bold landing-time-text">
         ⚡ 推定時間：約1分
       </p>
     </div>
