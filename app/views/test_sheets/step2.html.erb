@@ -10,10 +10,9 @@
 
     <!-- ========== Step Header ========== -->
     <div class="text-center mb-12">
-      <% subject_bg_color = subject_color(@subject) %>
-      <div class="subject-badge mb-6" style="background: <%= subject_bg_color %>;">
-        <%= subject_icon(@subject) %> <%= @subject.name %>
-      </div>
+      <!-- 例外: 科目ごとに動的に計算される背景色のためインラインスタイル使用 -->
+      <div class="subject-badge mb-6" style="background: <%= subject_color(@subject) %>;">
+        <%= subject_icon(@subject) %> <%= @subject.name %>\n      </div>
       
       <h1 class="heading-kiosk-1 mb-4">
         単元と設定を選んでください
@@ -91,11 +90,11 @@
                 class: "setting-select",
                 data: { test_form_target: "questionCountSelect" }
             %>
-            <p class="mt-3 text-base" style="color: var(--text-light);"
+            <p class="step2-available-info"
                data-test-form-target="availableInfo">
               利用可能: 
               <span data-test-form-target="availableCount"
-                    class="font-bold" style="color: var(--accent-blue);">-</span>問
+                    class="step2-available-count">-</span>問
             </p>
           </div>
 

@@ -18,10 +18,10 @@
       <!-- Total Tests -->
       <div class="glass-card p-8 text-center">
         <div class="text-5xl mb-4">📚</div>
-        <div class="text-4xl font-black mb-2" style="color: var(--accent-blue);">
+        <div class="index-stat-value index-stat-value-blue">
           <%= TestSheet.count %>
         </div>
-        <div class="text-xl font-bold" style="color: var(--text-light);">
+        <div class="index-stat-label">
           総テスト数
         </div>
       </div>
@@ -29,10 +29,10 @@
       <!-- Printed Tests -->
       <div class="glass-card p-8 text-center">
         <div class="text-5xl mb-4">✅</div>
-        <div class="text-4xl font-black mb-2" style="color: var(--accent-green);">
+        <div class="index-stat-value index-stat-value-green">
           <%= TestSheet.where.not(printed_at: nil).count %>
         </div>
-        <div class="text-xl font-bold" style="color: var(--text-light);">
+        <div class="index-stat-label">
           印刷済み
         </div>
       </div>
@@ -40,10 +40,10 @@
       <!-- Unprinted Tests -->
       <div class="glass-card p-8 text-center">
         <div class="text-5xl mb-4">⏳</div>
-        <div class="text-4xl font-black mb-2" style="color: var(--text-light);">
+        <div class="index-stat-value index-stat-value-gray">
           <%= TestSheet.where(printed_at: nil).count %>
         </div>
-        <div class="text-xl font-bold" style="color: var(--text-light);">
+        <div class="index-stat-label">
           未印刷
         </div>
       </div>
@@ -61,10 +61,10 @@
                 <%= subject_icon(sheet.subject) %>
               </div>
               <div class="flex-1">
-                <p class="text-2xl font-black mb-1" style="color: var(--text-strong);">
+                <p class="index-history-title">
                   <%= sheet.subject.name %>
                 </p>
-                <p class="text-xl font-semibold" style="color: var(--text-light);">
+                <p class="index-history-subtitle">
                   <%= sheet.unit.name %>
                 </p>
               </div>
@@ -76,10 +76,10 @@
             </div>
 
             <!-- Details -->
-            <div class="space-y-3 mb-8 text-lg" style="color: var(--text-light);">
+            <div class="space-y-3 mb-8 index-history-details">
               <div class="flex justify-between">
                 <span class="font-semibold">問題数:</span>
-                <span class="font-bold" style="color: var(--accent-blue);">
+                <span class="index-history-value-accent">
                   <%= sheet.question_count %>問
                 </span>
               </div>
@@ -98,11 +98,11 @@
                 <span><%= sheet.include_answer? ? "✅ あり" : "❌ なし" %></span>
               </div>
               <div class="pt-3 border-t border-gray-300">
-                <div class="text-base" style="color: var(--text-light);">
+                <div class="index-history-timestamp">
                   <%= format_test_created_at(sheet) %> 作成
                 </div>
                 <% if sheet.printed? %>
-                  <div class="text-base" style="color: var(--accent-green);">
+                  <div class="index-history-timestamp index-stat-value-green">
                     <%= format_printed_at(sheet) %> 印刷
                   </div>
                 <% end %>

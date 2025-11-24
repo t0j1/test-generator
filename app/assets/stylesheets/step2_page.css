@@ -1,0 +1,16 @@
+/* =======================================================================
+   Step2 Page (Unit Selection & Settings) Styles
+   コーディング規約準拠 - インラインスタイル禁止
+   ======================================================================= */
+
+/* ========== Available Questions Info ========== */
+.step2-available-info {
+  margin-top: 0.75rem;
+  font-size: 1rem;
+  color: var(--text-light);
+}
+
+.step2-available-count {
+  font-weight: 700;
+  color: var(--accent-blue);
+}

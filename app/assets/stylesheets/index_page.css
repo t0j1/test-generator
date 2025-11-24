@@ -1,0 +1,58 @@
+/* =======================================================================
+   Index Page (Print History) Styles
+   コーディング規約準拠 - インラインスタイル禁止
+   ======================================================================= */
+
+/* ========== Stats Cards ========== */
+.index-stat-value {
+  font-size: 2.25rem;
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+}
+
+.index-stat-value-blue {
+  color: var(--accent-blue);
+}
+
+.index-stat-value-green {
+  color: var(--accent-green);
+}
+
+.index-stat-value-gray {
+  color: var(--text-light);
+}
+
+.index-stat-label {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-light);
+}
+
+/* ========== History Cards ========== */
+.index-history-title {
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-bottom: 0.25rem;
+  color: var(--text-strong);
+}
+
+.index-history-subtitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+.index-history-details {
+  font-size: 1.125rem;
+  color: var(--text-light);
+}
+
+.index-history-value-accent {
+  font-weight: 700;
+  color: var(--accent-blue);
+}
+
+.index-history-timestamp {
+  font-size: 0.875rem;
+  color: var(--text-light);
+}
