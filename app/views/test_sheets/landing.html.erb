@@ -1,4 +1,4 @@
-<div class="min-h-screen flex flex-col justify-center items-center px-8 py-8 relative overflow-hidden bg-landing">
+<div class="min-h-screen flex flex-col justify-center items-center px-6 py-4 relative overflow-hidden bg-landing">
   
   <!-- 背景イラスト（中央） -->
   <div class="absolute inset-0 flex items-center justify-center landing-illustration">
@@ -8,15 +8,15 @@
   </div>
   
   <!-- 上部: メインメッセージ（イラスト上） -->
-  <div class="relative z-10 text-center mb-32">
-    <h1 class="text-5xl md:text-6xl font-black landing-title">
+  <div class="relative z-10 text-center mb-16">
+    <h1 class="text-4xl md:text-5xl font-black landing-title">
       今日の単語力を、<br>
       今すぐプリントアウト
     </h1>
   </div>
   
   <!-- 下部: スタートボタン（イラスト下） -->
-  <div class="relative z-10 mt-32">
+  <div class="relative z-10 mt-16">
     <%= link_to step1_test_sheets_path, 
         data: { turbo: false },
         class: "landing-start-button btn-neo block text-center rounded-2xl" do %>
