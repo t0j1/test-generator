@@ -1,8 +1,14 @@
 /*
  * This is the main stylesheet for the application.
- * Tailwind CSS only - custom styles are loaded separately
+ * Includes Tailwind CSS and all custom component styles
  */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* Custom component styles */
+@import "./landing.css";
+@import "./show_page.css";
+@import "./index_page.css";
+@import "./step2_page.css";
