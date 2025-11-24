@@ -11,4 +11,12 @@
 @layer components {
   /* Import kiosk-ui styles */
   @import "./kiosk-ui.css";
+  
+  /* Import landing page styles */
+  @import "./landing.css";
+  
+  /* Import page-specific styles */
+  @import "./show_page.css";
+  @import "./index_page.css";
+  @import "./step2_page.css";
 }
